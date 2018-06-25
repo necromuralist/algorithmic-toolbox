@@ -1,0 +1,62 @@
+#+BEGIN_COMMENT
+.. title: A Plus B
+.. slug: a-plus-b
+.. date: 2018-06-24 11:04:09 UTC-07:00
+.. tags: algorithmictoolbox week1 algorithms
+.. category: algorithms
+.. link: 
+.. description: Adding a and b.
+.. type: text
+#+END_COMMENT
+
+* Introduction
+  This is an introductory problem to make sure you know how the submissions work. The problem is to take two integers and add them together.
+** Sum of Two Digits
+   /Compute the sum of two single-digit numbers/.
+
+   - *Input:* Two single-digit numbers.
+   - *Output:* The sum of these numbers.
+
+|                 | Description                                                 |
+|-----------------+-------------------------------------------------------------|
+| *Input Format*  | Integers /a/ and /b/ on the same line separated by a space. |
+| *Output Format* | The sum of /a/ and /b/.                                     |
+| *Constraints*   | $0 \le a,b \le 9$                                           |
+| *Time Limit*    | 5 Seconds                                                   |
+| *Memory Limit*  | 512 Mb                                                      |
+** Sample
+*Input*
+#+BEGIN_EXAMPLE
+9 7
+#+END_EXAMPLE
+*Output*
+#+BEGIN_EXAMPLE
+16
+#+END_EXAMPLE
+* Setup
+   In order for the grader to know what interpreter you're using you have to put a comment at the top of the file.
+
+#+BEGIN_SRC python :session aplusb :results none
+# Uses python 3
+#+END_SRC
+
+In addition, the inputs are given via =stdin= so you need to import =sys= to read it.
+
+#+BEGIN_SRC python :session aplusb :results none
+import sys
+#+END_SRC
+
+* The Input
+  So the first thing to do is read in the inputs. Since standard input is a string we need to split it to get the two terms and then cast them to integers. I'm assuming the grader behaves well and so I'm not doing any kind of checking of the input.
+
+#+BEGIN_SRC python :session aplusb :results none
+a, b = sys.stdin.read().split()
+a, b = int(a), int(b)
+#+END_SRC
+
+* The Solution
+  In order to give the grader my output I have to print it.
+
+#+BEGIN_SRC python :session aplusb :results output
+print(a + b)
+#+END_SRC

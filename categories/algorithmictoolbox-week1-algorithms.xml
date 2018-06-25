@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithmictoolbox week1 algorithms)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithmictoolbox-week1-algorithms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 24 Jun 2018 23:48:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>A Plus B</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/a-plus-b/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org5a0ba8b" class="outline-2"&gt;
+&lt;h2 id="org5a0ba8b"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5a0ba8b"&gt;
+&lt;p&gt;
+This is an introductory problem to make sure you know how the submissions work. The problem is to take two integers and add them together.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org790b525" class="outline-3"&gt;
+&lt;h3 id="org790b525"&gt;Sum of Two Digits&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org790b525"&gt;
+&lt;p&gt;
+&lt;i&gt;Compute the sum of two single-digit numbers&lt;/i&gt;.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Input:&lt;/b&gt; Two single-digit numbers.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Output:&lt;/b&gt; The sum of these numbers.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input Format&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Integers &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt; on the same line separated by a space.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output Format&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The sum of &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(0 \le a,b \le 9\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Time Limit&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;5 Seconds&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Memory Limit&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;512 Mb&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgd6a6389" class="outline-3"&gt;
+&lt;h3 id="orgd6a6389"&gt;Sample&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd6a6389"&gt;
+&lt;p&gt;
+&lt;b&gt;Input&lt;/b&gt;
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+9 7
+&lt;/pre&gt;
+&lt;p&gt;
+&lt;b&gt;Output&lt;/b&gt;
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+16
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org83fd081" class="outline-2"&gt;
+&lt;h2 id="org83fd081"&gt;Setup&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org83fd081"&gt;
+&lt;p&gt;
+In order for the grader to know what interpreter you're using you have to put a comment at the top of the file.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Uses python 3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+In addition, the inputs are given via &lt;code&gt;stdin&lt;/code&gt; so you need to import &lt;code&gt;sys&lt;/code&gt; to read it.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org81c6b18" class="outline-2"&gt;
+&lt;h2 id="org81c6b18"&gt;The Input&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org81c6b18"&gt;
+&lt;p&gt;
+So the first thing to do is read in the inputs. Since standard input is a string we need to split it to get the two terms and then cast them to integers. I'm assuming the grader behaves well and so I'm not doing any kind of checking of the input.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgda982a9" class="outline-2"&gt;
+&lt;h2 id="orgda982a9"&gt;The Solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgda982a9"&gt;
+&lt;p&gt;
+In order to give the grader my output I have to print it.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithmictoolbox week1 algorithms</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/a-plus-b/</guid><pubDate>Sun, 24 Jun 2018 18:04:09 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,33 @@
+#+BEGIN_COMMENT
+.. title: Fibonacci Number
+.. slug: fibonacci-number
+.. date: 2018-06-24 20:49:54 UTC-07:00
+.. tags: algorithms problem
+.. category: problems
+.. link: 
+.. description: Computing Fibonacci numbers.
+.. type: text
+#+END_COMMENT
+
+* The Fibonacci Problem
+  THe Fibonacci Sequence is defined as
+
+\[F_0 = 0, F_1 = 1,\ldots, F_i =F_{i-1} + F_{i-2} \text{ for } i \ge 2\]
+* Naive Implementation
+  The 'naive' implementation uses recursion to calculate a fibonacci number.
+
+#+BEGIN_SRC ipython :session naive :results none
+def calculate_fibonacci_recursive(n):
+    """Calculates the nth fibonacci number
+
+    Args:
+     n (int): the fibonacci number to get (e.g. 3 means third)
+
+    Returns:
+     int: nth fibonacci number
+    """
+    if (n <= 1):
+        return n
+    return (calculate_fibonacci_recursive(n - 1)
+            + calculate_fibonacci_recursive(n - 2))
+#+END_SRC

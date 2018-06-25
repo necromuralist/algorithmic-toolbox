@@ -1,0 +1,5 @@
+.doit.db
+.venv
+__pycache__
+cache
+output

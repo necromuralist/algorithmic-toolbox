@@ -1,0 +1,128 @@
+#+BEGIN_COMMENT
+.. title: Learning Algorithms Through Programming and Puzzle Solving Notes
+.. slug: learning-algorithms-through-programming-and-puzzle-solving-notes
+.. date: 2018-06-24 11:13:00 UTC-07:00
+.. tags: algorithms notes
+.. category: algorithms
+.. link: 
+.. description: Notes for the book /Learning Algorithms Through Programming and Puzzle Solving/.
+.. type: text
+#+END_COMMENT
+
+#+BEGIN_SRC ipython :session algorithims :results none :exports none
+# third-party
+import numpy
+import matplotlib.pyplot as pyplot
+import seaborn
+#+END_SRC
+
+#+BEGIN_SRC ipython :session algorithims :results none :exports none
+% matplotlib inline
+#+END_SRC
+
+These are my notes from the book /Learning Algorithms Through Programming and Puzzle Solving/, available for purchase from [[https://leanpub.com/algo][leanpub.com]].
+* Algorithms and Complexity
+** What is an algorithm?
+   - A sequence of instructions to solve a well formulated problem.
+   - Problems are specified in terms of their inputs and outputs and the algorithm has to transform the inputs into the outputs.
+   - An unambiguous specification of how to solve a class of problems ([[https://en.wikipedia.org/wiki/Algorithm][wikipedia]]).
+*** What is a well-formulated problem?
+    - unambiguous
+    - precise
+    - No room for misinterpretation
+*** What are two of the most important things to ask about an algorithm?
+    - Does it work correctly?
+    - How long does it take?
+** What is Pseudocode?
+   - A language that ignores specifics needed for a programming language but is precise enough to describe an algorithm.
+   - An informal, high-level description of an algorithm ([[https://en.wikipedia.org/wiki/Pseudocode][wikipedia]])
+** What is the difference between a Problem and a Problem Instance?
+   - A problem is a class of computational tasks
+   - A problem instance is a particular input for a problem class
+*** Example: The Change Problem
+    The example given in the book is making change for someone. You want to be able to break a larger denomination (say a dollar) into smaller ones using the fewest number of coins. In this case they specifically say coin but you could re-state it to mean any type of money.
+
+\[
+\textbf{Input:}\text{ An integer }money\text{ and an array of }d\text{ denominations } c = c_1, c_2, \ldots, c_n,\text{ in decreasing order of value }(c_1 > c_2 > \ldots >c_n).
+\]
+
+\[
+\textbf{Output:}\text{ A list of}d\text{ integers } i_1, i_2,\ldots,i_d\text{ such that }c_1 i_1 + c_2 i_2 + \ldots + c_d i_d = money,\text{ and } i_1 + i_2 + \ldots + i_d\text{ is as small as possible.}
+\]
+
+This is the way most people do it.
+
+#+BEGIN_SRC python
+def MakeChange(money, c, d):
+    while money > 0:
+        coin <- "coin with largest denomination not greater than value of money."
+        "Give coin to customer"
+        money <- money - coin
+#+END_SRC
+
+/What was c and d for?/ In the example solution they aren't used (and they also don't output the number of each coin as was required in the problem statement), but there is an alternative solution that always goes through the denominations once.
+
+#+BEGIN_SRC python
+def MakeChange(money, c, d):
+    """Make change using the smallest number of coins
+
+    Inputs:
+     - money: the original amount that you want to break up
+     - c: an array of coin denominations
+     - d: The number of denominations in c
+
+    Outputs:
+     list of counts for each coin denomination
+    """
+    for k in {1..d}:
+        i_k <- floor(money/c_k)
+        money = money - i_k * c_k
+    return (i_1,..., i_d)
+#+END_SRC
+You could probably improve on the second version by quitting once you have made the change (i.e. /money/ is 0).
+** What are correct and incorrect algorithms?
+   - Correct: every input instance produces a correct output
+   - Incorrect: At least one input produces an incorrect output
+
+By this definition the =MakeChange= algorithm might be incorrect depending on the denominations of the coins. Suppose you had denominations of 25, 15, 11, 5, and 1 and you owed someone 46 cents, the algorithm would produce $1 \times 25, 1 \times 15, 1 \times 5$, and $1 \times 1$. But if you skipped the largest coin you could use $2 \times 15, 1 \times 11$ and get the same change with three coins instead of four.
+
+** What are fast and slow algorithms?
+   Because different computers can perform at different speeds, /time/ is a poor measure of algorithmic speed. Instead we use the count of basic operations that an algorithm uses.
+** What is Big-O Notation?
+   As the number of inputs goes up, the fastest growing term in the equation describing the number of operations an algorithm makes begins to dominate the count, so generally only this term is used to characterize the running time of the algorithm. Lets say you have two for loops and, given an input of $n$, they have a run-time of $3n + n^3$. When $n$ is 1, the first term is 3 and the second term is 1, but when $n$ is $1,000$, the first term is $3,000$ while the second term is $1,000,000,000$.
+
+#+BEGIN_SRC ipython :session algorithims :results raw drawer :exports none :ipyfile /tmp/big_o_example.png
+max_x = 10**3
+x = numpy.linspace(1, max_x, 100)
+three_x = 3 * x
+x_cubed = x**3
+y = three_x + x_cubed
+figure = pyplot.figure(figsize=(20, 10))
+axe = figure.gca()
+axe.plot(x, y, '-', label="$3n + n^3$")
+axe.plot(x, three_x, 'r.', label="$3n$")
+axe.plot(x, x_cubed, 'co', label="$n^3$")
+axe.set_xlim(1, max_x)
+axe.set_ylim(-100, y.max())
+axe.legend()
+title = axe.set_title("Operations As $n$ Grows")
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[27]:
+[[file:/tmp/big_o_example.png]]
+:END:
+
+file:big_o_example.png
+
+As you can see, the $n^3$ term grows much faster, accounting for just about all of the number of operations as $n$ grows (to make the $3n$ line visible at all I had to set the axis to a negative number). Although the So when using [[https://en.wikipedia.org/wiki/Big_O_notation][Big-O Notation]] we would say that it has a run time of $O(n^3)$. Note that we generally don't put in any constant multipliers, so if the second term had been $2n^3$, it would still be $O(n^3)$.
+* Algorithm Design Techniques
+* Programming Challenges
+* Algorithmic Warm Up
+* Greedy Algorithms
+* Divide-and-Conquer
+* Dynamic Programming
+* Appendix
+* Sources
+  - Kulikov, Alexander S, and Pavel A Pevzner. “Learning Algorithms Through Programming and Puzzle Solving,” n.d., 138.

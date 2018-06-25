@@ -1,0 +1,452 @@
+#+BEGIN_COMMENT
+.. title: Maximum Pairwise Product
+.. slug: maximum-pairwise-product
+.. date: 2018-06-24 16:42:47 UTC-07:00
+.. tags: algorithms problem
+.. category: problem
+.. link: 
+.. description: Find the maximum pairwise product from a list of numbers.
+.. type: text
+#+END_COMMENT
+
+#+BEGIN_SRC python :tangle maximum_pairwise_product.py :exports none
+<<imports>>
+
+<<constants>>
+
+<<brute-force>>
+
+<<take-three>>
+
+<<stress-test>>
+
+<<stress-three>>
+
+<<sort>>
+
+<<stress-four>>
+#+END_SRC
+
+#+RESULTS:
+
+* Imports
+  Since the test only uses python standard library I'll try and stick to that, but since the stress-test isn't part of the assignment I'll cheat and use numpy to generate the random input.
+
+#+BEGIN_SRC python :session maxpairwise :results none :noweb-ref imports
+# python standad library
+from datetime import (
+    datetime,
+    timedelta,
+    )
+
+import random
+
+# from pypi
+from numba import jit
+import numpy
+#+END_SRC
+* Problem Statement
+  /Find the maximum product of two distinct numbers in a sequence of non-negative integers./
+  - *Input:* A sequence of non-negative integers.
+  - *Output:* The maximum value that can be obtained by multiplying two different elements from the sequence.
+
+Given a sequence of non-negative numbers $a_1,\ldots,a_n$, compute
+
+\[
+\max_{1 \le i \neq j \le n} a_i a_j
+\]
+
+$i$ and $j$ should be different, although $a_i$ and $a_j$ might be equal.
+
+| *Input*     |                                                   |
+|-------------+---------------------------------------------------|
+| First Line  | /n/ - the number of input values                  |
+| Second Line | $a_1 \ldots a_n$ - space-separated list of values |
+
+
+| *Output*      | the maximum pairwise product from the input.                       |
+| *Constraints* | $2 \le n \le 2 \times 10^5; 0 \le a_1,\ldots,a_n\le 2 \times 10^5$ |
+
+** Example Values
+
+| First Input | Second Input          | Output |
+|-------------+-----------------------+--------|
+|           5 | 5 6 2 7 4             |     42 |
+|           3 | 1 2 3                 |      6 |
+|          10 | 7 5 14 2 8 8 10 1 2 3 | 140    |
+
+| Limit  | Value     |
+|--------+-----------|
+| Time   | 5 seconds |
+| Memory | 512 Mb    |
+
+* Some Constants
+  This is just a translation of some of the problem statement values to python so we can use them.
+
+#+BEGIN_SRC python :session maxpairwise :results none :noweb-ref constants
+MAX_TIME = timedelta(seconds=5)
+MAX_INPUTS = 2 * 10**5
+MAX_VALUE = MAX_INPUTS
+MAX_CASE = dict(output=39999800000,
+                inputs=numpy.arange(1, MAX_VALUE + 1))
+assert len(MAX_CASE["inputs"]) == MAX_INPUTS
+assert max(MAX_CASE["inputs"]) == MAX_VALUE, "Actual: {}".format(max(MAX_CASE["inputs"]))
+INPUTS = {
+    42: [5, 6, 2, 7, 4,],
+    6: [1, 2, 3],
+    140: [7, 5, 14, 2, 8, 8, 10, 1, 2, 3],
+    2: [2, 1],
+    2: [1, 2],
+    10**5 * 9 * 10**4: [10**5, 9 * 10**4],
+}
+#+END_SRC
+* Helpers
+  These are some functions to help validate the algorithms.
+
+#+BEGIN_SRC python :session maxpairwise :results none
+def check_inputs(implementation, inputs=INPUTS, use_max=True):
+    """Checks the inputs with the implementation
+
+    Args:
+     implementation: callable to check
+     inputs (dict): expected, input pairs
+     use_max (bool): if True use the max-range value (too slow for brute force)
+
+    Raises:
+     AssertionError: one of the outputs wasn't expected
+    """
+    for expected, input_values in inputs.items():
+        start = datetime.now()
+        actual = implementation(input_values)
+        assert actual == expected, "Inputs: {} Expected: {} Actual: {}".format(
+            input_values,
+            expected,
+            actual)
+        print("Elapsed Time: {}".format(datetime.now() - start))
+    if use_max:
+        print("Max Case")
+        start = datetime.now()
+        actual = implementation(MAX_CASE["inputs"])
+        expected = MAX_CASE["output"]
+        assert actual == expected, "Inputs: {} Expected: {} Actual: {}".format(
+            MAX_CASE["inputs"],
+            expected,
+            actual)
+        print("Elapsed Time: {}".format(datetime.now() - start))
+    print("All passed")
+    return
+#+END_SRC
+
+* Brute Force Implementation
+  This is given as part of the problem. It traverses all the values and finds the largest product.
+
+#+BEGIN_SRC python :session maxpairwise :results none
+def max_pairwise_product_brute(numbers):
+    """Calculates the largest pairwise-product for a list
+    
+    Args:
+     numbers (list): integers to check
+
+    Returns:
+     int: largest product created from numbers
+    """
+    n = len(numbers)
+    max_product = 0
+    for first in range(n):
+        for second in range(first + 1, n):
+            max_product = max(max_product,
+                              numbers[first] * numbers[second])
+    return max_product
+#+END_SRC
+
+#+BEGIN_SRC python :session maxpairwise :results output
+check_inputs(max_pairwise_product_brute, use_max=False)
+#+END_SRC
+
+#+RESULTS:
+: Elapsed Time: 0:00:00.000009
+: Elapsed Time: 0:00:00.000005
+: Elapsed Time: 0:00:00.000015
+: Elapsed Time: 0:00:00.000002
+: Elapsed Time: 0:00:00.000003
+: All passed
+
+Because we are traversing all the numbers twice, the brute-force version has a run time of $O(n^2)$. Since the $n$ can be from $2$ to $2 \times 10^5$ that means our maximum run time will be $4 \times 10^10$, which is too large.
+
+Running this through the grader gives this output.
+
+#+BEGIN_EXAMPLE
+Failed case #4/17: time limit exceeded (Time used: 9.98/5.00, memory used: 20905984/536870912.)
+#+END_EXAMPLE
+
+* Search
+  Instead of using nested for-loops, we can search the numbers twice to find the two biggest numbers, this changes the run time to $2n$ or $O(n)$.
+
+#+BEGIN_SRC python :session maxpairwise :results none
+def max_pairwise_product_take_two(numbers):
+    """Finds the maximum pairwise product in te numbers
+    
+    Args:
+     numbers (list): non-negative integers
+
+    Returns:
+     int: largest possible product from the numbers
+    """    
+    first_index = 0
+    first_value = 0
+    n = len(numbers)
+    assert n >= 2
+    for index in range(1, n):
+        if numbers[index] > first_value:
+            first_value = numbers[index]
+            first_index = index
+
+    second_value = 0
+    start = 1 if first_index == 0 else 0
+    for index in range(start, n):
+        if index != first_index and numbers[index] > second_value:
+            second_value = numbers[index]
+    return first_value * second_value
+#+END_SRC
+
+#+BEGIN_SRC python :session maxpairwise :results output
+check_inputs(max_pairwise_product_take_two)
+#+END_SRC
+
+#+RESULTS:
+: Elapsed Time: 0:00:00.000006
+: Elapsed Time: 0:00:00.000004
+: Elapsed Time: 0:00:00.000003
+: Elapsed Time: 0:00:00.000003
+: Elapsed Time: 0:00:00.000002
+: Max Case
+: Elapsed Time: 0:00:00.076238
+: All passed
+
+This one passes the grader, doing surprisingly well, even though I was thinking it would need more optimizing.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.15/5.00, max memory used: 26734592/536870912.)
+#+END_EXAMPLE 
+
+* Another Improvement
+  Rather than go through the second loop, I thought that since the previous maximum value is always the next highest value so far, we can just save it directly.
+
+#+BEGIN_SRC python :session maxpairwise :results none :noweb-ref take-three
+def max_pairwise_product_take_three(numbers):
+    """Finds the maximum pairwise product in te numbers
+    
+    Args:
+     numbers (list): non-negative integers
+
+    Returns:
+     int: largest possible product from the numbers
+    """    
+    max_value = 0
+    previous_value = 0
+    n = len(numbers)
+    assert n >= 2
+    for number in numbers:
+        if number > max_value:
+            previous_value, max_value = max_value, number
+        elif number > previous_value:
+            previous_value = number
+    return max_value * previous_value
+#+END_SRC
+
+#+BEGIN_SRC python :session maxpairwise :results output
+check_inputs(max_pairwise_product_take_three)
+#+END_SRC
+
+#+RESULTS:
+: Elapsed Time: 0:00:00.000003
+: Elapsed Time: 0:00:00.000002
+: Elapsed Time: 0:00:00.000002
+: Elapsed Time: 0:00:00.000002
+: Elapsed Time: 0:00:00.000002
+: Max Case
+: Elapsed Time: 0:00:00.013470
+: All passed
+
+* Stress Test
+  Even thought we're already passing, part of the assignment was to create a stress test to really exercise the algorithm once you have it passing.
+
+#+BEGIN_SRC python :session maxpairwise :results none :noweb-ref stress-test
+def stress_test(implementation, tag, maximum_size=MAX_INPUTS ,
+                maximum_value=MAX_VALUE, iterations=10):
+    """Repeatedly creates random inputs to test the implementation
+    
+    This compares the output of the implementation against our brute-force version
+
+    Args:
+     implementation: callable to test
+     tag (str): something to identify the implementation
+     maximum_size (int): the maximum number of numbers for an input
+     maximum_value (int): the maximum value for any input
+     iterations (int): the number of times to test (if None runs infinitely)
+    """
+    true_count = 0
+    iteration = 0
+    increment = 1 if iterations is not None else 0
+    iterations = 1 if iterations is None else iterations
+    max_time = timedelta(0)
+    while iteration < iterations:
+        start = datetime.now()
+        true_count += 1
+        iteration += increment
+        print("***** ({}) Trial: {} *****".format(tag, true_count))
+        n = random.randrange(2, maximum_size + 1)
+        print("Input Size: {}".format(n))
+        inputs = numpy.random.randint(maximum_value + 1, size=n)
+        print("Running Brute Force")
+        brute_start = datetime.now()
+        output_brute = max_pairwise_product_brute_jit(inputs)
+        print("Brute Force Time: {}".format(datetime.now() - brute_start))
+        print("Running {} implementation".format(tag))
+        implementation_start = datetime.now()
+        output_implementation = implementation(inputs)
+        implementation_end = datetime.now()
+        implementation_elapsed = implementation_end - implementation_start
+        if implementation_elapsed > MAX_TIME:
+            print("Error Time Exceeded: {}".format(implementation_elapsed))
+            break
+        print("Implementation Time: {}".format(implementation_elapsed))
+        if implementation_elapsed > max_time:
+            max_time = implementation_elapsed
+        if output_brute != output_implementation:
+            print("error: Expected {}, Actual {}", output_brute , output_implementation)
+            print("Inputs: {}".format(inputs))
+            break
+        print("Elapsed time: {}".format(datetime.now() - start))
+    print("Max {} time: {}".format(tag, max_time))
+    return
+#+END_SRC
+
+* Boosted Brute Force
+  To try and get this working I'm going to use numba to (hopefully) speed it enough to make the stress test runnable.
+
+
+#+BEGIN_SRC python :session maxpairwise :results none :noweb-ref brute-force
+@jit
+def max_pairwise_product_brute_jit(numbers):
+    """Calculates the largest pairwise-product for a list
+    
+    Args:
+     numbers (list): integers to check
+
+    Returns:
+     int: largest product created from numbers
+    """
+    n = len(numbers)
+    max_product = 0
+    for first in range(n):
+        for second in range(first + 1, n):
+            max_product = max(max_product,
+                              numbers[first] * numbers[second])
+    return max_product
+#+END_SRC
+
+#+BEGIN_SRC python :session maxpairwise :results output :noweb-ref stress-three
+print("One Pass Method")
+stress_test(max_pairwise_product_take_three, tag="One-Pass", iterations=10)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+One Pass Method
+,***** (One-Pass) Trial: 1 *****
+Input Size: 60233
+Running Brute Force
+Brute Force Time: 0:00:01.970703
+Running One-Pass implementation
+Implementation Time: 0:00:00.009215
+Elapsed time: 0:00:01.981123
+,***** (One-Pass) Trial: 2 *****
+Input Size: 27417
+Running Brute Force
+Brute Force Time: 0:00:00.365186
+Running One-Pass implementation
+Implementation Time: 0:00:00.004224
+Elapsed time: 0:00:00.370649
+,***** (One-Pass) Trial: 3 *****
+Input Size: 75453
+Running Brute Force
+Brute Force Time: 0:00:02.863530
+Running One-Pass implementation
+Implementation Time: 0:00:00.011985
+Elapsed time: 0:00:02.877185
+,***** (One-Pass) Trial: 4 *****
+Input Size: 107744
+Running Brute Force
+Brute Force Time: 0:00:05.956950
+Running One-Pass implementation
+Implementation Time: 0:00:00.016540
+Elapsed time: 0:00:05.975503
+,***** (One-Pass) Trial: 5 *****
+Input Size: 157904
+Running Brute Force
+Brute Force Time: 0:00:12.964412
+Running One-Pass implementation
+Implementation Time: 0:00:00.034737
+Elapsed time: 0:00:13.002612
+,***** (One-Pass) Trial: 6 *****
+Input Size: 82668
+Running Brute Force
+Brute Force Time: 0:00:03.488774
+Running One-Pass implementation
+Implementation Time: 0:00:00.013501
+Elapsed time: 0:00:03.503706
+,***** (One-Pass) Trial: 7 *****
+Input Size: 14755
+Running Brute Force
+Brute Force Time: 0:00:00.115763
+Running One-Pass implementation
+Implementation Time: 0:00:00.002300
+Elapsed time: 0:00:00.119402
+,***** (One-Pass) Trial: 8 *****
+Input Size: 69076
+Running Brute Force
+Brute Force Time: 0:00:02.548347
+Running One-Pass implementation
+Implementation Time: 0:00:00.010787
+Elapsed time: 0:00:02.560393
+,***** (One-Pass) Trial: 9 *****
+Input Size: 99186
+Running Brute Force
+Brute Force Time: 0:00:05.278385
+Running One-Pass implementation
+Implementation Time: 0:00:00.018820
+Elapsed time: 0:00:05.299441
+,***** (One-Pass) Trial: 10 *****
+Input Size: 51535
+Running Brute Force
+Brute Force Time: 0:00:01.305226
+Running One-Pass implementation
+Implementation Time: 0:00:00.007414
+Elapsed time: 0:00:01.313900
+Max One-Pass time: 0:00:00.034737
+#+end_example
+
+* Using Sort 
+  Since we need the top two values we can get a more efficient algorithm by sorting the values.
+
+#+BEGIN_SRC python :session maxpairwise :results none :noweb-ref sort
+def max_pairwise_product_sort(numbers):
+    """Calculates the largest pairwise-product for a list
+    
+    Args:
+     numbers (list): integers to check
+
+    Returns:
+     int: largest product created from numbers
+    """
+    assert len(numbers) > 1
+    numbers = sorted(numbers, reverse=True)
+    return numbers[0] * numbers[1]
+#+END_SRC
+
+#+BEGIN_SRC python :session maxpairwise :results output :noweb-ref stress-four
+print("\n\nSort method")
+stress_test(max_pairwise_product_sort, tag="Sort", iterations=100)
+#+END_SRC
+

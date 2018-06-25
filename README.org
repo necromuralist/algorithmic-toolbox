@@ -1,0 +1,3 @@
+#+TITLE: Algorithms and Data Structures
+
+This is a repository of sketches revisiting algorithms and data structures. The repository is on [[https://github.com/necromuralist/algorithmic-toolbox/][github]] and the website is at [[https://necromuralist.github.io/algorithmic-toolbox/][Algorithmic-Toolbox]].

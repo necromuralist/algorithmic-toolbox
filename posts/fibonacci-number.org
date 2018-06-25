@@ -9,14 +9,75 @@
 .. type: text
 #+END_COMMENT
 
+* Imports
+#+BEGIN_SRC ipython :session fibonacci :results none
+# python standard library
+from datetime import (
+    datetime,
+    timedelta,
+    )
+import random
+
+# third party
+from joblib import Memory
+#+END_SRC
 * The Fibonacci Problem
   THe Fibonacci Sequence is defined as
 
 \[F_0 = 0, F_1 = 1,\ldots, F_i =F_{i-1} + F_{i-2} \text{ for } i \ge 2\]
+
+|               | Description                                                  |
+|---------------+--------------------------------------------------------------|
+| *Task*        | Given an integer /n/, find the /n/th Fibonacci number $F_n$. |
+| *Input*       | A single integer /n/.                                        |
+| *Constraints* | $0 \le n \le 45$                                             |
+| *Output*      | $F_n$                                                        |
+
+** Sample Values
+
+| Input | Output | Meaning   |
+|-------+--------+-----------|
+|    10 |     55 | $F_10=55$ |
+
+** Constants
+   These are translations from the problem description
+#+BEGIN_SRC ipython :session fibonacci :results none
+MAX_TIME = timedelta(seconds=5)
+MAX_INPUT = 45
+#+END_SRC
+* Helpers
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+def time_it(implementation, tag, input_value, expected, max_time=MAX_TIME):
+    """Times the implementation
+
+    Args: 
+     implementation: callable to pass input_value to
+     tag (str): identifier to add to the output
+     input_value (int): the number to pass to the implementation
+     expected (int): the expected value
+     max_time (float): number of seconds allowed
+
+    Raises:
+        AssertionError: wrong value or took too long
+    """
+    assert input_value <= MAX_INPUT, "n too large: {}, max allowed: {}".format(input_value,
+                                                                               MAX_INPUT)
+    start = datetime.now()
+    print("Starting {}".format(tag))
+    actual = implementation(input_value)
+    assert actual == expected, "Actual: {} Expected: {}".format(
+            actual, expected)
+    elapsed = datetime.now() - start
+    print("({}) Okay Elapsed time: {}".format(tag, elapsed))
+    assert elapsed <= max_time, "Time Greater than {}".format(max_time)
+    return
+#+END_SRC
+  
 * Naive Implementation
   The 'naive' implementation uses recursion to calculate a fibonacci number.
 
-#+BEGIN_SRC ipython :session naive :results none
+#+BEGIN_SRC ipython :session fibonacci :results none
 def calculate_fibonacci_recursive(n):
     """Calculates the nth fibonacci number
 
@@ -31,3 +92,208 @@ def calculate_fibonacci_recursive(n):
     return (calculate_fibonacci_recursive(n - 1)
             + calculate_fibonacci_recursive(n - 2))
 #+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+time_it(calculate_fibonacci_recursive, "Recursive", 10, 55)
+#+END_SRC
+
+#+RESULTS:
+: Starting Recursive
+: (Recursive) Okay Elapsed time: 0:00:00.000163
+
+This fails the grader (as expected).
+
+#+BEGIN_EXAMPLE
+Failed case #37/46: time limit exceeded 
+Input: 36 
+Your output: 14930352 
+stderr: (Time used: 5.63/5.00, memory used: 9613312/536870912.)
+#+END_EXAMPLE
+
+* The Tester
+  We have kind of a chicken and the egg problem here. We know that the recursive version is correct, but it is too slow. But in order to validate our newer versions, we need to run it to check for correctness. To solve this problem I'm going to use a cache.
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+memory = Memory(location="memories")
+
+@memory.cache
+def reference_implementation(n):
+    """Calculates the nth fibonacci number
+
+    Args:
+     n (int): the fibonacci number to get (e.g. 3 means third)
+
+    Returns:
+     int: nth fibonacci number
+    """
+    if (n <= 1):
+        return n
+    return (calculate_fibonacci_recursive(n - 1)
+            + calculate_fibonacci_recursive(n - 2))
+#+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+def time_once(implementation, n):
+    """Runs the implementation once
+
+    Args:
+     implementation: callable to pass input
+     n: value to pass to the implementation
+
+    Returns:
+     output of implementation
+    """
+    start = datetime.now()
+    output = implementation(n)
+    print("Elapsed: {}".format(datetime.now() - start))
+    return output
+#+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+def run_range(n):
+    """run the reference implementation n times
+
+    Args:
+     n (int): number of times to run the reference implementation
+    """
+    start = datetime.now()
+    for input_value in range(n):
+        output = reference_implementation(input_value)
+    return 
+#+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+for endpoint in range(0, MAX_INPUT + 1, 10):
+    print("endpoint: {}".format(endpoint))
+    for n in range(endpoint):
+        run_range(n)
+#+END_SRC
+
+#+RESULTS:
+: endpoint: 0
+: endpoint: 10
+: endpoint: 20
+: endpoint: 30
+: endpoint: 40
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+time_once(reference_implementation, 45)
+#+END_SRC
+
+#+RESULTS:
+: ________________________________________________________________________________
+: [Memory] Calling __main__--home-brunhilde-projects-necromuralist_repositories-algorithmic-toolbox-posts-__ipython-input__.reference_implementation...
+: reference_implementation(45)
+: _______________________________________reference_implementation - 519.6s, 8.7min
+: Elapsed: 0:08:39.602420
+
+In case I accidentally re-run that last call and it uses the cache I'll note here that the original run time was 8 minutes and 40 seconds.
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+class Tester:
+    """Class to test the implementation
+
+    Args: 
+     implementation: callable to pass input_value to
+     tag (str): identifier to add to the output
+     iterations (int): number of times to run the testing
+     verbose (bool): if true, emit more text
+     max_time (float): number of seconds allowed
+    """
+    def __init__(self, implementation, tag, iterations,
+                 verbose=False,
+                 max_time=MAX_TIME):
+        self.implementation = implementation
+        self.tag = tag
+        self.max_time = max_time
+        self.verbose = verbose
+        self.iterations = iterations
+        return
+
+    def output(self, statement):
+        """prints the statement if verbose is on"""
+        if self.verbose:
+            print(statement)
+        
+    def time_it(self, input_value):
+        """Times the implementation
+
+        .. warning:: This uses the ``reference_implementation`` to get the
+           expected value. Make sure it's implemented and the values are cached
+
+        Args:
+         input_value (int): input for the implementation
+        Raises:
+         AssertionError: wrong value or took too long
+        """
+        start = datetime.now()
+        self.output("Starting {}".format(self.tag))
+        expected = reference_implementation(input_value)
+        actual = self.implementation(input_value)
+        assert actual == expected, "n: {} Actual: {} Expected: {}".format(
+            input_value, actual, expected)
+        elapsed = datetime.now() - start
+        self.output("({}) Okay Elapsed time: {}".format(self.tag, elapsed))
+        assert elapsed <= self.max_time, "Time Greater than {}".format(self.max_time)
+        return
+
+    def __call__(self):
+        """Generates random numbers and times it"""
+        start = datetime.now()
+        print("***** {} *****".format(self.tag))
+        for iteration in range(self.iterations):
+            n = random.randrange(MAX_INPUT + 1)
+            self.output("n: {}".format(n))
+            self.time_it(n)
+        print("Total Elapsed: {}".format(datetime.now()))
+        return            
+#+END_SRC
+
+* An Iterative Version
+  To try and speed things up I'm going to use an iterative version instead of a recursive one.
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+def fibonacci_iterative(n):
+    """Calculates the nth fibonacci number
+
+    Args:
+     n (int): the fibonacci number to get (e.g. 3 means third)
+
+    Returns:
+     int: nth fibonacci number
+    """
+    first = (0, 1)
+    if n in first:
+        return n
+    previous, current = first
+    for index in range(2, n + 1):
+        previous, current = current, previous + current
+    return current
+#+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+test = Tester(fibonacci_iterative, "Iterative", 1000)
+test()
+#+END_SRC
+
+#+RESULTS:
+: ***** Iterative *****
+: Total Elapsed: 2018-06-25 15:36:02.993908
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+f_0 = fibonacci_iterative(45)
+f_1 = reference_implementation(45)
+print(f_0)
+print(f_1)
+assert f_0 == f_1
+#+END_SRC
+
+#+RESULTS:
+: 1134903170
+: 1134903170
+
+This passes the grader.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.03/5.00, max memory used: 9637888/536870912.)
+#+END_EXAMPLE

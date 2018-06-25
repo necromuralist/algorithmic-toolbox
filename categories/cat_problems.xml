@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 25 Jun 2018 03:57:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orga0dd3ed" class="outline-2"&gt;
+&lt;h2 id="orga0dd3ed"&gt;The Fibonacci Problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga0dd3ed"&gt;
+&lt;p&gt;
+THe Fibonacci Sequence is defined as
+&lt;/p&gt;
+
+&lt;p&gt;
+\[F_0 = 0, F_1 = 1,\ldots, F_i =F_{i-1} + F_{i-2} \text{ for } i \ge 2\]
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgd7a6815" class="outline-2"&gt;
+&lt;h2 id="orgd7a6815"&gt;Naive Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd7a6815"&gt;
+&lt;p&gt;
+The 'naive' implementation uses recursion to calculate a fibonacci number.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def calculate_fibonacci_recursive(n):
+    """Calculates the nth fibonacci number
+
+    Args:
+     n (int): the fibonacci number to get (e.g. 3 means third)
+
+    Returns:
+     int: nth fibonacci number
+    """
+    if (n &amp;lt;= 1):
+	return n
+    return (calculate_fibonacci_recursive(n - 1)
+	    + calculate_fibonacci_recursive(n - 2))
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problem</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number/</guid><pubDate>Mon, 25 Jun 2018 03:49:54 GMT</pubDate></item></channel></rss>

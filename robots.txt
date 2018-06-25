@@ -1,0 +1,4 @@
+Sitemap: https://github.com/necromuralist/algorithmic_toolbox/sitemapindex.xml
+
+User-Agent: *
+Host: github.com

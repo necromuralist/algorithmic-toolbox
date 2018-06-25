@@ -731,3 +731,7 @@ article.post-micro {
         display: none;
     }
 }
+
+img {
+  margin-bottom: 1em;
+}

@@ -10,7 +10,7 @@
 #+END_COMMENT
 
 * Imports
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 # python standard library
 from datetime import (
     datetime,
@@ -41,13 +41,13 @@ from joblib import Memory
 
 ** Constants
    These are translations from the problem description
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 MAX_TIME = timedelta(seconds=5)
 MAX_INPUT = 45
 #+END_SRC
 * Helpers
 
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 def time_it(implementation, tag, input_value, expected, max_time=MAX_TIME):
     """Times the implementation
 
@@ -77,7 +77,7 @@ def time_it(implementation, tag, input_value, expected, max_time=MAX_TIME):
 * Naive Implementation
   The 'naive' implementation uses recursion to calculate a fibonacci number.
 
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 def calculate_fibonacci_recursive(n):
     """Calculates the nth fibonacci number
 
@@ -93,7 +93,7 @@ def calculate_fibonacci_recursive(n):
             + calculate_fibonacci_recursive(n - 2))
 #+END_SRC
 
-#+BEGIN_SRC ipython :session fibonacci :results output
+#+BEGIN_SRC python :session fibonacci :results output
 time_it(calculate_fibonacci_recursive, "Recursive", 10, 55)
 #+END_SRC
 
@@ -113,7 +113,7 @@ stderr: (Time used: 5.63/5.00, memory used: 9613312/536870912.)
 * The Tester
   We have kind of a chicken and the egg problem here. We know that the recursive version is correct, but it is too slow. But in order to validate our newer versions, we need to run it to check for correctness. To solve this problem I'm going to use a cache.
 
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 memory = Memory(location="memories")
 
 @memory.cache
@@ -132,7 +132,7 @@ def reference_implementation(n):
             + calculate_fibonacci_recursive(n - 2))
 #+END_SRC
 
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 def time_once(implementation, n):
     """Runs the implementation once
 
@@ -149,7 +149,7 @@ def time_once(implementation, n):
     return output
 #+END_SRC
 
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 def run_range(n):
     """run the reference implementation n times
 
@@ -162,7 +162,7 @@ def run_range(n):
     return 
 #+END_SRC
 
-#+BEGIN_SRC ipython :session fibonacci :results output
+#+BEGIN_SRC python :session fibonacci :results output
 for endpoint in range(0, MAX_INPUT + 1, 10):
     print("endpoint: {}".format(endpoint))
     for n in range(endpoint):
@@ -176,20 +176,20 @@ for endpoint in range(0, MAX_INPUT + 1, 10):
 : endpoint: 30
 : endpoint: 40
 
-#+BEGIN_SRC ipython :session fibonacci :results output
+#+BEGIN_SRC python :session fibonacci :results output
 time_once(reference_implementation, 45)
 #+END_SRC
 
 #+RESULTS:
 : ________________________________________________________________________________
-: [Memory] Calling __main__--home-brunhilde-projects-necromuralist_repositories-algorithmic-toolbox-posts-__ipython-input__.reference_implementation...
+: [Memory] Calling __main__--home-brunhilde-projects-necromuralist_repositories-algorithmic-toolbox-posts-__python-input__.reference_implementation...
 : reference_implementation(45)
 : _______________________________________reference_implementation - 519.6s, 8.7min
 : Elapsed: 0:08:39.602420
 
 In case I accidentally re-run that last call and it uses the cache I'll note here that the original run time was 8 minutes and 40 seconds.
 
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 class Tester:
     """Class to test the implementation
 
@@ -252,7 +252,7 @@ class Tester:
 * An Iterative Version
   To try and speed things up I'm going to use an iterative version instead of a recursive one.
 
-#+BEGIN_SRC ipython :session fibonacci :results none
+#+BEGIN_SRC python :session fibonacci :results none
 def fibonacci_iterative(n):
     """Calculates the nth fibonacci number
 
@@ -271,7 +271,7 @@ def fibonacci_iterative(n):
     return current
 #+END_SRC
 
-#+BEGIN_SRC ipython :session fibonacci :results output
+#+BEGIN_SRC python :session fibonacci :results output
 test = Tester(fibonacci_iterative, "Iterative", 1000)
 test()
 #+END_SRC
@@ -280,7 +280,7 @@ test()
 : ***** Iterative *****
 : Total Elapsed: 2018-06-25 15:36:02.993908
 
-#+BEGIN_SRC ipython :session fibonacci :results output
+#+BEGIN_SRC python :session fibonacci :results output
 f_0 = fibonacci_iterative(45)
 f_1 = reference_implementation(45)
 print(f_0)

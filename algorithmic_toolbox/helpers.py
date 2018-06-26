@@ -1,6 +1,12 @@
+# python standard library
+from datetime import (
+    datetime,
+    timedelta,
+)
+
 MAX_TIME = 5
 
-def time_it(implementation, tag, input_value, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
+def time_it(implementation, tag, input_value, expected, max_input, max_time=MAX_TIME):
     """Times the implementation
 
     Args: 
@@ -8,6 +14,7 @@ def time_it(implementation, tag, input_value, expected, max_time=MAX_TIME, max_i
      tag (str): identifier to add to the output
      input_value (int): the number to pass to the implementation
      expected (int): the expected value
+     max_input (int): the largest allowed input value
      max_time (float): number of seconds allowed
 
     Raises:
@@ -22,5 +29,5 @@ def time_it(implementation, tag, input_value, expected, max_time=MAX_TIME, max_i
             actual, expected)
     elapsed = datetime.now() - start
     print("({}) Okay Elapsed time: {}".format(tag, elapsed))
-    assert elapsed <= max_time, "Time Greater than {}".format(max_time)
+    assert elapsed <= timedelta(seconds=max_time), "Time Greater than {}".format(max_time)
     return

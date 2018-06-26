@@ -37,19 +37,25 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 |--------+--------|
 |      3 |      2 |
 |    331 |      9 |
-| 327305 | 5      |
+| 327305 |      5 |
 
 * Constants
 
 #+BEGIN_SRC ipython :session lastdigit :results none
 MAX_INPUT = 10**7
+MAX_TIME = 5
 #+END_SRC
 * Imports
 #+BEGIN_SRC ipython :session lastdigit :results none
+from datetime import (
+    datetime,
+    timedelta,
+    )
 # this project
 from algorithmic_toolbox.helpers import time_it
 #+END_SRC
 * Naive Implementation
+  By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so $112 \mod 10$ is $112 - (11 \times 10) = 2$.
 
 #+BEGIN_SRC ipython :session lastdigit :results none
 def get_fibonacci_last_digit_naive(n):
@@ -67,3 +73,70 @@ def get_fibonacci_last_digit_naive(n):
 #+BEGIN_SRC ipython :session lastdigit :results output
 time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
 #+END_SRC
+
+#+RESULTS:
+: Starting Naive
+: (Naive) Okay Elapsed time: 0:00:00.000192
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Naive
+: (Naive) Okay Elapsed time: 0:00:00.000145
+
+* Modulo Version
+  Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
+
+#+BEGIN_SRC ipython :session lastdigit :results none
+first = (0, 1)
+def get_fibonacci_last_digit_modulo(n):
+    if n in first:
+        return n
+
+    previous, current = first
+
+    for _ in range(n - 1):
+        previous, current = current, (previous + current) % 10
+        print("Current: {}".format(current))
+    return current
+#+END_SRC
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:00.000175
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:00.000090
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:01.312463
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 200, 5, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:00.000392
+
+This is the grader output.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
+#+END_EXAMPLE

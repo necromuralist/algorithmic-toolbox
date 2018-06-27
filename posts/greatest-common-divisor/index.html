@@ -121,18 +121,18 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org4eb4d3c" class="outline-2">
-<h2 id="org4eb4d3c">Introduction</h2>
-<div class="outline-text-2" id="text-org4eb4d3c">
+    <div id="outline-container-orgcfecd43" class="outline-2">
+<h2 id="orgcfecd43">Introduction</h2>
+<div class="outline-text-2" id="text-orgcfecd43">
 <p>
 The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> and <i>b</i>) which are not both equal to 0 is the greatest integer <i>d</i> that divides both <i>a</i> and <i>b</i>. The goal here is to implement the <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclidean Algorithm</a> for computing the GCD.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1f4fadb" class="outline-2">
-<h2 id="org1f4fadb">Problem Description</h2>
-<div class="outline-text-2" id="text-org1f4fadb">
+<div id="outline-container-orga8bd1f5" class="outline-2">
+<h2 id="orga8bd1f5">Problem Description</h2>
+<div class="outline-text-2" id="text-orga8bd1f5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -164,20 +164,20 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </div>
 </div>
 
-<div id="outline-container-orgdc2205d" class="outline-2">
-<h2 id="orgdc2205d">Imports</h2>
-<div class="outline-text-2" id="text-orgdc2205d">
-<div class="highlight"><pre><span></span># python standard library
-from datetime import (
-    datetime,
-    timedelta,
-)
+<div id="outline-container-orge9b776c" class="outline-2">
+<h2 id="orge9b776c">Imports</h2>
+<div class="outline-text-2" id="text-orge9b776c">
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org1f6a7da" class="outline-2">
-<h2 id="org1f6a7da">Samples</h2>
-<div class="outline-text-2" id="text-org1f6a7da">
+<div id="outline-container-orga86f891" class="outline-2">
+<h2 id="orga86f891">Samples</h2>
+<div class="outline-text-2" id="text-orga86f891">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -198,57 +198,57 @@ from datetime import (
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span>SAMPLES = {(18, 35): 1,
-	   (28851538, 1183019): 17657}
-MAX_TIME = timedelta(5)
-MAX_INPUT = 2 * 10**9
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">35</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+	   <span class="p">(</span><span class="mi">28851538</span><span class="p">,</span> <span class="mi">1183019</span><span class="p">):</span> <span class="mi">17657</span><span class="p">}</span>
+<span class="n">MAX_TIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>def time_two_inputs(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
-    """Time the implementation
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_two_inputs</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">a_and_b</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">):</span>
+    <span class="sd">"""Time the implementation</span>
 
-    Args:
-     implementation: callable to time
-     tag (str): name for the output
-     a_and_b (tuple): inputs for the implementation
-     expected (int): the expected output of the implementation
+<span class="sd">    Args:</span>
+<span class="sd">     implementation: callable to time</span>
+<span class="sd">     tag (str): name for the output</span>
+<span class="sd">     a_and_b (tuple): inputs for the implementation</span>
+<span class="sd">     expected (int): the expected output of the implementation</span>
 
-    Raises:
-     AssertionError: output was wrong or it took too long
-    """
-    a, b = a_and_b
-    assert a &lt;= max_input, "a too large: {}".format(a)
-    assert b &lt;= max_input, "b too large: {}".format(b)
-    print("Starting {}".format(tag))
-    start = datetime.now()
-    actual = implementation(a, b)
-    elapsed = datetime.now() - start
-    print("Elapsed time: {}".format(elapsed))
-    assert actual == expected, "Expected: {} Actual: {}".format(expected, actual)
-    assert elapsed &lt;= MAX_TIME, "Took too long: {}".format(elapsed)
-    return
+<span class="sd">    Raises:</span>
+<span class="sd">     AssertionError: output was wrong or it took too long</span>
+<span class="sd">    """</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a_and_b</span>
+    <span class="k">assert</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">max_input</span><span class="p">,</span> <span class="s2">"a too large: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">max_input</span><span class="p">,</span> <span class="s2">"b too large: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Starting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elapsed</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"Expected: {} Actual: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;=</span> <span class="n">MAX_TIME</span><span class="p">,</span> <span class="s2">"Took too long: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span>
+    <span class="k">return</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org9f9c577" class="outline-2">
-<h2 id="org9f9c577">Naive GCD</h2>
-<div class="outline-text-2" id="text-org9f9c577">
-<div class="highlight"><pre><span></span>def gcd_naive(a, b):
-    """Naive implementation of GCD
+<div id="outline-container-orgeb989e1" class="outline-2">
+<h2 id="orgeb989e1">Naive GCD</h2>
+<div class="outline-text-2" id="text-orgeb989e1">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gcd_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""Naive implementation of GCD</span>
 
-    Args:
-     a, b: non-negative integers
-    """
-    current_gcd = 1
-    for d in range(2, min(a, b) + 1):
-	if a % d == 0 and b % d == 0:
-	    if d &gt; current_gcd:
-		current_gcd = d
-    return current_gcd
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: non-negative integers</span>
+<span class="sd">    """</span>
+    <span class="n">current_gcd</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">a</span> <span class="o">%</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">%</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+	    <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">current_gcd</span><span class="p">:</span>
+		<span class="n">current_gcd</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">current_gcd</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>for inputs, answer in SAMPLES.items():
-    time_it(gcd_naive, "Naive", inputs, answer)
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">time_it</span><span class="p">(</span><span class="n">gcd_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
 </pre></div>
 
 <p>
@@ -261,42 +261,42 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 </div>
 </div>
 
-<div id="outline-container-org7a25582" class="outline-2">
-<h2 id="org7a25582">Modulus Version</h2>
-<div class="outline-text-2" id="text-org7a25582">
+<div id="outline-container-org03029f3" class="outline-2">
+<h2 id="org03029f3">Modulus Version</h2>
+<div class="outline-text-2" id="text-org03029f3">
 <p>
 This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
 </p>
 
-<div class="highlight"><pre><span></span>def gcd_modulus(a, b):
-    """finds the GCD of a and b
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gcd_modulus</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""finds the GCD of a and b</span>
 
-    Args:
-     a, b: non-negative integers
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: non-negative integers</span>
 
-    Returns:
-     int: the GCD of a and b
-    """
-    while b != 0:
-	a, b = b, a % b
-    return a
+<span class="sd">    Returns:</span>
+<span class="sd">     int: the GCD of a and b</span>
+<span class="sd">    """</span>
+    <span class="k">while</span> <span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+	<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">a</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>for inputs, answer in SAMPLES.items():
-    time_it(gcd_modulus, "Modulus", inputs, answer)
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">time_it</span><span class="p">(</span><span class="n">gcd_modulus</span><span class="p">,</span> <span class="s2">"Modulus"</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>a_b = 100000000, 100000000
-start = datetime.now()
-expected = gcd_naive(*a_b)
-print("Elapsed: {}".format(datetime.now() - start))
+<div class="highlight"><pre><span></span><span class="n">a_b</span> <span class="o">=</span> <span class="mi">100000000</span><span class="p">,</span> <span class="mi">100000000</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="n">gcd_naive</span><span class="p">(</span><span class="o">*</span><span class="n">a_b</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
 </pre></div>
 
 <p>
 My computer appears to be faster than the grader, but it still fails.
 </p>
 
-<div class="highlight"><pre><span></span>time_it(gcd_modulus, "Modulus", a_b, expected)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">gcd_modulus</span><span class="p">,</span> <span class="s2">"Modulus"</span><span class="p">,</span> <span class="n">a_b</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -24,19 +24,19 @@
   | 6 8              |         24 |
   | 28851538 1183019 | 1933050546 |
 
-#+BEGIN_SRC ipython :session lcm :results none
+#+BEGIN_SRC python :session lcm :results none
 SAMPLES = {(6, 8): 24,
            (28851538, 1183019): 1933053046,
 }
 MAX_INPUT = 2 * 10**9
 #+END_SRC
 * Imports
-#+BEGIN_SRC ipython :session lcm :results none
+#+BEGIN_SRC python :session lcm :results none
 from algorithmic_toolbox.helpers import time_two_inputs
 from algorithmic_toolbox.implementations import greatest_common_divisor
 #+END_SRC
 * Naive
-#+BEGIN_SRC ipython :session lcm :results none
+#+BEGIN_SRC python :session lcm :results none
 def lcm_naive(a, b):
     """Computes the Least Common multiple of a and b
     
@@ -53,7 +53,7 @@ def lcm_naive(a, b):
     return a*b
 #+END_SRC
 
-#+BEGIN_SRC ipython :session lcm :results output
+#+BEGIN_SRC python :session lcm :results output
 time_two_inputs(lcm_naive, "Naive", (6, 8), 24, MAX_INPUT)
 #+END_SRC
 
@@ -70,7 +70,7 @@ Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: std
 * Using The Greatest Common Divisor
   If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
 
-#+BEGIN_SRC ipython :session lcm :results none
+#+BEGIN_SRC python :session lcm :results none
 def lcm_gcd(a, b):
     """Finds the least common multiple of two integers
 
@@ -80,7 +80,7 @@ def lcm_gcd(a, b):
     return a * b//greatest_common_divisor(a, b)
 #+END_SRC
 
-#+BEGIN_SRC ipython :session lcm :results output
+#+BEGIN_SRC python :session lcm :results output
 for a_and_b, answer in SAMPLES.items():
     time_two_inputs(lcm_gcd, "GCD", a_and_b, answer, MAX_INPUT)
 #+END_SRC

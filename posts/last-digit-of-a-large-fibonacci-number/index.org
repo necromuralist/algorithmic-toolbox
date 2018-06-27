@@ -41,12 +41,12 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 
 * Constants
 
-#+BEGIN_SRC ipython :session lastdigit :results none
+#+BEGIN_SRC python :session lastdigit :results none
 MAX_INPUT = 10**7
 MAX_TIME = 5
 #+END_SRC
 * Imports
-#+BEGIN_SRC ipython :session lastdigit :results none
+#+BEGIN_SRC python :session lastdigit :results none
 from datetime import (
     datetime,
     timedelta,
@@ -57,7 +57,7 @@ from algorithmic_toolbox.helpers import time_it
 * Naive Implementation
   By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so $112 \mod 10$ is $112 - (11 \times 10) = 2$.
 
-#+BEGIN_SRC ipython :session lastdigit :results none
+#+BEGIN_SRC python :session lastdigit :results none
 def get_fibonacci_last_digit_naive(n):
     if n <= 1:
         return n
@@ -70,7 +70,7 @@ def get_fibonacci_last_digit_naive(n):
     return current % 10
 #+END_SRC
 
-#+BEGIN_SRC ipython :session lastdigit :results output
+#+BEGIN_SRC python :session lastdigit :results output
 time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
 #+END_SRC
 
@@ -78,7 +78,7 @@ time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
 : Starting Naive
 : (Naive) Okay Elapsed time: 0:00:00.000192
 
-#+BEGIN_SRC ipython :session lastdigit :results output
+#+BEGIN_SRC python :session lastdigit :results output
 time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
 #+END_SRC
 
@@ -89,7 +89,7 @@ time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
 * Modulo Version
   Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
 
-#+BEGIN_SRC ipython :session lastdigit :results none
+#+BEGIN_SRC python :session lastdigit :results none
 first = (0, 1)
 def get_fibonacci_last_digit_modulo(n):
     if n in first:
@@ -103,7 +103,7 @@ def get_fibonacci_last_digit_modulo(n):
     return current
 #+END_SRC
 
-#+BEGIN_SRC ipython :session lastdigit :results output
+#+BEGIN_SRC python :session lastdigit :results output
 time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
 #+END_SRC
 
@@ -111,7 +111,7 @@ time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
 : Starting Modulo
 : (Modulo) Okay Elapsed time: 0:00:00.000175
 
-#+BEGIN_SRC ipython :session lastdigit :results output
+#+BEGIN_SRC python :session lastdigit :results output
 time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
 #+END_SRC
 
@@ -119,7 +119,7 @@ time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
 : Starting Modulo
 : (Modulo) Okay Elapsed time: 0:00:00.000090
 
-#+BEGIN_SRC ipython :session lastdigit :results output
+#+BEGIN_SRC python :session lastdigit :results output
 time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPUT)
 #+END_SRC
 
@@ -127,7 +127,7 @@ time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPU
 : Starting Modulo
 : (Modulo) Okay Elapsed time: 0:00:01.312463
 
-#+BEGIN_SRC ipython :session lastdigit :results output
+#+BEGIN_SRC python :session lastdigit :results output
 time_it(get_fibonacci_last_digit_modulo, "Modulo", 200, 5, max_input=MAX_INPUT)
 #+END_SRC
 

@@ -121,9 +121,9 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgcfeab67" class="outline-2">
-<h2 id="orgcfeab67">Introduction</h2>
-<div class="outline-text-2" id="text-orgcfeab67">
+    <div id="outline-container-org9861b41" class="outline-2">
+<h2 id="org9861b41">Introduction</h2>
+<div class="outline-text-2" id="text-org9861b41">
 <p>
 The goal is to find the last digit of the <i>n</i>-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
 </p>
@@ -146,9 +146,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org71dfd57" class="outline-2">
-<h2 id="org71dfd57">Problem Description</h2>
-<div class="outline-text-2" id="text-org71dfd57">
+<div id="outline-container-org4f077b3" class="outline-2">
+<h2 id="org4f077b3">Problem Description</h2>
+<div class="outline-text-2" id="text-org4f077b3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -180,9 +180,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-orgd38677a" class="outline-2">
-<h2 id="orgd38677a">Samples</h2>
-<div class="outline-text-2" id="text-orgd38677a">
+<div id="outline-container-org249dfb8" class="outline-2">
+<h2 id="org249dfb8">Samples</h2>
+<div class="outline-text-2" id="text-org249dfb8">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -210,83 +210,83 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org8d02a20" class="outline-2">
-<h2 id="org8d02a20">Constants</h2>
-<div class="outline-text-2" id="text-org8d02a20">
-<div class="highlight"><pre><span></span>MAX_INPUT = 10**7
-MAX_TIME = 5
+<div id="outline-container-org4347463" class="outline-2">
+<h2 id="org4347463">Constants</h2>
+<div class="outline-text-2" id="text-org4347463">
+<div class="highlight"><pre><span></span><span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span>
+<span class="n">MAX_TIME</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orge273839" class="outline-2">
-<h2 id="orge273839">Imports</h2>
-<div class="outline-text-2" id="text-orge273839">
-<div class="highlight"><pre><span></span>from datetime import (
-    datetime,
-    timedelta,
-    )
-# this project
-from algorithmic_toolbox.helpers import time_it
+<div id="outline-container-org6ae1cf7" class="outline-2">
+<h2 id="org6ae1cf7">Imports</h2>
+<div class="outline-text-2" id="text-org6ae1cf7">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="c1"># this project</span>
+<span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">time_it</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org78d7a2c" class="outline-2">
-<h2 id="org78d7a2c">Naive Implementation</h2>
-<div class="outline-text-2" id="text-org78d7a2c">
+<div id="outline-container-org8789515" class="outline-2">
+<h2 id="org8789515">Naive Implementation</h2>
+<div class="outline-text-2" id="text-org8789515">
 <p>
 By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
 </p>
 
-<div class="highlight"><pre><span></span>def get_fibonacci_last_digit_naive(n):
-    if n &lt;= 1:
-	return n
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_fibonacci_last_digit_naive</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
 
-    previous = 0
-    current  = 1
+    <span class="n">previous</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">current</span>  <span class="o">=</span> <span class="mi">1</span>
 
-    for _ in range(n - 1):
-	previous, current = current, previous + current
-    return current % 10
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">,</span> <span class="n">previous</span> <span class="o">+</span> <span class="n">current</span>
+    <span class="k">return</span> <span class="n">current</span> <span class="o">%</span> <span class="mi">10</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="mi">331</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org843c922" class="outline-2">
-<h2 id="org843c922">Modulo Version</h2>
-<div class="outline-text-2" id="text-org843c922">
+<div id="outline-container-orge4fa1ae" class="outline-2">
+<h2 id="orge4fa1ae">Modulo Version</h2>
+<div class="outline-text-2" id="text-orge4fa1ae">
 <p>
 Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
 </p>
 
-<div class="highlight"><pre><span></span>first = (0, 1)
-def get_fibonacci_last_digit_modulo(n):
-    if n in first:
-	return n
+<div class="highlight"><pre><span></span><span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_fibonacci_last_digit_modulo</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">first</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
 
-    previous, current = first
+    <span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">first</span>
 
-    for _ in range(n - 1):
-	previous, current = current, (previous + current) % 10
-	print("Current: {}".format(current))
-    return current
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">,</span> <span class="p">(</span><span class="n">previous</span> <span class="o">+</span> <span class="n">current</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"Current: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">current</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">331</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">327305</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 200, 5, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
 <p>

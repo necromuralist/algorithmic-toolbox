@@ -106,17 +106,17 @@
             <p class="dateline"><a href="posts/least-common-multiple/" rel="bookmark"><time class="published dt-published" datetime="2018-06-27T11:08:18-07:00" title="2018-06-27 11:08">2018-06-27 11:08</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org5216933" class="outline-2">
-<h2 id="org5216933">Introduction</h2>
-<div class="outline-text-2" id="text-org5216933">
+    <div id="outline-container-orgf89ab6f" class="outline-2">
+<h2 id="orgf89ab6f">Introduction</h2>
+<div class="outline-text-2" id="text-orgf89ab6f">
 <p>
 The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common multiple</a> of two positive integers, <i>a</i> and <i>b</i> is the least positive integer <i>m</i> that is divisible by both <i>a</i> and <i>b</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd3a4712" class="outline-2">
-<h2 id="orgd3a4712">Problem Description</h2>
-<div class="outline-text-2" id="text-orgd3a4712">
+<div id="outline-container-org98ba27b" class="outline-2">
+<h2 id="org98ba27b">Problem Description</h2>
+<div class="outline-text-2" id="text-org98ba27b">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -147,9 +147,9 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </table>
 </div>
 </div>
-<div id="outline-container-org4560235" class="outline-2">
-<h2 id="org4560235">Samples</h2>
-<div class="outline-text-2" id="text-org4560235">
+<div id="outline-container-org8407e02" class="outline-2">
+<h2 id="org8407e02">Samples</h2>
+<div class="outline-text-2" id="text-org8407e02">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -170,41 +170,41 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span>SAMPLES = {(6, 8): 24,
-	   (28851538, 1183019): 1933053046,
-}
-MAX_INPUT = 2 * 10**9
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span> <span class="mi">24</span><span class="p">,</span>
+	   <span class="p">(</span><span class="mi">28851538</span><span class="p">,</span> <span class="mi">1183019</span><span class="p">):</span> <span class="mi">1933053046</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org14e713a" class="outline-2">
-<h2 id="org14e713a">Imports</h2>
-<div class="outline-text-2" id="text-org14e713a">
-<div class="highlight"><pre><span></span>from algorithmic_toolbox.helpers import time_two_inputs
-from algorithmic_toolbox.implementations import greatest_common_divisor
+<div id="outline-container-orgf6f4508" class="outline-2">
+<h2 id="orgf6f4508">Imports</h2>
+<div class="outline-text-2" id="text-orgf6f4508">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">time_two_inputs</span>
+<span class="kn">from</span> <span class="nn">algorithmic_toolbox.implementations</span> <span class="kn">import</span> <span class="n">greatest_common_divisor</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org893b517" class="outline-2">
-<h2 id="org893b517">Naive</h2>
-<div class="outline-text-2" id="text-org893b517">
-<div class="highlight"><pre><span></span>def lcm_naive(a, b):
-    """Computes the Least Common multiple of a and b
+<div id="outline-container-org81e7aab" class="outline-2">
+<h2 id="org81e7aab">Naive</h2>
+<div class="outline-text-2" id="text-org81e7aab">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lcm_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""Computes the Least Common multiple of a and b</span>
 
-    Args:
-     a, b: non-negative integers
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: non-negative integers</span>
 
-    Returns:
-     int: the least common multiples of a and b
-    """
-    for l in range(1, a*b + 1):
-	if l % a == 0 and l % b == 0:
-	    return l
+<span class="sd">    Returns:</span>
+<span class="sd">     int: the least common multiples of a and b</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">l</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">l</span> <span class="o">%</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">l</span>
 
-    return a*b
+    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_two_inputs(lcm_naive, "Naive", (6, 8), 24, MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_two_inputs</span><span class="p">(</span><span class="n">lcm_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="mi">24</span><span class="p">,</span> <span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
 <p>
@@ -217,24 +217,24 @@ Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: std
 </div>
 </div>
 
-<div id="outline-container-org0e3fa0d" class="outline-2">
-<h2 id="org0e3fa0d">Using The Greatest Common Divisor</h2>
-<div class="outline-text-2" id="text-org0e3fa0d">
+<div id="outline-container-orge07da7c" class="outline-2">
+<h2 id="orge07da7c">Using The Greatest Common Divisor</h2>
+<div class="outline-text-2" id="text-orge07da7c">
 <p>
 If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
 </p>
 
-<div class="highlight"><pre><span></span>def lcm_gcd(a, b):
-    """Finds the least common multiple of two integers
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lcm_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""Finds the least common multiple of two integers</span>
 
-    Args:
-     a, b: integers greater than or equal to 1
-    """
-    return a * b//greatest_common_divisor(a, b)
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: integers greater than or equal to 1</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">//</span><span class="n">greatest_common_divisor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>for a_and_b, answer in SAMPLES.items():
-    time_two_inputs(lcm_gcd, "GCD", a_and_b, answer, MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">a_and_b</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">time_two_inputs</span><span class="p">(</span><span class="n">lcm_gcd</span><span class="p">,</span> <span class="s2">"GCD"</span><span class="p">,</span> <span class="n">a_and_b</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
 <p>
@@ -255,18 +255,18 @@ Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
             <p class="dateline"><a href="posts/greatest-common-divisor/" rel="bookmark"><time class="published dt-published" datetime="2018-06-26T14:51:11-07:00" title="2018-06-26 14:51">2018-06-26 14:51</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org4eb4d3c" class="outline-2">
-<h2 id="org4eb4d3c">Introduction</h2>
-<div class="outline-text-2" id="text-org4eb4d3c">
+    <div id="outline-container-orgcfecd43" class="outline-2">
+<h2 id="orgcfecd43">Introduction</h2>
+<div class="outline-text-2" id="text-orgcfecd43">
 <p>
 The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> and <i>b</i>) which are not both equal to 0 is the greatest integer <i>d</i> that divides both <i>a</i> and <i>b</i>. The goal here is to implement the <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclidean Algorithm</a> for computing the GCD.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1f4fadb" class="outline-2">
-<h2 id="org1f4fadb">Problem Description</h2>
-<div class="outline-text-2" id="text-org1f4fadb">
+<div id="outline-container-orga8bd1f5" class="outline-2">
+<h2 id="orga8bd1f5">Problem Description</h2>
+<div class="outline-text-2" id="text-orga8bd1f5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -298,20 +298,20 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </div>
 </div>
 
-<div id="outline-container-orgdc2205d" class="outline-2">
-<h2 id="orgdc2205d">Imports</h2>
-<div class="outline-text-2" id="text-orgdc2205d">
-<div class="highlight"><pre><span></span># python standard library
-from datetime import (
-    datetime,
-    timedelta,
-)
+<div id="outline-container-orge9b776c" class="outline-2">
+<h2 id="orge9b776c">Imports</h2>
+<div class="outline-text-2" id="text-orge9b776c">
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org1f6a7da" class="outline-2">
-<h2 id="org1f6a7da">Samples</h2>
-<div class="outline-text-2" id="text-org1f6a7da">
+<div id="outline-container-orga86f891" class="outline-2">
+<h2 id="orga86f891">Samples</h2>
+<div class="outline-text-2" id="text-orga86f891">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -332,57 +332,57 @@ from datetime import (
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span>SAMPLES = {(18, 35): 1,
-	   (28851538, 1183019): 17657}
-MAX_TIME = timedelta(5)
-MAX_INPUT = 2 * 10**9
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">35</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+	   <span class="p">(</span><span class="mi">28851538</span><span class="p">,</span> <span class="mi">1183019</span><span class="p">):</span> <span class="mi">17657</span><span class="p">}</span>
+<span class="n">MAX_TIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>def time_two_inputs(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
-    """Time the implementation
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_two_inputs</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">a_and_b</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">):</span>
+    <span class="sd">"""Time the implementation</span>
 
-    Args:
-     implementation: callable to time
-     tag (str): name for the output
-     a_and_b (tuple): inputs for the implementation
-     expected (int): the expected output of the implementation
+<span class="sd">    Args:</span>
+<span class="sd">     implementation: callable to time</span>
+<span class="sd">     tag (str): name for the output</span>
+<span class="sd">     a_and_b (tuple): inputs for the implementation</span>
+<span class="sd">     expected (int): the expected output of the implementation</span>
 
-    Raises:
-     AssertionError: output was wrong or it took too long
-    """
-    a, b = a_and_b
-    assert a &lt;= max_input, "a too large: {}".format(a)
-    assert b &lt;= max_input, "b too large: {}".format(b)
-    print("Starting {}".format(tag))
-    start = datetime.now()
-    actual = implementation(a, b)
-    elapsed = datetime.now() - start
-    print("Elapsed time: {}".format(elapsed))
-    assert actual == expected, "Expected: {} Actual: {}".format(expected, actual)
-    assert elapsed &lt;= MAX_TIME, "Took too long: {}".format(elapsed)
-    return
+<span class="sd">    Raises:</span>
+<span class="sd">     AssertionError: output was wrong or it took too long</span>
+<span class="sd">    """</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a_and_b</span>
+    <span class="k">assert</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">max_input</span><span class="p">,</span> <span class="s2">"a too large: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">max_input</span><span class="p">,</span> <span class="s2">"b too large: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Starting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elapsed</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"Expected: {} Actual: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;=</span> <span class="n">MAX_TIME</span><span class="p">,</span> <span class="s2">"Took too long: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span>
+    <span class="k">return</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org9f9c577" class="outline-2">
-<h2 id="org9f9c577">Naive GCD</h2>
-<div class="outline-text-2" id="text-org9f9c577">
-<div class="highlight"><pre><span></span>def gcd_naive(a, b):
-    """Naive implementation of GCD
+<div id="outline-container-orgeb989e1" class="outline-2">
+<h2 id="orgeb989e1">Naive GCD</h2>
+<div class="outline-text-2" id="text-orgeb989e1">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gcd_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""Naive implementation of GCD</span>
 
-    Args:
-     a, b: non-negative integers
-    """
-    current_gcd = 1
-    for d in range(2, min(a, b) + 1):
-	if a % d == 0 and b % d == 0:
-	    if d &gt; current_gcd:
-		current_gcd = d
-    return current_gcd
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: non-negative integers</span>
+<span class="sd">    """</span>
+    <span class="n">current_gcd</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">a</span> <span class="o">%</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">%</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+	    <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">current_gcd</span><span class="p">:</span>
+		<span class="n">current_gcd</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">current_gcd</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>for inputs, answer in SAMPLES.items():
-    time_it(gcd_naive, "Naive", inputs, answer)
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">time_it</span><span class="p">(</span><span class="n">gcd_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
 </pre></div>
 
 <p>
@@ -395,42 +395,42 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 </div>
 </div>
 
-<div id="outline-container-org7a25582" class="outline-2">
-<h2 id="org7a25582">Modulus Version</h2>
-<div class="outline-text-2" id="text-org7a25582">
+<div id="outline-container-org03029f3" class="outline-2">
+<h2 id="org03029f3">Modulus Version</h2>
+<div class="outline-text-2" id="text-org03029f3">
 <p>
 This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
 </p>
 
-<div class="highlight"><pre><span></span>def gcd_modulus(a, b):
-    """finds the GCD of a and b
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gcd_modulus</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""finds the GCD of a and b</span>
 
-    Args:
-     a, b: non-negative integers
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: non-negative integers</span>
 
-    Returns:
-     int: the GCD of a and b
-    """
-    while b != 0:
-	a, b = b, a % b
-    return a
+<span class="sd">    Returns:</span>
+<span class="sd">     int: the GCD of a and b</span>
+<span class="sd">    """</span>
+    <span class="k">while</span> <span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+	<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">a</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>for inputs, answer in SAMPLES.items():
-    time_it(gcd_modulus, "Modulus", inputs, answer)
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">time_it</span><span class="p">(</span><span class="n">gcd_modulus</span><span class="p">,</span> <span class="s2">"Modulus"</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>a_b = 100000000, 100000000
-start = datetime.now()
-expected = gcd_naive(*a_b)
-print("Elapsed: {}".format(datetime.now() - start))
+<div class="highlight"><pre><span></span><span class="n">a_b</span> <span class="o">=</span> <span class="mi">100000000</span><span class="p">,</span> <span class="mi">100000000</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="n">gcd_naive</span><span class="p">(</span><span class="o">*</span><span class="n">a_b</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
 </pre></div>
 
 <p>
 My computer appears to be faster than the grader, but it still fails.
 </p>
 
-<div class="highlight"><pre><span></span>time_it(gcd_modulus, "Modulus", a_b, expected)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">gcd_modulus</span><span class="p">,</span> <span class="s2">"Modulus"</span><span class="p">,</span> <span class="n">a_b</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -443,9 +443,9 @@ My computer appears to be faster than the grader, but it still fails.
             <p class="dateline"><a href="posts/last-digit-of-a-large-fibonacci-number/" rel="bookmark"><time class="published dt-published" datetime="2018-06-25T16:28:37-07:00" title="2018-06-25 16:28">2018-06-25 16:28</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgcfeab67" class="outline-2">
-<h2 id="orgcfeab67">Introduction</h2>
-<div class="outline-text-2" id="text-orgcfeab67">
+    <div id="outline-container-org9861b41" class="outline-2">
+<h2 id="org9861b41">Introduction</h2>
+<div class="outline-text-2" id="text-org9861b41">
 <p>
 The goal is to find the last digit of the <i>n</i>-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
 </p>
@@ -468,9 +468,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org71dfd57" class="outline-2">
-<h2 id="org71dfd57">Problem Description</h2>
-<div class="outline-text-2" id="text-org71dfd57">
+<div id="outline-container-org4f077b3" class="outline-2">
+<h2 id="org4f077b3">Problem Description</h2>
+<div class="outline-text-2" id="text-org4f077b3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -502,9 +502,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-orgd38677a" class="outline-2">
-<h2 id="orgd38677a">Samples</h2>
-<div class="outline-text-2" id="text-orgd38677a">
+<div id="outline-container-org249dfb8" class="outline-2">
+<h2 id="org249dfb8">Samples</h2>
+<div class="outline-text-2" id="text-org249dfb8">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -532,83 +532,83 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org8d02a20" class="outline-2">
-<h2 id="org8d02a20">Constants</h2>
-<div class="outline-text-2" id="text-org8d02a20">
-<div class="highlight"><pre><span></span>MAX_INPUT = 10**7
-MAX_TIME = 5
+<div id="outline-container-org4347463" class="outline-2">
+<h2 id="org4347463">Constants</h2>
+<div class="outline-text-2" id="text-org4347463">
+<div class="highlight"><pre><span></span><span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span>
+<span class="n">MAX_TIME</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orge273839" class="outline-2">
-<h2 id="orge273839">Imports</h2>
-<div class="outline-text-2" id="text-orge273839">
-<div class="highlight"><pre><span></span>from datetime import (
-    datetime,
-    timedelta,
-    )
-# this project
-from algorithmic_toolbox.helpers import time_it
+<div id="outline-container-org6ae1cf7" class="outline-2">
+<h2 id="org6ae1cf7">Imports</h2>
+<div class="outline-text-2" id="text-org6ae1cf7">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="c1"># this project</span>
+<span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">time_it</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org78d7a2c" class="outline-2">
-<h2 id="org78d7a2c">Naive Implementation</h2>
-<div class="outline-text-2" id="text-org78d7a2c">
+<div id="outline-container-org8789515" class="outline-2">
+<h2 id="org8789515">Naive Implementation</h2>
+<div class="outline-text-2" id="text-org8789515">
 <p>
 By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
 </p>
 
-<div class="highlight"><pre><span></span>def get_fibonacci_last_digit_naive(n):
-    if n &lt;= 1:
-	return n
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_fibonacci_last_digit_naive</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
 
-    previous = 0
-    current  = 1
+    <span class="n">previous</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">current</span>  <span class="o">=</span> <span class="mi">1</span>
 
-    for _ in range(n - 1):
-	previous, current = current, previous + current
-    return current % 10
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">,</span> <span class="n">previous</span> <span class="o">+</span> <span class="n">current</span>
+    <span class="k">return</span> <span class="n">current</span> <span class="o">%</span> <span class="mi">10</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="mi">331</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org843c922" class="outline-2">
-<h2 id="org843c922">Modulo Version</h2>
-<div class="outline-text-2" id="text-org843c922">
+<div id="outline-container-orge4fa1ae" class="outline-2">
+<h2 id="orge4fa1ae">Modulo Version</h2>
+<div class="outline-text-2" id="text-orge4fa1ae">
 <p>
 Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
 </p>
 
-<div class="highlight"><pre><span></span>first = (0, 1)
-def get_fibonacci_last_digit_modulo(n):
-    if n in first:
-	return n
+<div class="highlight"><pre><span></span><span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_fibonacci_last_digit_modulo</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">first</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
 
-    previous, current = first
+    <span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">first</span>
 
-    for _ in range(n - 1):
-	previous, current = current, (previous + current) % 10
-	print("Current: {}".format(current))
-    return current
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">,</span> <span class="p">(</span><span class="n">previous</span> <span class="o">+</span> <span class="n">current</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"Current: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">current</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">331</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">327305</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 200, 5, max_input=MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">get_fibonacci_last_digit_modulo</span><span class="p">,</span> <span class="s2">"Modulo"</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">max_input</span><span class="o">=</span><span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
 <p>

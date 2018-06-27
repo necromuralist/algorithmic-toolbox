@@ -120,17 +120,17 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org5216933" class="outline-2">
-<h2 id="org5216933">Introduction</h2>
-<div class="outline-text-2" id="text-org5216933">
+    <div id="outline-container-orgf89ab6f" class="outline-2">
+<h2 id="orgf89ab6f">Introduction</h2>
+<div class="outline-text-2" id="text-orgf89ab6f">
 <p>
 The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common multiple</a> of two positive integers, <i>a</i> and <i>b</i> is the least positive integer <i>m</i> that is divisible by both <i>a</i> and <i>b</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd3a4712" class="outline-2">
-<h2 id="orgd3a4712">Problem Description</h2>
-<div class="outline-text-2" id="text-orgd3a4712">
+<div id="outline-container-org98ba27b" class="outline-2">
+<h2 id="org98ba27b">Problem Description</h2>
+<div class="outline-text-2" id="text-org98ba27b">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -161,9 +161,9 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </table>
 </div>
 </div>
-<div id="outline-container-org4560235" class="outline-2">
-<h2 id="org4560235">Samples</h2>
-<div class="outline-text-2" id="text-org4560235">
+<div id="outline-container-org8407e02" class="outline-2">
+<h2 id="org8407e02">Samples</h2>
+<div class="outline-text-2" id="text-org8407e02">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -184,41 +184,41 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span>SAMPLES = {(6, 8): 24,
-	   (28851538, 1183019): 1933053046,
-}
-MAX_INPUT = 2 * 10**9
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span> <span class="mi">24</span><span class="p">,</span>
+	   <span class="p">(</span><span class="mi">28851538</span><span class="p">,</span> <span class="mi">1183019</span><span class="p">):</span> <span class="mi">1933053046</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org14e713a" class="outline-2">
-<h2 id="org14e713a">Imports</h2>
-<div class="outline-text-2" id="text-org14e713a">
-<div class="highlight"><pre><span></span>from algorithmic_toolbox.helpers import time_two_inputs
-from algorithmic_toolbox.implementations import greatest_common_divisor
+<div id="outline-container-orgf6f4508" class="outline-2">
+<h2 id="orgf6f4508">Imports</h2>
+<div class="outline-text-2" id="text-orgf6f4508">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">time_two_inputs</span>
+<span class="kn">from</span> <span class="nn">algorithmic_toolbox.implementations</span> <span class="kn">import</span> <span class="n">greatest_common_divisor</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org893b517" class="outline-2">
-<h2 id="org893b517">Naive</h2>
-<div class="outline-text-2" id="text-org893b517">
-<div class="highlight"><pre><span></span>def lcm_naive(a, b):
-    """Computes the Least Common multiple of a and b
+<div id="outline-container-org81e7aab" class="outline-2">
+<h2 id="org81e7aab">Naive</h2>
+<div class="outline-text-2" id="text-org81e7aab">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lcm_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""Computes the Least Common multiple of a and b</span>
 
-    Args:
-     a, b: non-negative integers
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: non-negative integers</span>
 
-    Returns:
-     int: the least common multiples of a and b
-    """
-    for l in range(1, a*b + 1):
-	if l % a == 0 and l % b == 0:
-	    return l
+<span class="sd">    Returns:</span>
+<span class="sd">     int: the least common multiples of a and b</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">l</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">l</span> <span class="o">%</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">l</span>
 
-    return a*b
+    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>time_two_inputs(lcm_naive, "Naive", (6, 8), 24, MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="n">time_two_inputs</span><span class="p">(</span><span class="n">lcm_naive</span><span class="p">,</span> <span class="s2">"Naive"</span><span class="p">,</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="mi">24</span><span class="p">,</span> <span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
 <p>
@@ -231,24 +231,24 @@ Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: std
 </div>
 </div>
 
-<div id="outline-container-org0e3fa0d" class="outline-2">
-<h2 id="org0e3fa0d">Using The Greatest Common Divisor</h2>
-<div class="outline-text-2" id="text-org0e3fa0d">
+<div id="outline-container-orge07da7c" class="outline-2">
+<h2 id="orge07da7c">Using The Greatest Common Divisor</h2>
+<div class="outline-text-2" id="text-orge07da7c">
 <p>
 If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
 </p>
 
-<div class="highlight"><pre><span></span>def lcm_gcd(a, b):
-    """Finds the least common multiple of two integers
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lcm_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""Finds the least common multiple of two integers</span>
 
-    Args:
-     a, b: integers greater than or equal to 1
-    """
-    return a * b//greatest_common_divisor(a, b)
+<span class="sd">    Args:</span>
+<span class="sd">     a, b: integers greater than or equal to 1</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">//</span><span class="n">greatest_common_divisor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>for a_and_b, answer in SAMPLES.items():
-    time_two_inputs(lcm_gcd, "GCD", a_and_b, answer, MAX_INPUT)
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">a_and_b</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">time_two_inputs</span><span class="p">(</span><span class="n">lcm_gcd</span><span class="p">,</span> <span class="s2">"GCD"</span><span class="p">,</span> <span class="n">a_and_b</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="n">MAX_INPUT</span><span class="p">)</span>
 </pre></div>
 
 <p>

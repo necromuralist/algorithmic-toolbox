@@ -22,7 +22,7 @@
 
 * Imports
 
-#+BEGIN_SRC ipython :session gcd :results none
+#+BEGIN_SRC python :session gcd :results none
 # python standard library
 from datetime import (
     datetime,
@@ -36,14 +36,14 @@ from datetime import (
 | 18 35            |      1 |
 | 28851538 1183019 |  17657 |
 
-#+BEGIN_SRC ipython :session gcd :results none
+#+BEGIN_SRC python :session gcd :results none
 SAMPLES = {(18, 35): 1,
            (28851538, 1183019): 17657}
 MAX_TIME = timedelta(5)
 MAX_INPUT = 2 * 10**9
 #+END_SRC
 
-#+BEGIN_SRC ipython :session gcd :results none
+#+BEGIN_SRC python :session gcd :results none
 def time_two_inputs(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
     """Time the implementation
 
@@ -70,7 +70,7 @@ def time_two_inputs(implementation, tag, a_and_b, expected, max_time=MAX_TIME, m
 #+END_SRC
 * Naive GCD
 
-#+BEGIN_SRC ipython :session gcd :results none
+#+BEGIN_SRC python :session gcd :results none
 def gcd_naive(a, b):
     """Naive implementation of GCD
 
@@ -85,7 +85,7 @@ def gcd_naive(a, b):
     return current_gcd
 #+END_SRC
 
-#+BEGIN_SRC ipython :session gcd :results output
+#+BEGIN_SRC python :session gcd :results output
 for inputs, answer in SAMPLES.items():
     time_it(gcd_naive, "Naive", inputs, answer)
 #+END_SRC
@@ -105,7 +105,7 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 * Modulus Version
   This is a variation on Euclid's Algorithim where you repeatedly use the remainder of $\frac{a, b}$ to replace $b$ until there is no remainder ($b=0$).
 
-#+BEGIN_SRC ipython :session gcd :results none
+#+BEGIN_SRC python :session gcd :results none
 def gcd_modulus(a, b):
     """finds the GCD of a and b
 
@@ -120,7 +120,7 @@ def gcd_modulus(a, b):
     return a
 #+END_SRC
 
-#+BEGIN_SRC ipython :session gcd :results output
+#+BEGIN_SRC python :session gcd :results output
 for inputs, answer in SAMPLES.items():
     time_it(gcd_modulus, "Modulus", inputs, answer)
 #+END_SRC
@@ -131,7 +131,7 @@ for inputs, answer in SAMPLES.items():
 : Starting Modulus
 : Elapsed time: 0:00:00.000003
 
-#+BEGIN_SRC ipython :session gcd :results output
+#+BEGIN_SRC python :session gcd :results output
 a_b = 100000000, 100000000
 start = datetime.now()
 expected = gcd_naive(*a_b)
@@ -143,7 +143,7 @@ print("Elapsed: {}".format(datetime.now() - start))
 
 My computer appears to be faster than the grader, but it still fails.
 
-#+BEGIN_SRC ipython :session gcd :results output
+#+BEGIN_SRC python :session gcd :results output
 time_it(gcd_modulus, "Modulus", a_b, expected)
 #+END_SRC
 

@@ -1,0 +1,98 @@
+#+BEGIN_COMMENT
+.. title: Least Common Multiple
+.. slug: least-common-multiple
+.. date: 2018-06-27 11:08:18 UTC-07:00
+.. tags: algorithms problems
+.. category: problems
+.. link: 
+.. description: Finding the least common multiple of two integers.
+.. type: text
+#+END_COMMENT
+
+* Introduction
+  The [[https://en.wikipedia.org/wiki/Least_common_multiple][least common multiple]] of two positive integers, /a/ and /b/ is the least positive integer /m/ that is divisible by both /a/ and /b/.
+* Problem Description
+  |               | Description                                                        |
+  |---------------+--------------------------------------------------------------------|
+  | *Task*        | Given two integers /a/ and /b/ find their least common multiple.   |
+  | *Input*       | The integers /a/ and /b/ on the same line separated by whitespace. |
+  | *Constraints* | $1 \le a,b \le 2 \cdot 10^9$                                       |
+  | *Output*      | The least common multiple of /a/ and /b/.                          |
+* Samples
+  | Input            |     Output |
+  |------------------+------------|
+  | 6 8              |         24 |
+  | 28851538 1183019 | 1933050546 |
+
+#+BEGIN_SRC ipython :session lcm :results none
+SAMPLES = {(6, 8): 24,
+           (28851538, 1183019): 1933053046,
+}
+MAX_INPUT = 2 * 10**9
+#+END_SRC
+* Imports
+#+BEGIN_SRC ipython :session lcm :results none
+from algorithmic_toolbox.helpers import time_two_inputs
+from algorithmic_toolbox.implementations import greatest_common_divisor
+#+END_SRC
+* Naive
+#+BEGIN_SRC ipython :session lcm :results none
+def lcm_naive(a, b):
+    """Computes the Least Common multiple of a and b
+    
+    Args:
+     a, b: non-negative integers
+
+    Returns:
+     int: the least common multiples of a and b
+    """
+    for l in range(1, a*b + 1):
+        if l % a == 0 and l % b == 0:
+            return l
+
+    return a*b
+#+END_SRC
+
+#+BEGIN_SRC ipython :session lcm :results output
+time_two_inputs(lcm_naive, "Naive", (6, 8), 24, MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Naive
+: Elapsed time: 0:00:00.000012
+
+As expected, this fails the grader.
+
+#+BEGIN_EXAMPLE
+Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: stderr: (Time used: 9.97/5.00, memory used: 9879552/536870912.)
+#+END_EXAMPLE
+
+* Using The Greatest Common Divisor
+  If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
+
+#+BEGIN_SRC ipython :session lcm :results none
+def lcm_gcd(a, b):
+    """Finds the least common multiple of two integers
+
+    Args:
+     a, b: integers greater than or equal to 1
+    """
+    return a * b//greatest_common_divisor(a, b)
+#+END_SRC
+
+#+BEGIN_SRC ipython :session lcm :results output
+for a_and_b, answer in SAMPLES.items():
+    time_two_inputs(lcm_gcd, "GCD", a_and_b, answer, MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting GCD
+: Elapsed time: 0:00:00.000006
+: Starting GCD
+: Elapsed time: 0:00:00.000004
+
+The Grader output:
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
+#+END_EXAMPLE

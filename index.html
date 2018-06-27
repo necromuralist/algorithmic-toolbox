@@ -12,7 +12,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/greatest-common-divisor/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/least-common-multiple/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -98,7 +98,156 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/greatest-common-divisor/" class="u-url">Greatest Common Divisor</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/least-common-multiple/" class="u-url">Least Common Multiple</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/least-common-multiple/" rel="bookmark"><time class="published dt-published" datetime="2018-06-27T11:08:18-07:00" title="2018-06-27 11:08">2018-06-27 11:08</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org5216933" class="outline-2">
+<h2 id="org5216933">Introduction</h2>
+<div class="outline-text-2" id="text-org5216933">
+<p>
+The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common multiple</a> of two positive integers, <i>a</i> and <i>b</i> is the least positive integer <i>m</i> that is divisible by both <i>a</i> and <i>b</i>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd3a4712" class="outline-2">
+<h2 id="orgd3a4712">Problem Description</h2>
+<div class="outline-text-2" id="text-orgd3a4712">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Task</b></td>
+<td class="org-left">Given two integers <i>a</i> and <i>b</i> find their least common multiple.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">The integers <i>a</i> and <i>b</i> on the same line separated by whitespace.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le a,b \le 2 \cdot 10^9\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">The least common multiple of <i>a</i> and <i>b</i>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org4560235" class="outline-2">
+<h2 id="org4560235">Samples</h2>
+<div class="outline-text-2" id="text-org4560235">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">Input</th>
+<th scope="col" class="org-right">Output</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">6 8</td>
+<td class="org-right">24</td>
+</tr>
+<tr>
+<td class="org-left">28851538 1183019</td>
+<td class="org-right">1933050546</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span>SAMPLES = {(6, 8): 24,
+	   (28851538, 1183019): 1933053046,
+}
+MAX_INPUT = 2 * 10**9
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org14e713a" class="outline-2">
+<h2 id="org14e713a">Imports</h2>
+<div class="outline-text-2" id="text-org14e713a">
+<div class="highlight"><pre><span></span>from algorithmic_toolbox.helpers import time_two_inputs
+from algorithmic_toolbox.implementations import greatest_common_divisor
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org893b517" class="outline-2">
+<h2 id="org893b517">Naive</h2>
+<div class="outline-text-2" id="text-org893b517">
+<div class="highlight"><pre><span></span>def lcm_naive(a, b):
+    """Computes the Least Common multiple of a and b
+
+    Args:
+     a, b: non-negative integers
+
+    Returns:
+     int: the least common multiples of a and b
+    """
+    for l in range(1, a*b + 1):
+	if l % a == 0 and l % b == 0:
+	    return l
+
+    return a*b
+</pre></div>
+
+<div class="highlight"><pre><span></span>time_two_inputs(lcm_naive, "Naive", (6, 8), 24, MAX_INPUT)
+</pre></div>
+
+<p>
+As expected, this fails the grader.
+</p>
+
+<pre class="example">
+Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: stderr: (Time used: 9.97/5.00, memory used: 9879552/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0e3fa0d" class="outline-2">
+<h2 id="org0e3fa0d">Using The Greatest Common Divisor</h2>
+<div class="outline-text-2" id="text-org0e3fa0d">
+<p>
+If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
+</p>
+
+<div class="highlight"><pre><span></span>def lcm_gcd(a, b):
+    """Finds the least common multiple of two integers
+
+    Args:
+     a, b: integers greater than or equal to 1
+    """
+    return a * b//greatest_common_divisor(a, b)
+</pre></div>
+
+<div class="highlight"><pre><span></span>for a_and_b, answer in SAMPLES.items():
+    time_two_inputs(lcm_gcd, "GCD", a_and_b, answer, MAX_INPUT)
+</pre></div>
+
+<p>
+The Grader output:
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
+</pre>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/greatest-common-divisor/" class="u-url">Greatest Common Divisor</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Cloistered Monkey
@@ -106,18 +255,18 @@
             <p class="dateline"><a href="posts/greatest-common-divisor/" rel="bookmark"><time class="published dt-published" datetime="2018-06-26T14:51:11-07:00" title="2018-06-26 14:51">2018-06-26 14:51</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org8f5b333" class="outline-2">
-<h2 id="org8f5b333">Introduction</h2>
-<div class="outline-text-2" id="text-org8f5b333">
+    <div id="outline-container-org4eb4d3c" class="outline-2">
+<h2 id="org4eb4d3c">Introduction</h2>
+<div class="outline-text-2" id="text-org4eb4d3c">
 <p>
 The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> and <i>b</i>) which are not both equal to 0 is the greatest integer <i>d</i> that divides both <i>a</i> and <i>b</i>. The goal here is to implement the <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclidean Algorithm</a> for computing the GCD.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1cedf23" class="outline-2">
-<h2 id="org1cedf23">Problem Description</h2>
-<div class="outline-text-2" id="text-org1cedf23">
+<div id="outline-container-org1f4fadb" class="outline-2">
+<h2 id="org1f4fadb">Problem Description</h2>
+<div class="outline-text-2" id="text-org1f4fadb">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -149,9 +298,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </div>
 </div>
 
-<div id="outline-container-org9f5f09f" class="outline-2">
-<h2 id="org9f5f09f">Imports</h2>
-<div class="outline-text-2" id="text-org9f5f09f">
+<div id="outline-container-orgdc2205d" class="outline-2">
+<h2 id="orgdc2205d">Imports</h2>
+<div class="outline-text-2" id="text-orgdc2205d">
 <div class="highlight"><pre><span></span># python standard library
 from datetime import (
     datetime,
@@ -160,9 +309,9 @@ from datetime import (
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org7f0f489" class="outline-2">
-<h2 id="org7f0f489">Samples</h2>
-<div class="outline-text-2" id="text-org7f0f489">
+<div id="outline-container-org1f6a7da" class="outline-2">
+<h2 id="org1f6a7da">Samples</h2>
+<div class="outline-text-2" id="text-org1f6a7da">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -189,7 +338,7 @@ MAX_TIME = timedelta(5)
 MAX_INPUT = 2 * 10**9
 </pre></div>
 
-<div class="highlight"><pre><span></span>def time_it(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
+<div class="highlight"><pre><span></span>def time_two_inputs(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
     """Time the implementation
 
     Args:
@@ -215,9 +364,9 @@ MAX_INPUT = 2 * 10**9
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org684445a" class="outline-2">
-<h2 id="org684445a">Naive GCD</h2>
-<div class="outline-text-2" id="text-org684445a">
+<div id="outline-container-org9f9c577" class="outline-2">
+<h2 id="org9f9c577">Naive GCD</h2>
+<div class="outline-text-2" id="text-org9f9c577">
 <div class="highlight"><pre><span></span>def gcd_naive(a, b):
     """Naive implementation of GCD
 
@@ -246,9 +395,9 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 </div>
 </div>
 
-<div id="outline-container-orge648ad4" class="outline-2">
-<h2 id="orge648ad4">Modulus Version</h2>
-<div class="outline-text-2" id="text-orge648ad4">
+<div id="outline-container-org7a25582" class="outline-2">
+<h2 id="org7a25582">Modulus Version</h2>
+<div class="outline-text-2" id="text-org7a25582">
 <p>
 This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
 </p>

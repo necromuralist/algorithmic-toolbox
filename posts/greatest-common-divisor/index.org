@@ -44,7 +44,7 @@ MAX_INPUT = 2 * 10**9
 #+END_SRC
 
 #+BEGIN_SRC ipython :session gcd :results none
-def time_it(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
+def time_two_inputs(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
     """Time the implementation
 
     Args:

@@ -1,5 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Jun 2018 00:57:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Last Digit of a Large Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgcfeab67" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Jun 2018 22:49:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Least Common Multiple</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org5216933" class="outline-2"&gt;
+&lt;h2 id="org5216933"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5216933"&gt;
+&lt;p&gt;
+The &lt;a href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;least common multiple&lt;/a&gt; of two positive integers, &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt; is the least positive integer &lt;i&gt;m&lt;/i&gt; that is divisible by both &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgd3a4712" class="outline-2"&gt;
+&lt;h2 id="orgd3a4712"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd3a4712"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Task&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Given two integers &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt; find their least common multiple.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The integers &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt; on the same line separated by whitespace.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(1 \le a,b \le 2 \cdot 10^9\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The least common multiple of &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org4560235" class="outline-2"&gt;
+&lt;h2 id="org4560235"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4560235"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-right"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;Input&lt;/th&gt;
+&lt;th scope="col" class="org-right"&gt;Output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;6 8&lt;/td&gt;
+&lt;td class="org-right"&gt;24&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;28851538 1183019&lt;/td&gt;
+&lt;td class="org-right"&gt;1933050546&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SAMPLES = {(6, 8): 24,
+	   (28851538, 1183019): 1933053046,
+}
+MAX_INPUT = 2 * 10**9
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org14e713a" class="outline-2"&gt;
+&lt;h2 id="org14e713a"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org14e713a"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;from algorithmic_toolbox.helpers import time_two_inputs
+from algorithmic_toolbox.implementations import greatest_common_divisor
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org893b517" class="outline-2"&gt;
+&lt;h2 id="org893b517"&gt;Naive&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org893b517"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def lcm_naive(a, b):
+    """Computes the Least Common multiple of a and b
+
+    Args:
+     a, b: non-negative integers
+
+    Returns:
+     int: the least common multiples of a and b
+    """
+    for l in range(1, a*b + 1):
+	if l % a == 0 and l % b == 0:
+	    return l
+
+    return a*b
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_two_inputs(lcm_naive, "Naive", (6, 8), 24, MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+As expected, this fails the grader.
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: stderr: (Time used: 9.97/5.00, memory used: 9879552/536870912.)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0e3fa0d" class="outline-2"&gt;
+&lt;h2 id="org0e3fa0d"&gt;Using The Greatest Common Divisor&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0e3fa0d"&gt;
+&lt;p&gt;
+If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def lcm_gcd(a, b):
+    """Finds the least common multiple of two integers
+
+    Args:
+     a, b: integers greater than or equal to 1
+    """
+    return a * b//greatest_common_divisor(a, b)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for a_and_b, answer in SAMPLES.items():
+    time_two_inputs(lcm_gcd, "GCD", a_and_b, answer, MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The Grader output:
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</guid><pubDate>Wed, 27 Jun 2018 18:08:18 GMT</pubDate></item><item><title>Last Digit of a Large Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgcfeab67" class="outline-2"&gt;
 &lt;h2 id="orgcfeab67"&gt;Introduction&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgcfeab67"&gt;
 &lt;p&gt;

@@ -1,0 +1,152 @@
+#+BEGIN_COMMENT
+.. title: Greatest Common Divisor
+.. slug: greatest-common-divisor
+.. date: 2018-06-26 14:51:11 UTC-07:00
+.. tags: algorithms problems week2
+.. category: problems
+.. link: 
+.. description: Find the Greatest Common Divisor of two integers.
+.. type: text
+#+END_COMMENT
+
+* Introduction
+  The greatest common divisor $GCD(a,b)$ of two non-negative integers (/a/ and /b/) which are not both equal to 0 is the greatest integer /d/ that divides both /a/ and /b/. The goal here is to implement the [[https://en.wikipedia.org/wiki/Euclidean_algorithm][Euclidean Algorithm]] for computing the GCD.
+
+* Problem Description
+|               | Description                                                                   |
+|---------------+-------------------------------------------------------------------------------|
+| *Task*        | Given two integers $a$ and $b$, find their greatest common divisor.           |
+| *Input*       | The two integers $a$ and $b$ are given on the same line separated by a space. |
+| *Constraints* | $1 \le a,b \le 2 \cdot 10^9$                                                  |
+| *Output*      | GCD(a,b)                                                                      |
+
+* Imports
+
+#+BEGIN_SRC ipython :session gcd :results none
+# python standard library
+from datetime import (
+    datetime,
+    timedelta,
+)
+#+END_SRC
+* Samples
+
+| Input            | Output |
+|------------------+--------|
+| 18 35            |      1 |
+| 28851538 1183019 |  17657 |
+
+#+BEGIN_SRC ipython :session gcd :results none
+SAMPLES = {(18, 35): 1,
+           (28851538, 1183019): 17657}
+MAX_TIME = timedelta(5)
+MAX_INPUT = 2 * 10**9
+#+END_SRC
+
+#+BEGIN_SRC ipython :session gcd :results none
+def time_it(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
+    """Time the implementation
+
+    Args:
+     implementation: callable to time
+     tag (str): name for the output
+     a_and_b (tuple): inputs for the implementation
+     expected (int): the expected output of the implementation
+
+    Raises:
+     AssertionError: output was wrong or it took too long
+    """
+    a, b = a_and_b
+    assert a <= max_input, "a too large: {}".format(a)
+    assert b <= max_input, "b too large: {}".format(b)
+    print("Starting {}".format(tag))
+    start = datetime.now()
+    actual = implementation(a, b)
+    elapsed = datetime.now() - start
+    print("Elapsed time: {}".format(elapsed))
+    assert actual == expected, "Expected: {} Actual: {}".format(expected, actual)
+    assert elapsed <= MAX_TIME, "Took too long: {}".format(elapsed)
+    return
+#+END_SRC
+* Naive GCD
+
+#+BEGIN_SRC ipython :session gcd :results none
+def gcd_naive(a, b):
+    """Naive implementation of GCD
+
+    Args:
+     a, b: non-negative integers
+    """
+    current_gcd = 1
+    for d in range(2, min(a, b) + 1):
+        if a % d == 0 and b % d == 0:
+            if d > current_gcd:
+                current_gcd = d
+    return current_gcd
+#+END_SRC
+
+#+BEGIN_SRC ipython :session gcd :results output
+for inputs, answer in SAMPLES.items():
+    time_it(gcd_naive, "Naive", inputs, answer)
+#+END_SRC
+
+#+RESULTS:
+: Starting Naive
+: Elapsed time: 0:00:00.000009
+: Starting Naive
+: Elapsed time: 0:00:00.075891
+
+This fails the grader.
+
+#+BEGIN_EXAMPLE
+Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: stderr: (Time used: 9.97/5.00, memory used: 9887744/536870912.)
+#+END_EXAMPLE
+
+* Modulus Version
+  This is a variation on Euclid's Algorithim where you repeatedly use the remainder of $\frac{a, b}$ to replace $b$ until there is no remainder ($b=0$).
+
+#+BEGIN_SRC ipython :session gcd :results none
+def gcd_modulus(a, b):
+    """finds the GCD of a and b
+
+    Args:
+     a, b: non-negative integers
+
+    Returns:
+     int: the GCD of a and b
+    """
+    while b != 0:
+        a, b = b, a % b
+    return a
+#+END_SRC
+
+#+BEGIN_SRC ipython :session gcd :results output
+for inputs, answer in SAMPLES.items():
+    time_it(gcd_modulus, "Modulus", inputs, answer)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulus
+: Elapsed time: 0:00:00.000003
+: Starting Modulus
+: Elapsed time: 0:00:00.000003
+
+#+BEGIN_SRC ipython :session gcd :results output
+a_b = 100000000, 100000000
+start = datetime.now()
+expected = gcd_naive(*a_b)
+print("Elapsed: {}".format(datetime.now() - start))
+#+END_SRC
+
+#+RESULTS:
+: Elapsed: 0:00:05.750974
+
+My computer appears to be faster than the grader, but it still fails.
+
+#+BEGIN_SRC ipython :session gcd :results output
+time_it(gcd_modulus, "Modulus", a_b, expected)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulus
+: Elapsed time: 0:00:00.000009

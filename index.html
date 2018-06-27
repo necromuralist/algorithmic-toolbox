@@ -12,7 +12,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/fibonacci-number/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/greatest-common-divisor/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -98,7 +98,381 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/fibonacci-number/" class="u-url">Fibonacci Number</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/greatest-common-divisor/" class="u-url">Greatest Common Divisor</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/greatest-common-divisor/" rel="bookmark"><time class="published dt-published" datetime="2018-06-26T14:51:11-07:00" title="2018-06-26 14:51">2018-06-26 14:51</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org8f5b333" class="outline-2">
+<h2 id="org8f5b333">Introduction</h2>
+<div class="outline-text-2" id="text-org8f5b333">
+<p>
+The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> and <i>b</i>) which are not both equal to 0 is the greatest integer <i>d</i> that divides both <i>a</i> and <i>b</i>. The goal here is to implement the <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclidean Algorithm</a> for computing the GCD.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1cedf23" class="outline-2">
+<h2 id="org1cedf23">Problem Description</h2>
+<div class="outline-text-2" id="text-org1cedf23">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Task</b></td>
+<td class="org-left">Given two integers \(a\) and \(b\), find their greatest common divisor.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">The two integers \(a\) and \(b\) are given on the same line separated by a space.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le a,b \le 2 \cdot 10^9\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">GCD(a,b)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org9f5f09f" class="outline-2">
+<h2 id="org9f5f09f">Imports</h2>
+<div class="outline-text-2" id="text-org9f5f09f">
+<div class="highlight"><pre><span></span># python standard library
+from datetime import (
+    datetime,
+    timedelta,
+)
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org7f0f489" class="outline-2">
+<h2 id="org7f0f489">Samples</h2>
+<div class="outline-text-2" id="text-org7f0f489">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">Input</th>
+<th scope="col" class="org-right">Output</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">18 35</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">28851538 1183019</td>
+<td class="org-right">17657</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span>SAMPLES = {(18, 35): 1,
+	   (28851538, 1183019): 17657}
+MAX_TIME = timedelta(5)
+MAX_INPUT = 2 * 10**9
+</pre></div>
+
+<div class="highlight"><pre><span></span>def time_it(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
+    """Time the implementation
+
+    Args:
+     implementation: callable to time
+     tag (str): name for the output
+     a_and_b (tuple): inputs for the implementation
+     expected (int): the expected output of the implementation
+
+    Raises:
+     AssertionError: output was wrong or it took too long
+    """
+    a, b = a_and_b
+    assert a &lt;= max_input, "a too large: {}".format(a)
+    assert b &lt;= max_input, "b too large: {}".format(b)
+    print("Starting {}".format(tag))
+    start = datetime.now()
+    actual = implementation(a, b)
+    elapsed = datetime.now() - start
+    print("Elapsed time: {}".format(elapsed))
+    assert actual == expected, "Expected: {} Actual: {}".format(expected, actual)
+    assert elapsed &lt;= MAX_TIME, "Took too long: {}".format(elapsed)
+    return
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org684445a" class="outline-2">
+<h2 id="org684445a">Naive GCD</h2>
+<div class="outline-text-2" id="text-org684445a">
+<div class="highlight"><pre><span></span>def gcd_naive(a, b):
+    """Naive implementation of GCD
+
+    Args:
+     a, b: non-negative integers
+    """
+    current_gcd = 1
+    for d in range(2, min(a, b) + 1):
+	if a % d == 0 and b % d == 0:
+	    if d &gt; current_gcd:
+		current_gcd = d
+    return current_gcd
+</pre></div>
+
+<div class="highlight"><pre><span></span>for inputs, answer in SAMPLES.items():
+    time_it(gcd_naive, "Naive", inputs, answer)
+</pre></div>
+
+<p>
+This fails the grader.
+</p>
+
+<pre class="example">
+Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: stderr: (Time used: 9.97/5.00, memory used: 9887744/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge648ad4" class="outline-2">
+<h2 id="orge648ad4">Modulus Version</h2>
+<div class="outline-text-2" id="text-orge648ad4">
+<p>
+This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
+</p>
+
+<div class="highlight"><pre><span></span>def gcd_modulus(a, b):
+    """finds the GCD of a and b
+
+    Args:
+     a, b: non-negative integers
+
+    Returns:
+     int: the GCD of a and b
+    """
+    while b != 0:
+	a, b = b, a % b
+    return a
+</pre></div>
+
+<div class="highlight"><pre><span></span>for inputs, answer in SAMPLES.items():
+    time_it(gcd_modulus, "Modulus", inputs, answer)
+</pre></div>
+
+<div class="highlight"><pre><span></span>a_b = 100000000, 100000000
+start = datetime.now()
+expected = gcd_naive(*a_b)
+print("Elapsed: {}".format(datetime.now() - start))
+</pre></div>
+
+<p>
+My computer appears to be faster than the grader, but it still fails.
+</p>
+
+<div class="highlight"><pre><span></span>time_it(gcd_modulus, "Modulus", a_b, expected)
+</pre></div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/last-digit-of-a-large-fibonacci-number/" class="u-url">Last Digit of a Large Fibonacci Number</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/last-digit-of-a-large-fibonacci-number/" rel="bookmark"><time class="published dt-published" datetime="2018-06-25T16:28:37-07:00" title="2018-06-25 16:28">2018-06-25 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-orgcfeab67" class="outline-2">
+<h2 id="orgcfeab67">Introduction</h2>
+<div class="outline-text-2" id="text-orgcfeab67">
+<p>
+The goal is to find the last digit of the <i>n</i>-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
+</p>
+
+<p>
+\[
+F_{200} =  280 571 172 992 510 140 037 611 932 413 038 677 189 525
+\]
+</p>
+
+<p>
+So even our iterative version will prove too slow. Also, it may produce numbers that are too large to fit in memory. So instead we are going to only save the last digit of each number.
+</p>
+
+<p>
+\[
+F_i \gets (F_{i-1} + F_{i-2}) \mod 10
+\]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org71dfd57" class="outline-2">
+<h2 id="org71dfd57">Problem Description</h2>
+<div class="outline-text-2" id="text-org71dfd57">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Task</b></td>
+<td class="org-left">Given an integer <i>n</i>, find the last digit of the /n/th Fibonacci number \(F_n\) (\(F_n \mod 10\))</td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A single integer <i>n</i>.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(0 \le n \le 10^7\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">The last digit of \(F_n\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgd38677a" class="outline-2">
+<h2 id="orgd38677a">Samples</h2>
+<div class="outline-text-2" id="text-orgd38677a">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-right">Input</th>
+<th scope="col" class="org-right">Output</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-right">331</td>
+<td class="org-right">9</td>
+</tr>
+<tr>
+<td class="org-right">327305</td>
+<td class="org-right">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org8d02a20" class="outline-2">
+<h2 id="org8d02a20">Constants</h2>
+<div class="outline-text-2" id="text-org8d02a20">
+<div class="highlight"><pre><span></span>MAX_INPUT = 10**7
+MAX_TIME = 5
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orge273839" class="outline-2">
+<h2 id="orge273839">Imports</h2>
+<div class="outline-text-2" id="text-orge273839">
+<div class="highlight"><pre><span></span>from datetime import (
+    datetime,
+    timedelta,
+    )
+# this project
+from algorithmic_toolbox.helpers import time_it
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org78d7a2c" class="outline-2">
+<h2 id="org78d7a2c">Naive Implementation</h2>
+<div class="outline-text-2" id="text-org78d7a2c">
+<p>
+By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
+</p>
+
+<div class="highlight"><pre><span></span>def get_fibonacci_last_digit_naive(n):
+    if n &lt;= 1:
+	return n
+
+    previous = 0
+    current  = 1
+
+    for _ in range(n - 1):
+	previous, current = current, previous + current
+    return current % 10
+</pre></div>
+
+<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
+</pre></div>
+
+<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org843c922" class="outline-2">
+<h2 id="org843c922">Modulo Version</h2>
+<div class="outline-text-2" id="text-org843c922">
+<p>
+Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
+</p>
+
+<div class="highlight"><pre><span></span>first = (0, 1)
+def get_fibonacci_last_digit_modulo(n):
+    if n in first:
+	return n
+
+    previous, current = first
+
+    for _ in range(n - 1):
+	previous, current = current, (previous + current) % 10
+	print("Current: {}".format(current))
+    return current
+</pre></div>
+
+<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
+</pre></div>
+
+<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
+</pre></div>
+
+<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPUT)
+</pre></div>
+
+<div class="highlight"><pre><span></span>time_it(get_fibonacci_last_digit_modulo, "Modulo", 200, 5, max_input=MAX_INPUT)
+</pre></div>
+
+<p>
+This is the grader output.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
+</pre>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/fibonacci-number/" class="u-url">Fibonacci Number</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Cloistered Monkey
@@ -106,9 +480,24 @@
             <p class="dateline"><a href="posts/fibonacci-number/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T20:49:54-07:00" title="2018-06-24 20:49">2018-06-24 20:49</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orga0dd3ed" class="outline-2">
-<h2 id="orga0dd3ed">The Fibonacci Problem</h2>
-<div class="outline-text-2" id="text-orga0dd3ed">
+    <div id="outline-container-org54846b1" class="outline-2">
+<h2 id="org54846b1">Imports</h2>
+<div class="outline-text-2" id="text-org54846b1">
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># third party</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Memory</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgb0d717e" class="outline-2">
+<h2 id="orgb0d717e">The Fibonacci Problem</h2>
+<div class="outline-text-2" id="text-orgb0d717e">
 <p>
 THe Fibonacci Sequence is defined as
 </p>
@@ -116,29 +505,311 @@ THe Fibonacci Sequence is defined as
 <p>
 \[F_0 = 0, F_1 = 1,\ldots, F_i =F_{i-1} + F_{i-2} \text{ for } i \ge 2\]
 </p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Task</b></td>
+<td class="org-left">Given an integer <i>n</i>, find the /n/th Fibonacci number \(F_n\).</td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A single integer <i>n</i>.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(0 \le n \le 45\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">\(F_n\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-org18ba331" class="outline-3">
+<h3 id="org18ba331">Sample Values</h3>
+<div class="outline-text-3" id="text-org18ba331">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-right">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-right">Input</th>
+<th scope="col" class="org-right">Output</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr></thead>
+<tbody><tr>
+<td class="org-right">10</td>
+<td class="org-right">55</td>
+<td class="org-left">\(F_10=55\)</td>
+</tr></tbody>
+</table>
 </div>
 </div>
-<div id="outline-container-orgd7a6815" class="outline-2">
-<h2 id="orgd7a6815">Naive Implementation</h2>
-<div class="outline-text-2" id="text-orgd7a6815">
+
+<div id="outline-container-org000d05a" class="outline-3">
+<h3 id="org000d05a">Constants</h3>
+<div class="outline-text-3" id="text-org000d05a">
+<p>
+These are translations from the problem description
+</p>
+<div class="highlight"><pre><span></span><span class="n">MAX_TIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">45</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-org5cf3744" class="outline-2">
+<h2 id="org5cf3744">Helpers</h2>
+<div class="outline-text-2" id="text-org5cf3744">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_it</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">input_value</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">):</span>
+    <span class="sd">"""Times the implementation</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">     implementation: callable to pass input_value to</span>
+<span class="sd">     tag (str): identifier to add to the output</span>
+<span class="sd">     input_value (int): the number to pass to the implementation</span>
+<span class="sd">     expected (int): the expected value</span>
+<span class="sd">     max_time (float): number of seconds allowed</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">	AssertionError: wrong value or took too long</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">input_value</span> <span class="o">&lt;=</span> <span class="n">MAX_INPUT</span><span class="p">,</span> <span class="s2">"n too large: {}, max allowed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span>
+									       <span class="n">MAX_INPUT</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Starting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"Actual: {} Expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"({}) Okay Elapsed time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;=</span> <span class="n">max_time</span><span class="p">,</span> <span class="s2">"Time Greater than {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_time</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orga26d7d4" class="outline-2">
+<h2 id="orga26d7d4">Naive Implementation</h2>
+<div class="outline-text-2" id="text-orga26d7d4">
 <p>
 The 'naive' implementation uses recursion to calculate a fibonacci number.
 </p>
 
-<div class="highlight"><pre><span></span>def calculate_fibonacci_recursive(n):
-    """Calculates the nth fibonacci number
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Calculates the nth fibonacci number</span>
 
-    Args:
-     n (int): the fibonacci number to get (e.g. 3 means third)
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): the fibonacci number to get (e.g. 3 means third)</span>
 
-    Returns:
-     int: nth fibonacci number
-    """
-    if (n &lt;= 1):
-	return n
-    return (calculate_fibonacci_recursive(n - 1)
-	    + calculate_fibonacci_recursive(n - 2))
+<span class="sd">    Returns:</span>
+<span class="sd">     int: nth fibonacci number</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+	    <span class="o">+</span> <span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">calculate_fibonacci_recursive</span><span class="p">,</span> <span class="s2">"Recursive"</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">55</span><span class="p">)</span>
+</pre></div>
+
+<p>
+This fails the grader (as expected).
+</p>
+
+<pre class="example">
+Failed case #37/46: time limit exceeded 
+Input: 36 
+Your output: 14930352 
+stderr: (Time used: 5.63/5.00, memory used: 9613312/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf0a093c" class="outline-2">
+<h2 id="orgf0a093c">The Tester</h2>
+<div class="outline-text-2" id="text-orgf0a093c">
+<p>
+We have kind of a chicken and the egg problem here. We know that the recursive version is correct, but it is too slow. But in order to validate our newer versions, we need to run it to check for correctness. To solve this problem I'm going to use a cache.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">memory</span> <span class="o">=</span> <span class="n">Memory</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="s2">"memories"</span><span class="p">)</span>
+
+<span class="nd">@memory.cache</span>
+<span class="k">def</span> <span class="nf">reference_implementation</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Calculates the nth fibonacci number</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): the fibonacci number to get (e.g. 3 means third)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: nth fibonacci number</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+	    <span class="o">+</span> <span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_once</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Runs the implementation once</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     implementation: callable to pass input</span>
+<span class="sd">     n: value to pass to the implementation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     output of implementation</span>
+<span class="sd">    """</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""run the reference implementation n times</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): number of times to run the reference implementation</span>
+<span class="sd">    """</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+	<span class="n">output</span> <span class="o">=</span> <span class="n">reference_implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+    <span class="k">return</span> 
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MAX_INPUT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"endpoint: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">endpoint</span><span class="p">):</span>
+	<span class="n">run_range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">time_once</span><span class="p">(</span><span class="n">reference_implementation</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
+</pre></div>
+
+<p>
+In case I accidentally re-run that last call and it uses the cache I'll note here that the original run time was 8 minutes and 40 seconds.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tester</span><span class="p">:</span>
+    <span class="sd">"""Class to test the implementation</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">     implementation: callable to pass input_value to</span>
+<span class="sd">     tag (str): identifier to add to the output</span>
+<span class="sd">     iterations (int): number of times to run the testing</span>
+<span class="sd">     verbose (bool): if true, emit more text</span>
+<span class="sd">     max_time (float): number of seconds allowed</span>
+<span class="sd">    """</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span>
+		 <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+		 <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">):</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">implementation</span> <span class="o">=</span> <span class="n">implementation</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">=</span> <span class="n">max_time</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">iterations</span> <span class="o">=</span> <span class="n">iterations</span>
+	<span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+	<span class="sd">"""prints the statement if verbose is on"""</span>
+	<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+	    <span class="k">print</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">time_it</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_value</span><span class="p">):</span>
+	<span class="sd">"""Times the implementation</span>
+
+<span class="sd">	.. warning:: This uses the ``reference_implementation`` to get the</span>
+<span class="sd">	   expected value. Make sure it's implemented and the values are cached</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">	 input_value (int): input for the implementation</span>
+<span class="sd">	Raises:</span>
+<span class="sd">	 AssertionError: wrong value or took too long</span>
+<span class="sd">	"""</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"Starting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
+	<span class="n">expected</span> <span class="o">=</span> <span class="n">reference_implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+	<span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+	<span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"n: {} Actual: {} Expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">input_value</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+	<span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"({}) Okay Elapsed time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">))</span>
+	<span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span><span class="p">,</span> <span class="s2">"Time Greater than {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_time</span><span class="p">)</span>
+	<span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	<span class="sd">"""Generates random numbers and times it"""</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"***** {} *****"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
+	<span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">):</span>
+	    <span class="n">n</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">MAX_INPUT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+	    <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"n: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+	    <span class="bp">self</span><span class="o">.</span><span class="n">time_it</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"Total Elapsed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+	<span class="k">return</span>            
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org72d5a6a" class="outline-2">
+<h2 id="org72d5a6a">An Iterative Version</h2>
+<div class="outline-text-2" id="text-org72d5a6a">
+<p>
+To try and speed things up I'm going to use an iterative version instead of a recursive one.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fibonacci_iterative</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Calculates the nth fibonacci number</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): the fibonacci number to get (e.g. 3 means third)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: nth fibonacci number</span>
+<span class="sd">    """</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">first</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">first</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">,</span> <span class="n">previous</span> <span class="o">+</span> <span class="n">current</span>
+    <span class="k">return</span> <span class="n">current</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">(</span><span class="n">fibonacci_iterative</span><span class="p">,</span> <span class="s2">"Iterative"</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">f_0</span> <span class="o">=</span> <span class="n">fibonacci_iterative</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">f_1</span> <span class="o">=</span> <span class="n">reference_implementation</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">f_0</span> <span class="o">==</span> <span class="n">f_1</span>
+</pre></div>
+
+<p>
+This passes the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9637888/536870912.)
+</pre>
 </div>
 </div>
     </div>
@@ -150,13 +821,14 @@ The 'naive' implementation uses recursion to calculate a fibonacci number.
             <p class="dateline"><a href="posts/maximum-pairwise-product/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T16:42:47-07:00" title="2018-06-24 16:42">2018-06-24 16:42</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org577b7fa" class="outline-2">
-<h2 id="org577b7fa">Imports</h2>
-<div class="outline-text-2" id="text-org577b7fa">
+    <div id="outline-container-org0a140e8" class="outline-2">
+<h2 id="org0a140e8">Imports</h2>
+<div class="outline-text-2" id="text-org0a140e8">
 <p>
 Since the test only uses python standard library I'll try and stick to that, but since the stress-test isn't part of the assignment I'll cheat and use numpy to generate the random input.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="c1"># python standad library</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
@@ -171,9 +843,9 @@ Since the test only uses python standard library I'll try and stick to that, but
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgb73d5bb" class="outline-2">
-<h2 id="orgb73d5bb">Problem Statement</h2>
-<div class="outline-text-2" id="text-orgb73d5bb">
+<div id="outline-container-orgd927186" class="outline-2">
+<h2 id="orgd927186">Problem Statement</h2>
+<div class="outline-text-2" id="text-orgd927186">
 <p>
 <i>Find the maximum product of two distinct numbers in a sequence of non-negative integers.</i>
 </p>
@@ -236,9 +908,9 @@ Given a sequence of non-negative numbers \(a_1,\ldots,a_n\), compute
 </table>
 </div>
 
-<div id="outline-container-org50a1cf7" class="outline-3">
-<h3 id="org50a1cf7">Example Values</h3>
-<div class="outline-text-3" id="text-org50a1cf7">
+<div id="outline-container-org7d4ba88" class="outline-3">
+<h3 id="org7d4ba88">Example Values</h3>
+<div class="outline-text-3" id="text-org7d4ba88">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -292,13 +964,14 @@ Given a sequence of non-negative numbers \(a_1,\ldots,a_n\), compute
 </div>
 </div>
 
-<div id="outline-container-orge327ccc" class="outline-2">
-<h2 id="orge327ccc">Some Constants</h2>
-<div class="outline-text-2" id="text-orge327ccc">
+<div id="outline-container-orgaf4886b" class="outline-2">
+<h2 id="orgaf4886b">Some Constants</h2>
+<div class="outline-text-2" id="text-orgaf4886b">
 <p>
 This is just a translation of some of the problem statement values to python so we can use them.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">MAX_TIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">MAX_INPUTS</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
 <span class="n">MAX_VALUE</span> <span class="o">=</span> <span class="n">MAX_INPUTS</span>
@@ -317,13 +990,14 @@ This is just a translation of some of the problem statement values to python so 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org77ccbb7" class="outline-2">
-<h2 id="org77ccbb7">Helpers</h2>
-<div class="outline-text-2" id="text-org77ccbb7">
+<div id="outline-container-orgaa8b1d4" class="outline-2">
+<h2 id="orgaa8b1d4">Helpers</h2>
+<div class="outline-text-2" id="text-orgaa8b1d4">
 <p>
 These are some functions to help validate the algorithms.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_inputs</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">INPUTS</span><span class="p">,</span> <span class="n">use_max</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">"""Checks the inputs with the implementation</span>
 
@@ -359,13 +1033,14 @@ These are some functions to help validate the algorithms.
 </div>
 </div>
 
-<div id="outline-container-org1876a8c" class="outline-2">
-<h2 id="org1876a8c">Brute Force Implementation</h2>
-<div class="outline-text-2" id="text-org1876a8c">
+<div id="outline-container-org1e2e520" class="outline-2">
+<h2 id="org1e2e520">Brute Force Implementation</h2>
+<div class="outline-text-2" id="text-org1e2e520">
 <p>
 This is given as part of the problem. It traverses all the values and finds the largest product.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_brute</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Calculates the largest pairwise-product for a list</span>
 
@@ -384,6 +1059,7 @@ This is given as part of the problem. It traverses all the values and finds the 
     <span class="k">return</span> <span class="n">max_product</span>
 </pre></div>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_brute</span><span class="p">,</span> <span class="n">use_max</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
@@ -401,13 +1077,14 @@ Failed case #4/17: time limit exceeded (Time used: 9.98/5.00, memory used: 20905
 </div>
 </div>
 
-<div id="outline-container-org7156c5e" class="outline-2">
-<h2 id="org7156c5e">Search</h2>
-<div class="outline-text-2" id="text-org7156c5e">
+<div id="outline-container-orge6680c0" class="outline-2">
+<h2 id="orge6680c0">Search</h2>
+<div class="outline-text-2" id="text-orge6680c0">
 <p>
 Instead of using nested for-loops, we can search the numbers twice to find the two biggest numbers, this changes the run time to \(2n\) or \(O(n)\).
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_take_two</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Finds the maximum pairwise product in te numbers</span>
 
@@ -434,6 +1111,7 @@ Instead of using nested for-loops, we can search the numbers twice to find the t
     <span class="k">return</span> <span class="n">first_value</span> <span class="o">*</span> <span class="n">second_value</span>
 </pre></div>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_take_two</span><span class="p">)</span>
 </pre></div>
 
@@ -447,13 +1125,14 @@ Good job! (Max time used: 0.15/5.00, max memory used: 26734592/536870912.)
 </div>
 </div>
 
-<div id="outline-container-orgd6e7fd0" class="outline-2">
-<h2 id="orgd6e7fd0">Another Improvement</h2>
-<div class="outline-text-2" id="text-orgd6e7fd0">
+<div id="outline-container-org1a6d25f" class="outline-2">
+<h2 id="org1a6d25f">Another Improvement</h2>
+<div class="outline-text-2" id="text-org1a6d25f">
 <p>
 Rather than go through the second loop, I thought that since the previous maximum value is always the next highest value so far, we can just save it directly.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_take_three</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Finds the maximum pairwise product in te numbers</span>
 
@@ -475,18 +1154,20 @@ Rather than go through the second loop, I thought that since the previous maximu
     <span class="k">return</span> <span class="n">max_value</span> <span class="o">*</span> <span class="n">previous_value</span>
 </pre></div>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_take_three</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orged31026" class="outline-2">
-<h2 id="orged31026">Stress Test</h2>
-<div class="outline-text-2" id="text-orged31026">
+<div id="outline-container-orgcf662b6" class="outline-2">
+<h2 id="orgcf662b6">Stress Test</h2>
+<div class="outline-text-2" id="text-orgcf662b6">
 <p>
 Even thought we're already passing, part of the assignment was to create a stress test to really exercise the algorithm once you have it passing.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">stress_test</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">maximum_size</span><span class="o">=</span><span class="n">MAX_INPUTS</span> <span class="p">,</span>
 		<span class="n">maximum_value</span><span class="o">=</span><span class="n">MAX_VALUE</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="sd">"""Repeatedly creates random inputs to test the implementation</span>
@@ -539,14 +1220,15 @@ Even thought we're already passing, part of the assignment was to create a stres
 </div>
 </div>
 
-<div id="outline-container-org677b9cf" class="outline-2">
-<h2 id="org677b9cf">Boosted Brute Force</h2>
-<div class="outline-text-2" id="text-org677b9cf">
+<div id="outline-container-orgcfe66d6" class="outline-2">
+<h2 id="orgcfe66d6">Boosted Brute Force</h2>
+<div class="outline-text-2" id="text-orgcfe66d6">
 <p>
 To try and get this working I'm going to use numba to (hopefully) speed it enough to make the stress test runnable.
 </p>
 
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="nd">@jit</span>
 <span class="k">def</span> <span class="nf">max_pairwise_product_brute_jit</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Calculates the largest pairwise-product for a list</span>
@@ -566,19 +1248,21 @@ To try and get this working I'm going to use numba to (hopefully) speed it enoug
     <span class="k">return</span> <span class="n">max_product</span>
 </pre></div>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"One Pass Method"</span><span class="p">)</span>
 <span class="n">stress_test</span><span class="p">(</span><span class="n">max_pairwise_product_take_three</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"One-Pass"</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgc991b68" class="outline-2">
-<h2 id="orgc991b68">Using Sort</h2>
-<div class="outline-text-2" id="text-orgc991b68">
+<div id="outline-container-org15990a0" class="outline-2">
+<h2 id="org15990a0">Using Sort</h2>
+<div class="outline-text-2" id="text-org15990a0">
 <p>
 Since we need the top two values we can get a more efficient algorithm by sorting the values.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Calculates the largest pairwise-product for a list</span>
 
@@ -593,6 +1277,7 @@ Since we need the top two values we can get a more efficient algorithm by sortin
     <span class="k">return</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Sort method"</span><span class="p">)</span>
 <span class="n">stress_test</span><span class="p">(</span><span class="n">max_pairwise_product_sort</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"Sort"</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
@@ -610,22 +1295,22 @@ Since we need the top two values we can get a more efficient algorithm by sortin
     <p>
 These are my notes from the book <i>Learning Algorithms Through Programming and Puzzle Solving</i>, available for purchase from <a href="https://leanpub.com/algo">leanpub.com</a>.
 </p>
-<div id="outline-container-org8b3020b" class="outline-2">
-<h2 id="org8b3020b">Algorithms and Complexity</h2>
-<div class="outline-text-2" id="text-org8b3020b">
+<div id="outline-container-org1258f20" class="outline-2">
+<h2 id="org1258f20">Algorithms and Complexity</h2>
+<div class="outline-text-2" id="text-org1258f20">
 </div>
-<div id="outline-container-orgcbcb2c6" class="outline-3">
-<h3 id="orgcbcb2c6">What is an algorithm?</h3>
-<div class="outline-text-3" id="text-orgcbcb2c6">
+<div id="outline-container-orgb22ede4" class="outline-3">
+<h3 id="orgb22ede4">What is an algorithm?</h3>
+<div class="outline-text-3" id="text-orgb22ede4">
 <ul class="org-ul">
 <li>A sequence of instructions to solve a well formulated problem.</li>
 <li>Problems are specified in terms of their inputs and outputs and the algorithm has to transform the inputs into the outputs.</li>
 <li>An unambiguous specification of how to solve a class of problems (<a href="https://en.wikipedia.org/wiki/Algorithm">wikipedia</a>).</li>
 </ul>
 </div>
-<div id="outline-container-org976a6cb" class="outline-4">
-<h4 id="org976a6cb">What is a well-formulated problem?</h4>
-<div class="outline-text-4" id="text-org976a6cb">
+<div id="outline-container-org743d304" class="outline-4">
+<h4 id="org743d304">What is a well-formulated problem?</h4>
+<div class="outline-text-4" id="text-org743d304">
 <ul class="org-ul">
 <li>unambiguous</li>
 <li>precise</li>
@@ -633,9 +1318,9 @@ These are my notes from the book <i>Learning Algorithms Through Programming and 
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdb1f7ef" class="outline-4">
-<h4 id="orgdb1f7ef">What are two of the most important things to ask about an algorithm?</h4>
-<div class="outline-text-4" id="text-orgdb1f7ef">
+<div id="outline-container-orgc2cb71b" class="outline-4">
+<h4 id="orgc2cb71b">What are two of the most important things to ask about an algorithm?</h4>
+<div class="outline-text-4" id="text-orgc2cb71b">
 <ul class="org-ul">
 <li>Does it work correctly?</li>
 <li>How long does it take?</li>
@@ -643,26 +1328,26 @@ These are my notes from the book <i>Learning Algorithms Through Programming and 
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa57011" class="outline-3">
-<h3 id="orgaa57011">What is Pseudocode?</h3>
-<div class="outline-text-3" id="text-orgaa57011">
+<div id="outline-container-orga52820c" class="outline-3">
+<h3 id="orga52820c">What is Pseudocode?</h3>
+<div class="outline-text-3" id="text-orga52820c">
 <ul class="org-ul">
 <li>A language that ignores specifics needed for a programming language but is precise enough to describe an algorithm.</li>
 <li>An informal, high-level description of an algorithm (<a href="https://en.wikipedia.org/wiki/Pseudocode">wikipedia</a>)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org31bc99e" class="outline-3">
-<h3 id="org31bc99e">What is the difference between a Problem and a Problem Instance?</h3>
-<div class="outline-text-3" id="text-org31bc99e">
+<div id="outline-container-org1c8adf5" class="outline-3">
+<h3 id="org1c8adf5">What is the difference between a Problem and a Problem Instance?</h3>
+<div class="outline-text-3" id="text-org1c8adf5">
 <ul class="org-ul">
 <li>A problem is a class of computational tasks</li>
 <li>A problem instance is a particular input for a problem class</li>
 </ul>
 </div>
-<div id="outline-container-org1a53039" class="outline-4">
-<h4 id="org1a53039">Example: The Change Problem</h4>
-<div class="outline-text-4" id="text-org1a53039">
+<div id="outline-container-org956eab4" class="outline-4">
+<h4 id="org956eab4">Example: The Change Problem</h4>
+<div class="outline-text-4" id="text-org956eab4">
 <p>
 The example given in the book is making change for someone. You want to be able to break a larger denomination (say a dollar) into smaller ones using the fewest number of coins. In this case they specifically say coin but you could re-state it to mean any type of money.
 </p>
@@ -683,6 +1368,7 @@ The example given in the book is making change for someone. You want to be able 
 This is the way most people do it.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">MakeChange</span><span class="p">(</span><span class="n">money</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
     <span class="k">while</span> <span class="n">money</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 	<span class="n">coin</span> <span class="o">&lt;-</span> <span class="s2">"coin with largest denomination not greater than value of money."</span>
@@ -694,6 +1380,7 @@ This is the way most people do it.
 <i>What was c and d for?</i> In the example solution they aren't used (and they also don't output the number of each coin as was required in the problem statement), but there is an alternative solution that always goes through the denominations once.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">MakeChange</span><span class="p">(</span><span class="n">money</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
     <span class="sd">"""Make change using the smallest number of coins</span>
 
@@ -716,9 +1403,9 @@ You could probably improve on the second version by quitting once you have made 
 </div>
 </div>
 </div>
-<div id="outline-container-orge4e2344" class="outline-3">
-<h3 id="orge4e2344">What are correct and incorrect algorithms?</h3>
-<div class="outline-text-3" id="text-orge4e2344">
+<div id="outline-container-org10e14e2" class="outline-3">
+<h3 id="org10e14e2">What are correct and incorrect algorithms?</h3>
+<div class="outline-text-3" id="text-org10e14e2">
 <ul class="org-ul">
 <li>Correct: every input instance produces a correct output</li>
 <li>Incorrect: At least one input produces an incorrect output</li>
@@ -729,17 +1416,17 @@ By this definition the <code>MakeChange</code> algorithm might be incorrect depe
 </div>
 </div>
 
-<div id="outline-container-org9144da9" class="outline-3">
-<h3 id="org9144da9">What are fast and slow algorithms?</h3>
-<div class="outline-text-3" id="text-org9144da9">
+<div id="outline-container-org4091b76" class="outline-3">
+<h3 id="org4091b76">What are fast and slow algorithms?</h3>
+<div class="outline-text-3" id="text-org4091b76">
 <p>
 Because different computers can perform at different speeds, <i>time</i> is a poor measure of algorithmic speed. Instead we use the count of basic operations that an algorithm uses.
 </p>
 </div>
 </div>
-<div id="outline-container-orgee0f58d" class="outline-3">
-<h3 id="orgee0f58d">What is Big-O Notation?</h3>
-<div class="outline-text-3" id="text-orgee0f58d">
+<div id="outline-container-org98da69f" class="outline-3">
+<h3 id="org98da69f">What is Big-O Notation?</h3>
+<div class="outline-text-3" id="text-org98da69f">
 <p>
 As the number of inputs goes up, the fastest growing term in the equation describing the number of operations an algorithm makes begins to dominate the count, so generally only this term is used to characterize the running time of the algorithm. Lets say you have two for loops and, given an input of \(n\), they have a run-time of \(3n + n^3\). When \(n\) is 1, the first term is 3 and the second term is 1, but when \(n\) is \(1,000\), the first term is \(3,000\) while the second term is \(1,000,000,000\).
 </p>
@@ -755,30 +1442,30 @@ As you can see, the \(n^3\) term grows much faster, accounting for just about al
 </div>
 </div>
 </div>
-<div id="outline-container-orgf3766cc" class="outline-2">
-<h2 id="orgf3766cc">Algorithm Design Techniques</h2>
+<div id="outline-container-org160654b" class="outline-2">
+<h2 id="org160654b">Algorithm Design Techniques</h2>
 </div>
-<div id="outline-container-org2dde2ab" class="outline-2">
-<h2 id="org2dde2ab">Programming Challenges</h2>
+<div id="outline-container-orgb68d637" class="outline-2">
+<h2 id="orgb68d637">Programming Challenges</h2>
 </div>
-<div id="outline-container-orga8f5dff" class="outline-2">
-<h2 id="orga8f5dff">Algorithmic Warm Up</h2>
+<div id="outline-container-org23102e4" class="outline-2">
+<h2 id="org23102e4">Algorithmic Warm Up</h2>
 </div>
-<div id="outline-container-org20c0611" class="outline-2">
-<h2 id="org20c0611">Greedy Algorithms</h2>
+<div id="outline-container-org621ae81" class="outline-2">
+<h2 id="org621ae81">Greedy Algorithms</h2>
 </div>
-<div id="outline-container-orgd21527d" class="outline-2">
-<h2 id="orgd21527d">Divide-and-Conquer</h2>
+<div id="outline-container-orga0d7b58" class="outline-2">
+<h2 id="orga0d7b58">Divide-and-Conquer</h2>
 </div>
-<div id="outline-container-org8034dd0" class="outline-2">
-<h2 id="org8034dd0">Dynamic Programming</h2>
+<div id="outline-container-orgc5152d6" class="outline-2">
+<h2 id="orgc5152d6">Dynamic Programming</h2>
 </div>
-<div id="outline-container-org8dc4f0e" class="outline-2">
-<h2 id="org8dc4f0e">Appendix</h2>
+<div id="outline-container-orgde5367a" class="outline-2">
+<h2 id="orgde5367a">Appendix</h2>
 </div>
-<div id="outline-container-org8fd5c1e" class="outline-2">
-<h2 id="org8fd5c1e">Sources</h2>
-<div class="outline-text-2" id="text-org8fd5c1e">
+<div id="outline-container-org939bd20" class="outline-2">
+<h2 id="org939bd20">Sources</h2>
+<div class="outline-text-2" id="text-org939bd20">
 <ul class="org-ul">
 <li>Kulikov, Alexander S, and Pavel A Pevzner. “Learning Algorithms Through Programming and Puzzle Solving,” n.d., 138.</li>
 </ul>
@@ -793,16 +1480,16 @@ As you can see, the \(n^3\) term grows much faster, accounting for just about al
             <p class="dateline"><a href="posts/a-plus-b/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T11:04:09-07:00" title="2018-06-24 11:04">2018-06-24 11:04</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org5a0ba8b" class="outline-2">
-<h2 id="org5a0ba8b">Introduction</h2>
-<div class="outline-text-2" id="text-org5a0ba8b">
+    <div id="outline-container-org2daa514" class="outline-2">
+<h2 id="org2daa514">Introduction</h2>
+<div class="outline-text-2" id="text-org2daa514">
 <p>
 This is an introductory problem to make sure you know how the submissions work. The problem is to take two integers and add them together.
 </p>
 </div>
-<div id="outline-container-org790b525" class="outline-3">
-<h3 id="org790b525">Sum of Two Digits</h3>
-<div class="outline-text-3" id="text-org790b525">
+<div id="outline-container-org6a022a5" class="outline-3">
+<h3 id="org6a022a5">Sum of Two Digits</h3>
+<div class="outline-text-3" id="text-org6a022a5">
 <p>
 <i>Compute the sum of two single-digit numbers</i>.
 </p>
@@ -847,9 +1534,9 @@ This is an introductory problem to make sure you know how the submissions work. 
 </table>
 </div>
 </div>
-<div id="outline-container-orgd6a6389" class="outline-3">
-<h3 id="orgd6a6389">Sample</h3>
-<div class="outline-text-3" id="text-orgd6a6389">
+<div id="outline-container-org97967fd" class="outline-3">
+<h3 id="org97967fd">Sample</h3>
+<div class="outline-text-3" id="text-org97967fd">
 <p>
 <b>Input</b>
 </p>
@@ -865,13 +1552,14 @@ This is an introductory problem to make sure you know how the submissions work. 
 </div>
 </div>
 </div>
-<div id="outline-container-org83fd081" class="outline-2">
-<h2 id="org83fd081">Setup</h2>
-<div class="outline-text-2" id="text-org83fd081">
+<div id="outline-container-org8cf2da3" class="outline-2">
+<h2 id="org8cf2da3">Setup</h2>
+<div class="outline-text-2" id="text-org8cf2da3">
 <p>
 In order for the grader to know what interpreter you're using you have to put a comment at the top of the file.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="c1"># Uses python 3</span>
 </pre></div>
 
@@ -879,31 +1567,34 @@ In order for the grader to know what interpreter you're using you have to put a 
 In addition, the inputs are given via <code>stdin</code> so you need to import <code>sys</code> to read it.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org81c6b18" class="outline-2">
-<h2 id="org81c6b18">The Input</h2>
-<div class="outline-text-2" id="text-org81c6b18">
+<div id="outline-container-org9d8cb70" class="outline-2">
+<h2 id="org9d8cb70">The Input</h2>
+<div class="outline-text-2" id="text-org9d8cb70">
 <p>
 So the first thing to do is read in the inputs. Since standard input is a string we need to split it to get the two terms and then cast them to integers. I'm assuming the grader behaves well and so I'm not doing any kind of checking of the input.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgda982a9" class="outline-2">
-<h2 id="orgda982a9">The Solution</h2>
-<div class="outline-text-2" id="text-orgda982a9">
+<div id="outline-container-orga2931a3" class="outline-2">
+<h2 id="orga2931a3">The Solution</h2>
+<div class="outline-text-2" id="text-orga2931a3">
 <p>
 In order to give the grader my output I have to print it.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>

@@ -1,0 +1,142 @@
+#+BEGIN_COMMENT
+.. title: Last Digit of a Large Fibonacci Number
+.. slug: last-digit-of-a-large-fibonacci-number
+.. date: 2018-06-25 16:28:37 UTC-07:00
+.. tags: algorithms problems
+.. category: problems
+.. link: 
+.. description: Finding the last digit of a large fibonacci number.
+.. type: text
+#+END_COMMENT
+
+* Introduction
+  The goal is to find the last digit of the /n/-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
+
+\[
+F_{200} =  280 571 172 992 510 140 037 611 932 413 038 677 189 525
+\]
+
+So even our iterative version will prove too slow. Also, it may produce numbers that are too large to fit in memory. So instead we are going to only save the last digit of each number.
+
+\[
+F_i \gets (F_{i-1} + F_{i-2}) \mod 10
+\]
+
+* Problem Description
+
+|               | Description                                                                                   |
+|---------------+-----------------------------------------------------------------------------------------------|
+| *Task*        | Given an integer /n/, find the last digit of the /n/th Fibonacci number $F_n$ ($F_n \mod 10$) |
+| *Input*       | A single integer /n/.                                                                         |
+| *Constraints* | $0 \le n \le 10^7$                                                                            |
+| *Output*      | The last digit of $F_n$                                                                       |
+
+* Samples
+
+|  Input | Output |
+|--------+--------|
+|      3 |      2 |
+|    331 |      9 |
+| 327305 |      5 |
+
+* Constants
+
+#+BEGIN_SRC ipython :session lastdigit :results none
+MAX_INPUT = 10**7
+MAX_TIME = 5
+#+END_SRC
+* Imports
+#+BEGIN_SRC ipython :session lastdigit :results none
+from datetime import (
+    datetime,
+    timedelta,
+    )
+# this project
+from algorithmic_toolbox.helpers import time_it
+#+END_SRC
+* Naive Implementation
+  By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so $112 \mod 10$ is $112 - (11 \times 10) = 2$.
+
+#+BEGIN_SRC ipython :session lastdigit :results none
+def get_fibonacci_last_digit_naive(n):
+    if n <= 1:
+        return n
+
+    previous = 0
+    current  = 1
+
+    for _ in range(n - 1):
+        previous, current = current, previous + current
+    return current % 10
+#+END_SRC
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Naive
+: (Naive) Okay Elapsed time: 0:00:00.000192
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Naive
+: (Naive) Okay Elapsed time: 0:00:00.000145
+
+* Modulo Version
+  Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
+
+#+BEGIN_SRC ipython :session lastdigit :results none
+first = (0, 1)
+def get_fibonacci_last_digit_modulo(n):
+    if n in first:
+        return n
+
+    previous, current = first
+
+    for _ in range(n - 1):
+        previous, current = current, (previous + current) % 10
+        print("Current: {}".format(current))
+    return current
+#+END_SRC
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:00.000175
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:00.000090
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:01.312463
+
+#+BEGIN_SRC ipython :session lastdigit :results output
+time_it(get_fibonacci_last_digit_modulo, "Modulo", 200, 5, max_input=MAX_INPUT)
+#+END_SRC
+
+#+RESULTS:
+: Starting Modulo
+: (Modulo) Okay Elapsed time: 0:00:00.000392
+
+This is the grader output.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
+#+END_EXAMPLE

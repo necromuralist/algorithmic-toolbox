@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Jun 2018 00:57:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Last Digit of a Large Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgcfeab67" class="outline-2"&gt;
+&lt;h2 id="orgcfeab67"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcfeab67"&gt;
+&lt;p&gt;
+The goal is to find the last digit of the &lt;i&gt;n&lt;/i&gt;-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
+&lt;/p&gt;
+
+&lt;p&gt;
+\[
+F_{200} =  280 571 172 992 510 140 037 611 932 413 038 677 189 525
+\]
+&lt;/p&gt;
+
+&lt;p&gt;
+So even our iterative version will prove too slow. Also, it may produce numbers that are too large to fit in memory. So instead we are going to only save the last digit of each number.
+&lt;/p&gt;
+
+&lt;p&gt;
+\[
+F_i \gets (F_{i-1} + F_{i-2}) \mod 10
+\]
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org71dfd57" class="outline-2"&gt;
+&lt;h2 id="org71dfd57"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org71dfd57"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Task&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Given an integer &lt;i&gt;n&lt;/i&gt;, find the last digit of the /n/th Fibonacci number \(F_n\) (\(F_n \mod 10\))&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;A single integer &lt;i&gt;n&lt;/i&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(0 \le n \le 10^7\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The last digit of \(F_n\)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd38677a" class="outline-2"&gt;
+&lt;h2 id="orgd38677a"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd38677a"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-right"&gt;
+
+&lt;col class="org-right"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-right"&gt;Input&lt;/th&gt;
+&lt;th scope="col" class="org-right"&gt;Output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-right"&gt;3&lt;/td&gt;
+&lt;td class="org-right"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-right"&gt;331&lt;/td&gt;
+&lt;td class="org-right"&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-right"&gt;327305&lt;/td&gt;
+&lt;td class="org-right"&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8d02a20" class="outline-2"&gt;
+&lt;h2 id="org8d02a20"&gt;Constants&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8d02a20"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;MAX_INPUT = 10**7
+MAX_TIME = 5
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orge273839" class="outline-2"&gt;
+&lt;h2 id="orge273839"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge273839"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;from datetime import (
+    datetime,
+    timedelta,
+    )
+# this project
+from algorithmic_toolbox.helpers import time_it
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org78d7a2c" class="outline-2"&gt;
+&lt;h2 id="org78d7a2c"&gt;Naive Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org78d7a2c"&gt;
+&lt;p&gt;
+By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def get_fibonacci_last_digit_naive(n):
+    if n &amp;lt;= 1:
+	return n
+
+    previous = 0
+    current  = 1
+
+    for _ in range(n - 1):
+	previous, current = current, previous + current
+    return current % 10
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_it(get_fibonacci_last_digit_naive, "Naive", 3, 2, max_input=MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_it(get_fibonacci_last_digit_naive, "Naive", 331, 9, max_input=MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org843c922" class="outline-2"&gt;
+&lt;h2 id="org843c922"&gt;Modulo Version&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org843c922"&gt;
+&lt;p&gt;
+Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;first = (0, 1)
+def get_fibonacci_last_digit_modulo(n):
+    if n in first:
+	return n
+
+    previous, current = first
+
+    for _ in range(n - 1):
+	previous, current = current, (previous + current) % 10
+	print("Current: {}".format(current))
+    return current
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_it(get_fibonacci_last_digit_modulo, "Modulo", 3, 2, max_input=MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_it(get_fibonacci_last_digit_modulo, "Modulo", 331, 9, max_input=MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_it(get_fibonacci_last_digit_modulo, "Modulo", 327305, 5, max_input=MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_it(get_fibonacci_last_digit_modulo, "Modulo", 200, 5, max_input=MAX_INPUT)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+This is the grader output.
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</guid><pubDate>Mon, 25 Jun 2018 23:28:37 GMT</pubDate></item></channel></rss>

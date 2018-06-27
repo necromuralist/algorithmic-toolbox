@@ -14,6 +14,7 @@
 <link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
 <link rel="prev" href="../maximum-pairwise-product/" title="Maximum Pairwise Product" type="text/html">
+<link rel="next" href="../last-digit-of-a-large-fibonacci-number/" title="Last Digit of a Large Fibonacci Number" type="text/html">
 <meta property="og:site_name" content="Algorithmic Toolbox">
 <meta property="og:title" content="Fibonacci Number">
 <meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number/">
@@ -120,9 +121,24 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orga0dd3ed" class="outline-2">
-<h2 id="orga0dd3ed">The Fibonacci Problem</h2>
-<div class="outline-text-2" id="text-orga0dd3ed">
+    <div id="outline-container-org54846b1" class="outline-2">
+<h2 id="org54846b1">Imports</h2>
+<div class="outline-text-2" id="text-org54846b1">
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># third party</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Memory</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgb0d717e" class="outline-2">
+<h2 id="orgb0d717e">The Fibonacci Problem</h2>
+<div class="outline-text-2" id="text-orgb0d717e">
 <p>
 THe Fibonacci Sequence is defined as
 </p>
@@ -130,29 +146,311 @@ THe Fibonacci Sequence is defined as
 <p>
 \[F_0 = 0, F_1 = 1,\ldots, F_i =F_{i-1} + F_{i-2} \text{ for } i \ge 2\]
 </p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Task</b></td>
+<td class="org-left">Given an integer <i>n</i>, find the /n/th Fibonacci number \(F_n\).</td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A single integer <i>n</i>.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(0 \le n \le 45\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">\(F_n\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-org18ba331" class="outline-3">
+<h3 id="org18ba331">Sample Values</h3>
+<div class="outline-text-3" id="text-org18ba331">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-right">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-right">Input</th>
+<th scope="col" class="org-right">Output</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr></thead>
+<tbody><tr>
+<td class="org-right">10</td>
+<td class="org-right">55</td>
+<td class="org-left">\(F_10=55\)</td>
+</tr></tbody>
+</table>
 </div>
 </div>
-<div id="outline-container-orgd7a6815" class="outline-2">
-<h2 id="orgd7a6815">Naive Implementation</h2>
-<div class="outline-text-2" id="text-orgd7a6815">
+
+<div id="outline-container-org000d05a" class="outline-3">
+<h3 id="org000d05a">Constants</h3>
+<div class="outline-text-3" id="text-org000d05a">
+<p>
+These are translations from the problem description
+</p>
+<div class="highlight"><pre><span></span><span class="n">MAX_TIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">45</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-org5cf3744" class="outline-2">
+<h2 id="org5cf3744">Helpers</h2>
+<div class="outline-text-2" id="text-org5cf3744">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_it</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">input_value</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">):</span>
+    <span class="sd">"""Times the implementation</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">     implementation: callable to pass input_value to</span>
+<span class="sd">     tag (str): identifier to add to the output</span>
+<span class="sd">     input_value (int): the number to pass to the implementation</span>
+<span class="sd">     expected (int): the expected value</span>
+<span class="sd">     max_time (float): number of seconds allowed</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">	AssertionError: wrong value or took too long</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">input_value</span> <span class="o">&lt;=</span> <span class="n">MAX_INPUT</span><span class="p">,</span> <span class="s2">"n too large: {}, max allowed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span>
+									       <span class="n">MAX_INPUT</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Starting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"Actual: {} Expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"({}) Okay Elapsed time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;=</span> <span class="n">max_time</span><span class="p">,</span> <span class="s2">"Time Greater than {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_time</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orga26d7d4" class="outline-2">
+<h2 id="orga26d7d4">Naive Implementation</h2>
+<div class="outline-text-2" id="text-orga26d7d4">
 <p>
 The 'naive' implementation uses recursion to calculate a fibonacci number.
 </p>
 
-<div class="highlight"><pre><span></span>def calculate_fibonacci_recursive(n):
-    """Calculates the nth fibonacci number
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Calculates the nth fibonacci number</span>
 
-    Args:
-     n (int): the fibonacci number to get (e.g. 3 means third)
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): the fibonacci number to get (e.g. 3 means third)</span>
 
-    Returns:
-     int: nth fibonacci number
-    """
-    if (n &lt;= 1):
-	return n
-    return (calculate_fibonacci_recursive(n - 1)
-	    + calculate_fibonacci_recursive(n - 2))
+<span class="sd">    Returns:</span>
+<span class="sd">     int: nth fibonacci number</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+	    <span class="o">+</span> <span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">time_it</span><span class="p">(</span><span class="n">calculate_fibonacci_recursive</span><span class="p">,</span> <span class="s2">"Recursive"</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">55</span><span class="p">)</span>
+</pre></div>
+
+<p>
+This fails the grader (as expected).
+</p>
+
+<pre class="example">
+Failed case #37/46: time limit exceeded 
+Input: 36 
+Your output: 14930352 
+stderr: (Time used: 5.63/5.00, memory used: 9613312/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf0a093c" class="outline-2">
+<h2 id="orgf0a093c">The Tester</h2>
+<div class="outline-text-2" id="text-orgf0a093c">
+<p>
+We have kind of a chicken and the egg problem here. We know that the recursive version is correct, but it is too slow. But in order to validate our newer versions, we need to run it to check for correctness. To solve this problem I'm going to use a cache.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">memory</span> <span class="o">=</span> <span class="n">Memory</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="s2">"memories"</span><span class="p">)</span>
+
+<span class="nd">@memory.cache</span>
+<span class="k">def</span> <span class="nf">reference_implementation</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Calculates the nth fibonacci number</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): the fibonacci number to get (e.g. 3 means third)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: nth fibonacci number</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+	    <span class="o">+</span> <span class="n">calculate_fibonacci_recursive</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_once</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Runs the implementation once</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     implementation: callable to pass input</span>
+<span class="sd">     n: value to pass to the implementation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     output of implementation</span>
+<span class="sd">    """</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""run the reference implementation n times</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): number of times to run the reference implementation</span>
+<span class="sd">    """</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+	<span class="n">output</span> <span class="o">=</span> <span class="n">reference_implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+    <span class="k">return</span> 
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MAX_INPUT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"endpoint: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">endpoint</span><span class="p">):</span>
+	<span class="n">run_range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">time_once</span><span class="p">(</span><span class="n">reference_implementation</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
+</pre></div>
+
+<p>
+In case I accidentally re-run that last call and it uses the cache I'll note here that the original run time was 8 minutes and 40 seconds.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tester</span><span class="p">:</span>
+    <span class="sd">"""Class to test the implementation</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">     implementation: callable to pass input_value to</span>
+<span class="sd">     tag (str): identifier to add to the output</span>
+<span class="sd">     iterations (int): number of times to run the testing</span>
+<span class="sd">     verbose (bool): if true, emit more text</span>
+<span class="sd">     max_time (float): number of seconds allowed</span>
+<span class="sd">    """</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span>
+		 <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+		 <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">):</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">implementation</span> <span class="o">=</span> <span class="n">implementation</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">=</span> <span class="n">max_time</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">iterations</span> <span class="o">=</span> <span class="n">iterations</span>
+	<span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+	<span class="sd">"""prints the statement if verbose is on"""</span>
+	<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+	    <span class="k">print</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">time_it</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_value</span><span class="p">):</span>
+	<span class="sd">"""Times the implementation</span>
+
+<span class="sd">	.. warning:: This uses the ``reference_implementation`` to get the</span>
+<span class="sd">	   expected value. Make sure it's implemented and the values are cached</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">	 input_value (int): input for the implementation</span>
+<span class="sd">	Raises:</span>
+<span class="sd">	 AssertionError: wrong value or took too long</span>
+<span class="sd">	"""</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"Starting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
+	<span class="n">expected</span> <span class="o">=</span> <span class="n">reference_implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+	<span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+	<span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"n: {} Actual: {} Expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">input_value</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+	<span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"({}) Okay Elapsed time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">))</span>
+	<span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span><span class="p">,</span> <span class="s2">"Time Greater than {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_time</span><span class="p">)</span>
+	<span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	<span class="sd">"""Generates random numbers and times it"""</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"***** {} *****"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
+	<span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">):</span>
+	    <span class="n">n</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">MAX_INPUT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+	    <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"n: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+	    <span class="bp">self</span><span class="o">.</span><span class="n">time_it</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"Total Elapsed: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+	<span class="k">return</span>            
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org72d5a6a" class="outline-2">
+<h2 id="org72d5a6a">An Iterative Version</h2>
+<div class="outline-text-2" id="text-org72d5a6a">
+<p>
+To try and speed things up I'm going to use an iterative version instead of a recursive one.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fibonacci_iterative</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Calculates the nth fibonacci number</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     n (int): the fibonacci number to get (e.g. 3 means third)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: nth fibonacci number</span>
+<span class="sd">    """</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">first</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">first</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	<span class="n">previous</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">,</span> <span class="n">previous</span> <span class="o">+</span> <span class="n">current</span>
+    <span class="k">return</span> <span class="n">current</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">(</span><span class="n">fibonacci_iterative</span><span class="p">,</span> <span class="s2">"Iterative"</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">f_0</span> <span class="o">=</span> <span class="n">fibonacci_iterative</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">f_1</span> <span class="o">=</span> <span class="n">reference_implementation</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">f_0</span> <span class="o">==</span> <span class="n">f_1</span>
+</pre></div>
+
+<p>
+This passes the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9637888/536870912.)
+</pre>
 </div>
 </div>
     </div>
@@ -162,6 +460,9 @@ The 'naive' implementation uses recursion to calculate a fibonacci number.
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../maximum-pairwise-product/" rel="prev" title="Maximum Pairwise Product">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../last-digit-of-a-large-fibonacci-number/" rel="next" title="Last Digit of a Large Fibonacci Number">Next post</a>
             </li>
         </ul></nav></aside></article>
 </div>

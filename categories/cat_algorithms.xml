@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_algorithms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 24 Jun 2018 23:48:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Learning Algorithms Through Programming and Puzzle Solving Notes</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/learning-algorithms-through-programming-and-puzzle-solving-notes/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_algorithms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 25 Jun 2018 19:38:18 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Learning Algorithms Through Programming and Puzzle Solving Notes</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/learning-algorithms-through-programming-and-puzzle-solving-notes/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;p&gt;
 These are my notes from the book &lt;i&gt;Learning Algorithms Through Programming and Puzzle Solving&lt;/i&gt;, available for purchase from &lt;a href="https://leanpub.com/algo"&gt;leanpub.com&lt;/a&gt;.
 &lt;/p&gt;
-&lt;div id="outline-container-org8b3020b" class="outline-2"&gt;
-&lt;h2 id="org8b3020b"&gt;Algorithms and Complexity&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8b3020b"&gt;
+&lt;div id="outline-container-org1258f20" class="outline-2"&gt;
+&lt;h2 id="org1258f20"&gt;Algorithms and Complexity&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1258f20"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgcbcb2c6" class="outline-3"&gt;
-&lt;h3 id="orgcbcb2c6"&gt;What is an algorithm?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgcbcb2c6"&gt;
+&lt;div id="outline-container-orgb22ede4" class="outline-3"&gt;
+&lt;h3 id="orgb22ede4"&gt;What is an algorithm?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb22ede4"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;A sequence of instructions to solve a well formulated problem.&lt;/li&gt;
 &lt;li&gt;Problems are specified in terms of their inputs and outputs and the algorithm has to transform the inputs into the outputs.&lt;/li&gt;
 &lt;li&gt;An unambiguous specification of how to solve a class of problems (&lt;a href="https://en.wikipedia.org/wiki/Algorithm"&gt;wikipedia&lt;/a&gt;).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org976a6cb" class="outline-4"&gt;
-&lt;h4 id="org976a6cb"&gt;What is a well-formulated problem?&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org976a6cb"&gt;
+&lt;div id="outline-container-org743d304" class="outline-4"&gt;
+&lt;h4 id="org743d304"&gt;What is a well-formulated problem?&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org743d304"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;unambiguous&lt;/li&gt;
 &lt;li&gt;precise&lt;/li&gt;
@@ -25,9 +25,9 @@ These are my notes from the book &lt;i&gt;Learning Algorithms Through Programmin
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgdb1f7ef" class="outline-4"&gt;
-&lt;h4 id="orgdb1f7ef"&gt;What are two of the most important things to ask about an algorithm?&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgdb1f7ef"&gt;
+&lt;div id="outline-container-orgc2cb71b" class="outline-4"&gt;
+&lt;h4 id="orgc2cb71b"&gt;What are two of the most important things to ask about an algorithm?&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc2cb71b"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Does it work correctly?&lt;/li&gt;
 &lt;li&gt;How long does it take?&lt;/li&gt;
@@ -35,26 +35,26 @@ These are my notes from the book &lt;i&gt;Learning Algorithms Through Programmin
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgaa57011" class="outline-3"&gt;
-&lt;h3 id="orgaa57011"&gt;What is Pseudocode?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgaa57011"&gt;
+&lt;div id="outline-container-orga52820c" class="outline-3"&gt;
+&lt;h3 id="orga52820c"&gt;What is Pseudocode?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga52820c"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;A language that ignores specifics needed for a programming language but is precise enough to describe an algorithm.&lt;/li&gt;
 &lt;li&gt;An informal, high-level description of an algorithm (&lt;a href="https://en.wikipedia.org/wiki/Pseudocode"&gt;wikipedia&lt;/a&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org31bc99e" class="outline-3"&gt;
-&lt;h3 id="org31bc99e"&gt;What is the difference between a Problem and a Problem Instance?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org31bc99e"&gt;
+&lt;div id="outline-container-org1c8adf5" class="outline-3"&gt;
+&lt;h3 id="org1c8adf5"&gt;What is the difference between a Problem and a Problem Instance?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1c8adf5"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;A problem is a class of computational tasks&lt;/li&gt;
 &lt;li&gt;A problem instance is a particular input for a problem class&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org1a53039" class="outline-4"&gt;
-&lt;h4 id="org1a53039"&gt;Example: The Change Problem&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1a53039"&gt;
+&lt;div id="outline-container-org956eab4" class="outline-4"&gt;
+&lt;h4 id="org956eab4"&gt;Example: The Change Problem&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org956eab4"&gt;
 &lt;p&gt;
 The example given in the book is making change for someone. You want to be able to break a larger denomination (say a dollar) into smaller ones using the fewest number of coins. In this case they specifically say coin but you could re-state it to mean any type of money.
 &lt;/p&gt;
@@ -75,6 +75,7 @@ The example given in the book is making change for someone. You want to be able 
 This is the way most people do it.
 &lt;/p&gt;
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;MakeChange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;money&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;money&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 	&lt;span class="n"&gt;coin&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="s2"&gt;"coin with largest denomination not greater than value of money."&lt;/span&gt;
@@ -86,6 +87,7 @@ This is the way most people do it.
 &lt;i&gt;What was c and d for?&lt;/i&gt; In the example solution they aren't used (and they also don't output the number of each coin as was required in the problem statement), but there is an alternative solution that always goes through the denominations once.
 &lt;/p&gt;
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;MakeChange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;money&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Make change using the smallest number of coins&lt;/span&gt;
 
@@ -108,9 +110,9 @@ You could probably improve on the second version by quitting once you have made 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orge4e2344" class="outline-3"&gt;
-&lt;h3 id="orge4e2344"&gt;What are correct and incorrect algorithms?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge4e2344"&gt;
+&lt;div id="outline-container-org10e14e2" class="outline-3"&gt;
+&lt;h3 id="org10e14e2"&gt;What are correct and incorrect algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org10e14e2"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Correct: every input instance produces a correct output&lt;/li&gt;
 &lt;li&gt;Incorrect: At least one input produces an incorrect output&lt;/li&gt;
@@ -122,17 +124,17 @@ By this definition the &lt;code&gt;MakeChange&lt;/code&gt; algorithm might be in
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9144da9" class="outline-3"&gt;
-&lt;h3 id="org9144da9"&gt;What are fast and slow algorithms?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9144da9"&gt;
+&lt;div id="outline-container-org4091b76" class="outline-3"&gt;
+&lt;h3 id="org4091b76"&gt;What are fast and slow algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4091b76"&gt;
 &lt;p&gt;
 Because different computers can perform at different speeds, &lt;i&gt;time&lt;/i&gt; is a poor measure of algorithmic speed. Instead we use the count of basic operations that an algorithm uses.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgee0f58d" class="outline-3"&gt;
-&lt;h3 id="orgee0f58d"&gt;What is Big-O Notation?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgee0f58d"&gt;
+&lt;div id="outline-container-org98da69f" class="outline-3"&gt;
+&lt;h3 id="org98da69f"&gt;What is Big-O Notation?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org98da69f"&gt;
 &lt;p&gt;
 As the number of inputs goes up, the fastest growing term in the equation describing the number of operations an algorithm makes begins to dominate the count, so generally only this term is used to characterize the running time of the algorithm. Lets say you have two for loops and, given an input of \(n\), they have a run-time of \(3n + n^3\). When \(n\) is 1, the first term is 3 and the second term is 1, but when \(n\) is \(1,000\), the first term is \(3,000\) while the second term is \(1,000,000,000\).
 &lt;/p&gt;
@@ -149,44 +151,44 @@ As you can see, the \(n^3\) term grows much faster, accounting for just about al
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf3766cc" class="outline-2"&gt;
-&lt;h2 id="orgf3766cc"&gt;Algorithm Design Techniques&lt;/h2&gt;
+&lt;div id="outline-container-org160654b" class="outline-2"&gt;
+&lt;h2 id="org160654b"&gt;Algorithm Design Techniques&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2dde2ab" class="outline-2"&gt;
-&lt;h2 id="org2dde2ab"&gt;Programming Challenges&lt;/h2&gt;
+&lt;div id="outline-container-orgb68d637" class="outline-2"&gt;
+&lt;h2 id="orgb68d637"&gt;Programming Challenges&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga8f5dff" class="outline-2"&gt;
-&lt;h2 id="orga8f5dff"&gt;Algorithmic Warm Up&lt;/h2&gt;
+&lt;div id="outline-container-org23102e4" class="outline-2"&gt;
+&lt;h2 id="org23102e4"&gt;Algorithmic Warm Up&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org20c0611" class="outline-2"&gt;
-&lt;h2 id="org20c0611"&gt;Greedy Algorithms&lt;/h2&gt;
+&lt;div id="outline-container-org621ae81" class="outline-2"&gt;
+&lt;h2 id="org621ae81"&gt;Greedy Algorithms&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd21527d" class="outline-2"&gt;
-&lt;h2 id="orgd21527d"&gt;Divide-and-Conquer&lt;/h2&gt;
+&lt;div id="outline-container-orga0d7b58" class="outline-2"&gt;
+&lt;h2 id="orga0d7b58"&gt;Divide-and-Conquer&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8034dd0" class="outline-2"&gt;
-&lt;h2 id="org8034dd0"&gt;Dynamic Programming&lt;/h2&gt;
+&lt;div id="outline-container-orgc5152d6" class="outline-2"&gt;
+&lt;h2 id="orgc5152d6"&gt;Dynamic Programming&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8dc4f0e" class="outline-2"&gt;
-&lt;h2 id="org8dc4f0e"&gt;Appendix&lt;/h2&gt;
+&lt;div id="outline-container-orgde5367a" class="outline-2"&gt;
+&lt;h2 id="orgde5367a"&gt;Appendix&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8fd5c1e" class="outline-2"&gt;
-&lt;h2 id="org8fd5c1e"&gt;Sources&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8fd5c1e"&gt;
+&lt;div id="outline-container-org939bd20" class="outline-2"&gt;
+&lt;h2 id="org939bd20"&gt;Sources&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org939bd20"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Kulikov, Alexander S, and Pavel A Pevzner. “Learning Algorithms Through Programming and Puzzle Solving,” n.d., 138.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>algorithms notes</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/learning-algorithms-through-programming-and-puzzle-solving-notes/</guid><pubDate>Sun, 24 Jun 2018 18:13:00 GMT</pubDate></item><item><title>A Plus B</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/a-plus-b/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org5a0ba8b" class="outline-2"&gt;
-&lt;h2 id="org5a0ba8b"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5a0ba8b"&gt;
+&lt;/div&gt;</description><category>algorithms notes</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/learning-algorithms-through-programming-and-puzzle-solving-notes/</guid><pubDate>Sun, 24 Jun 2018 18:13:00 GMT</pubDate></item><item><title>A Plus B</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/a-plus-b/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org2daa514" class="outline-2"&gt;
+&lt;h2 id="org2daa514"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2daa514"&gt;
 &lt;p&gt;
 This is an introductory problem to make sure you know how the submissions work. The problem is to take two integers and add them together.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org790b525" class="outline-3"&gt;
-&lt;h3 id="org790b525"&gt;Sum of Two Digits&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org790b525"&gt;
+&lt;div id="outline-container-org6a022a5" class="outline-3"&gt;
+&lt;h3 id="org6a022a5"&gt;Sum of Two Digits&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6a022a5"&gt;
 &lt;p&gt;
 &lt;i&gt;Compute the sum of two single-digit numbers&lt;/i&gt;.
 &lt;/p&gt;
@@ -239,9 +241,9 @@ This is an introductory problem to make sure you know how the submissions work. 
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd6a6389" class="outline-3"&gt;
-&lt;h3 id="orgd6a6389"&gt;Sample&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd6a6389"&gt;
+&lt;div id="outline-container-org97967fd" class="outline-3"&gt;
+&lt;h3 id="org97967fd"&gt;Sample&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org97967fd"&gt;
 &lt;p&gt;
 &lt;b&gt;Input&lt;/b&gt;
 &lt;/p&gt;
@@ -257,13 +259,14 @@ This is an introductory problem to make sure you know how the submissions work. 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org83fd081" class="outline-2"&gt;
-&lt;h2 id="org83fd081"&gt;Setup&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org83fd081"&gt;
+&lt;div id="outline-container-org8cf2da3" class="outline-2"&gt;
+&lt;h2 id="org8cf2da3"&gt;Setup&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8cf2da3"&gt;
 &lt;p&gt;
 In order for the grader to know what interpreter you're using you have to put a comment at the top of the file.
 &lt;/p&gt;
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Uses python 3&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -271,31 +274,34 @@ In order for the grader to know what interpreter you're using you have to put a 
 In addition, the inputs are given via &lt;code&gt;stdin&lt;/code&gt; so you need to import &lt;code&gt;sys&lt;/code&gt; to read it.
 &lt;/p&gt;
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org81c6b18" class="outline-2"&gt;
-&lt;h2 id="org81c6b18"&gt;The Input&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org81c6b18"&gt;
+&lt;div id="outline-container-org9d8cb70" class="outline-2"&gt;
+&lt;h2 id="org9d8cb70"&gt;The Input&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9d8cb70"&gt;
 &lt;p&gt;
 So the first thing to do is read in the inputs. Since standard input is a string we need to split it to get the two terms and then cast them to integers. I'm assuming the grader behaves well and so I'm not doing any kind of checking of the input.
 &lt;/p&gt;
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgda982a9" class="outline-2"&gt;
-&lt;h2 id="orgda982a9"&gt;The Solution&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgda982a9"&gt;
+&lt;div id="outline-container-orga2931a3" class="outline-2"&gt;
+&lt;h2 id="orga2931a3"&gt;The Solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga2931a3"&gt;
 &lt;p&gt;
 In order to give the grader my output I have to print it.
 &lt;/p&gt;
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;

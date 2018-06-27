@@ -7,58 +7,74 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/</loc>
-  <lastmod>2018-06-24T18:04:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/2018/</loc>
-  <lastmod>2018-06-24T18:04:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/archive.html</loc>
-  <lastmod>2018-06-25T03:56:00Z</lastmod>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/</loc>
-  <lastmod>2018-06-25T05:23:00Z</lastmod>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithmictoolbox-week1-algorithms/</loc>
-  <lastmod>2018-06-24T18:59:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-notes/</loc>
-  <lastmod>2018-06-24T18:59:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problem/</loc>
-  <lastmod>2018-06-24T23:48:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems-week2/</loc>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems/</loc>
+  <lastmod>2018-06-25T23:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_algorithms/</loc>
-  <lastmod>2018-06-24T18:59:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problem/</loc>
-  <lastmod>2018-06-24T23:48:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problems/</loc>
-  <lastmod>2018-06-25T03:56:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/posts/a-plus-b/</loc>
-  <lastmod>2018-06-24T18:04:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number/</loc>
-  <lastmod>2018-06-25T03:56:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</loc>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</loc>
+  <lastmod>2018-06-25T23:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/posts/learning-algorithms-through-programming-and-puzzle-solving-notes/</loc>
-  <lastmod>2018-06-24T23:00:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-pairwise-product/</loc>
-  <lastmod>2018-06-24T23:48:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </url>
 </urlset>

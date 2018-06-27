@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems week2)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems-week2.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Jun 2018 00:57:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Greatest Common Divisor</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org8f5b333" class="outline-2"&gt;
+&lt;h2 id="org8f5b333"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8f5b333"&gt;
+&lt;p&gt;
+The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;) which are not both equal to 0 is the greatest integer &lt;i&gt;d&lt;/i&gt; that divides both &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;. The goal here is to implement the &lt;a href="https://en.wikipedia.org/wiki/Euclidean_algorithm"&gt;Euclidean Algorithm&lt;/a&gt; for computing the GCD.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1cedf23" class="outline-2"&gt;
+&lt;h2 id="org1cedf23"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1cedf23"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Task&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Given two integers \(a\) and \(b\), find their greatest common divisor.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The two integers \(a\) and \(b\) are given on the same line separated by a space.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(1 \le a,b \le 2 \cdot 10^9\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;GCD(a,b)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9f5f09f" class="outline-2"&gt;
+&lt;h2 id="org9f5f09f"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9f5f09f"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# python standard library
+from datetime import (
+    datetime,
+    timedelta,
+)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org7f0f489" class="outline-2"&gt;
+&lt;h2 id="org7f0f489"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7f0f489"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-right"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;Input&lt;/th&gt;
+&lt;th scope="col" class="org-right"&gt;Output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;18 35&lt;/td&gt;
+&lt;td class="org-right"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;28851538 1183019&lt;/td&gt;
+&lt;td class="org-right"&gt;17657&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SAMPLES = {(18, 35): 1,
+	   (28851538, 1183019): 17657}
+MAX_TIME = timedelta(5)
+MAX_INPUT = 2 * 10**9
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def time_it(implementation, tag, a_and_b, expected, max_time=MAX_TIME, max_input=MAX_INPUT):
+    """Time the implementation
+
+    Args:
+     implementation: callable to time
+     tag (str): name for the output
+     a_and_b (tuple): inputs for the implementation
+     expected (int): the expected output of the implementation
+
+    Raises:
+     AssertionError: output was wrong or it took too long
+    """
+    a, b = a_and_b
+    assert a &amp;lt;= max_input, "a too large: {}".format(a)
+    assert b &amp;lt;= max_input, "b too large: {}".format(b)
+    print("Starting {}".format(tag))
+    start = datetime.now()
+    actual = implementation(a, b)
+    elapsed = datetime.now() - start
+    print("Elapsed time: {}".format(elapsed))
+    assert actual == expected, "Expected: {} Actual: {}".format(expected, actual)
+    assert elapsed &amp;lt;= MAX_TIME, "Took too long: {}".format(elapsed)
+    return
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org684445a" class="outline-2"&gt;
+&lt;h2 id="org684445a"&gt;Naive GCD&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org684445a"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def gcd_naive(a, b):
+    """Naive implementation of GCD
+
+    Args:
+     a, b: non-negative integers
+    """
+    current_gcd = 1
+    for d in range(2, min(a, b) + 1):
+	if a % d == 0 and b % d == 0:
+	    if d &amp;gt; current_gcd:
+		current_gcd = d
+    return current_gcd
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for inputs, answer in SAMPLES.items():
+    time_it(gcd_naive, "Naive", inputs, answer)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+This fails the grader.
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: stderr: (Time used: 9.97/5.00, memory used: 9887744/536870912.)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge648ad4" class="outline-2"&gt;
+&lt;h2 id="orge648ad4"&gt;Modulus Version&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge648ad4"&gt;
+&lt;p&gt;
+This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def gcd_modulus(a, b):
+    """finds the GCD of a and b
+
+    Args:
+     a, b: non-negative integers
+
+    Returns:
+     int: the GCD of a and b
+    """
+    while b != 0:
+	a, b = b, a % b
+    return a
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for inputs, answer in SAMPLES.items():
+    time_it(gcd_modulus, "Modulus", inputs, answer)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;a_b = 100000000, 100000000
+start = datetime.now()
+expected = gcd_naive(*a_b)
+print("Elapsed: {}".format(datetime.now() - start))
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+My computer appears to be faster than the grader, but it still fails.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;time_it(gcd_modulus, "Modulus", a_b, expected)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problems week2</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</guid><pubDate>Tue, 26 Jun 2018 21:51:11 GMT</pubDate></item></channel></rss>

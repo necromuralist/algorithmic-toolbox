@@ -120,16 +120,16 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org5a0ba8b" class="outline-2">
-<h2 id="org5a0ba8b">Introduction</h2>
-<div class="outline-text-2" id="text-org5a0ba8b">
+    <div id="outline-container-org2daa514" class="outline-2">
+<h2 id="org2daa514">Introduction</h2>
+<div class="outline-text-2" id="text-org2daa514">
 <p>
 This is an introductory problem to make sure you know how the submissions work. The problem is to take two integers and add them together.
 </p>
 </div>
-<div id="outline-container-org790b525" class="outline-3">
-<h3 id="org790b525">Sum of Two Digits</h3>
-<div class="outline-text-3" id="text-org790b525">
+<div id="outline-container-org6a022a5" class="outline-3">
+<h3 id="org6a022a5">Sum of Two Digits</h3>
+<div class="outline-text-3" id="text-org6a022a5">
 <p>
 <i>Compute the sum of two single-digit numbers</i>.
 </p>
@@ -174,9 +174,9 @@ This is an introductory problem to make sure you know how the submissions work. 
 </table>
 </div>
 </div>
-<div id="outline-container-orgd6a6389" class="outline-3">
-<h3 id="orgd6a6389">Sample</h3>
-<div class="outline-text-3" id="text-orgd6a6389">
+<div id="outline-container-org97967fd" class="outline-3">
+<h3 id="org97967fd">Sample</h3>
+<div class="outline-text-3" id="text-org97967fd">
 <p>
 <b>Input</b>
 </p>
@@ -192,13 +192,14 @@ This is an introductory problem to make sure you know how the submissions work. 
 </div>
 </div>
 </div>
-<div id="outline-container-org83fd081" class="outline-2">
-<h2 id="org83fd081">Setup</h2>
-<div class="outline-text-2" id="text-org83fd081">
+<div id="outline-container-org8cf2da3" class="outline-2">
+<h2 id="org8cf2da3">Setup</h2>
+<div class="outline-text-2" id="text-org8cf2da3">
 <p>
 In order for the grader to know what interpreter you're using you have to put a comment at the top of the file.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="c1"># Uses python 3</span>
 </pre></div>
 
@@ -206,31 +207,34 @@ In order for the grader to know what interpreter you're using you have to put a 
 In addition, the inputs are given via <code>stdin</code> so you need to import <code>sys</code> to read it.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org81c6b18" class="outline-2">
-<h2 id="org81c6b18">The Input</h2>
-<div class="outline-text-2" id="text-org81c6b18">
+<div id="outline-container-org9d8cb70" class="outline-2">
+<h2 id="org9d8cb70">The Input</h2>
+<div class="outline-text-2" id="text-org9d8cb70">
 <p>
 So the first thing to do is read in the inputs. Since standard input is a string we need to split it to get the two terms and then cast them to integers. I'm assuming the grader behaves well and so I'm not doing any kind of checking of the input.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgda982a9" class="outline-2">
-<h2 id="orgda982a9">The Solution</h2>
-<div class="outline-text-2" id="text-orgda982a9">
+<div id="outline-container-orga2931a3" class="outline-2">
+<h2 id="orga2931a3">The Solution</h2>
+<div class="outline-text-2" id="text-orga2931a3">
 <p>
 In order to give the grader my output I have to print it.
 </p>
 
+/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>

@@ -7,34 +7,42 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithmictoolbox-week1-algorithms.xml</loc>
-  <lastmod>2018-06-24T23:48:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-notes.xml</loc>
-  <lastmod>2018-06-24T23:03:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problem.xml</loc>
-  <lastmod>2018-06-25T03:59:00Z</lastmod>
+  <lastmod>2018-06-25T23:35:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems-week2.xml</loc>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems.xml</loc>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_algorithms.xml</loc>
-  <lastmod>2018-06-24T23:48:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problem.xml</loc>
-  <lastmod>2018-06-25T03:59:00Z</lastmod>
+  <lastmod>2018-06-25T19:38:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problems.xml</loc>
-  <lastmod>2018-06-25T03:57:00Z</lastmod>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/rss.xml</loc>
-  <lastmod>2018-06-25T03:59:00Z</lastmod>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/sitemap.xml</loc>
-  <lastmod>2018-06-25T05:26:00Z</lastmod>
+  <lastmod>2018-06-27T00:57:00Z</lastmod>
  </sitemap>
 </sitemapindex>

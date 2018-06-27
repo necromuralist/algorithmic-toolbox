@@ -10,7 +10,20 @@ def gcd_naive(a, b):
 
     return current_gcd
 
+def gcd_modulus(a, b):
+    """finds the GCD of a and b
+
+    Args:
+     a, b: non-negative integers
+
+    Returns:
+     int: the GCD of a and b
+    """
+    while b != 0:
+        a, b = b, a % b
+    return a
+
 if __name__ == "__main__":
     input = sys.stdin.read()
     a, b = map(int, input.split())
-    print(gcd_naive(a, b))
+    print(gcd_modulus(a, b))

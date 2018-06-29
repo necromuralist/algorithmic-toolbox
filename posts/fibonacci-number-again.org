@@ -53,13 +53,26 @@ It looks like it repeats every eight numbers. In general, the fact that the modu
 |---------------+----------------------------------------------------------------------------------------------|
 | *Task*        | Given two integers $n$ and $m$, output $F_n \mod m$ (the remainder of $F_n$ divided by $m$). |
 | *Input*       | Two integers $n$ and $m$ on the same line separated by a space.                              |
-| *Constraints* | $1 \le n \le 10^{18}, 2 \le m \le 10^3$                                                      |
+| *Constraints* | $1 \le n \le 10^{18}, 2 \le m \le 10^5$                                                      |
 | *Output*      | $F_n \mod m$                                                                                 |
 
 * Samples
 
-| Input          | Output |                           |
-|----------------+--------+---------------------------|
-| 239 1000       |    161 | $F_{239} \mod 1000        |
-| 2816213588 239 |    151 | $F_{2816213588} \mod 239$ |
+| Input            | Output |                             |
+|------------------+--------+-----------------------------|
+| 239 1000         |    161 | $F_{239} \mod 1000          |
+| 2816213588 239   |    151 | $F_{2816213588} \mod 239$   |
+| 1 239            |      1 | $F_1 \mod 239$              |
+| 115 1000         |    885 | $F_{115} \mod 1000$         |
+| 2816213588 30524 |  10249 | $F_{2816213588} \mod 30524$ |
 
+#+BEGIN_SRC ipython :session fibonacci :results output
+previous, current = 0, 1
+x = 2816213588 // 30524
+for number in range(x):
+    previous, current = current, (previous + current) % 30524
+print(current)
+#+END_SRC
+
+#+RESULTS:
+: 11325

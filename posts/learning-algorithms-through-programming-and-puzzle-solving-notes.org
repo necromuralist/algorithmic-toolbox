@@ -118,7 +118,76 @@ file:big_o_example.png
 
 As you can see, the $n^3$ term grows much faster, accounting for just about all of the number of operations as $n$ grows (to make the $3n$ line visible at all I had to set the axis to a negative number). Although the So when using [[https://en.wikipedia.org/wiki/Big_O_notation][Big-O Notation]] we would say that it has a run time of $O(n^3)$. Note that we generally don't put in any constant multipliers, so if the second term had been $2n^3$, it would still be $O(n^3)$.
 * Algorithm Design Techniques
+  Many algorithms share the same ideas even though the problems are different. These are the most common design techniques. The ideas are illustrated with the problem of trying to answer your phone when you've it handset somewhere in your house.
+** What are Exhaustive Search Algorithms?
+   This is a /brute force/ approach where you look at every possible alternative in order to find your solution. To find your phone headset with brute-force you would simply sweep your entire house until you found it.
+** What are Brand-and-Bound Algorithms?
+   /Branch-and-Bound/ algorithms use a brute-force approach but eliminate certain alternatives without checking them based on some criteria that would make them ineligible. If you were searching your house and you heard the phone ring upstairs then you could eliminate the bottom floor of the house because you know it isn't ther.
+** What are Greedy Algorithms?
+   /Greedy Algorithms/ choose among alternatives at each iteration, always choosing the "best" alternative each time. To find your phone with in a /greedy/ manner you would just walk in a straight line toward your phone. The downside to this approach is that if the only open door happens to be off the straight path, you will get stuck.
+** What are Dynamic Programming Algorithms?
+   /Dynamic Programming/ breaks the larger problems into sub-problems and solves each of them to solve the larger problem. It organizes computations to try and avoid re-computing sub-problems if they happen to have already been solved by another sub-problem. There isn't a good way to apply this to the phone-search problem. Generally the method involves building a lookup table of incremental problem solutions.
+** What are Recursive Algorithms?
+   An algorithm is /recursive/ if it calls itself. 
+*** Tower of Hanoi
+The [[https://en.wikipedia.org/wiki/Tower_of_Hanoi][Tower of Hanoi Problem]] is an example of a recursively solved problem. You have three pegs with disks of different sizes on the leftmost peg and you need to move them to the rightmost peg, but a larger disk can never be place on a smaller disk. If you have one disk you just move it to the rightmost peg.
+
+**** Three disks
+     1. Move the smallest disk to the rightmost peg
+     2. Move the middle disk to the middle peg
+     3. Move the smallest disk to the middle peg
+     4. Move the largest disk to the rightmost peg
+     5. Move the smallest disk to the leftmost peg
+     6. Move the middle disk to the rightmost peg
+     7. Move the smallest disk to the rightmost peg
+
+In general, the problem for n-disks is to move all but the largest disk to the middle peg, then move the largest disk to the rightmost peg, then do this for the remaining disks, and repeat until you only have one disk. So you are always solving the /n/ disk problem by first solving the /n-1/ disk problem.
+** What are Divide-and-Conquer Algorithms?
+   /Divide-and-Conquer/ algorithms work by splitting problems into smaller, easier to solve problems, solving the sub-problems separately, then combining them for the final solution. /MergeSort/ is one example of a divide-and-conquer algorithm. Repeatedly split a list in half until you have single elements, then repeatedly merge them back together in pairs, making sure that the pairs are sorted.
+** What are Randomized Algorithms?
+In /randomized/ algorithms, you generate random solutions and check them. For the phone problem, you could use a coin toss to decide where to look next.
+   - /Las Vegas/ algorithms: always return correct solutions
+   - /Monte Carlo/ algorithms: Usually produce approximate (and therefore incorrect) solutions
+
+Randomized algorithms are usually faster and simpler.
 * Programming Challenges
+To solve a programming challenge:
+
+  1. Read the problem statement
+  2. Design the algorithm
+  3. Implement the algorithm
+  4. Test and debug your implementation
+  5. Submit your solution
+** How do you solve a Programming Challenge?
+   1. Read the problem statement
+   2. Design the Algorithm
+      - Calculate if your solution will work based on your big-O and the constraints of the problem.
+   3. Implement the algorithm
+   4. Test and Debug your implementation
+      - Start with a small dataset to check that it works correctly
+      - Move on to a larger dataset to make sure it's correct and runs within the time constraint
+      - Implement a separate function to generate the larger dataset
+      - Check the boundary inputs (the largest and smallest that you will get)
+      - Check randomly generated data
+      - Check degenerate cases (empty sets, trees with one path, etc.)
+      - Stress Test
+** What are some good programming practices?
+   - Stick to a specific code style.
+   - Use meaningful variable names
+   - Turn on all warnings
+   - Structure the code
+   - Only make your code compact if it doesn't reduce readability
+   - Use Assert statements
+     + Preconditions
+     + Postconditions
+     + Points that should never be reached (put =assert False=)
+   - Avoid integer overflow (estimate your maximum size and don't exceed your programming language's limits)
+   - Avoid floating point numbers if possible (if you only need intermediate calculations for comparisons, see if you can eliminate computations that produce floats)
+   - Stick to 0-based arrays, even if the problem statement uses 1-based
+   - Use semi-open intervals (like python's =range= function)
+     + include left boundary, exclude right boundary
+     + The size of a semi-open interval /[l,r)/ is /r - l/
+     + Splitting a semi-open interval is simpler: $[l,r) = [l,m) \cup [m, r)$
 * Algorithmic Warm Up
 * Greedy Algorithms
 * Divide-and-Conquer

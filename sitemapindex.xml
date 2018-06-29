@@ -19,11 +19,11 @@
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems-week2.xml</loc>
-  <lastmod>2018-06-27T22:49:00Z</lastmod>
+  <lastmod>2018-06-27T22:51:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems.xml</loc>
-  <lastmod>2018-06-27T22:49:00Z</lastmod>
+  <lastmod>2018-06-27T22:51:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_algorithms.xml</loc>
@@ -35,14 +35,18 @@
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problems.xml</loc>
-  <lastmod>2018-06-27T22:49:00Z</lastmod>
+  <lastmod>2018-06-28T00:39:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://github.com/necromuralist/algorithmic_toolbox/categories/problems-algorithms-fibonacci.xml</loc>
+  <lastmod>2018-06-28T00:39:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/rss.xml</loc>
-  <lastmod>2018-06-27T22:49:00Z</lastmod>
+  <lastmod>2018-06-28T00:39:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://github.com/necromuralist/algorithmic_toolbox/sitemap.xml</loc>
-  <lastmod>2018-06-27T22:49:00Z</lastmod>
+  <lastmod>2018-06-28T00:39:00Z</lastmod>
  </sitemap>
 </sitemapindex>

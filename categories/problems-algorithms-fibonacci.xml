@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about problems algorithms fibonacci)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/problems-algorithms-fibonacci.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 29 Jun 2018 02:07:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Fibonacci Number Again</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;from algorithmic_toolbox.implementations import fibonacci
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div id="outline-container-org41df9b6" class="outline-2"&gt;
+&lt;h2 id="org41df9b6"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org41df9b6"&gt;
+&lt;p&gt;
+In this problem we will calculate \(F_n \mod m\) where \(n\) can be very large (up to \(10^{18}\)). To see how to do this look at some output for modulus operations.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for number in range(15):
+    print(fibonacci(number) % 2, end=', ')
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+You can see that the output repeats in cycles of three.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cycle = [0, 1, 1]
+for number in range(15):
+    print(cycle[number % 3], end=',')
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+So if you know the cycle, you don't need to calculate the fibonacci number. What about mod 3?
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for number in range(16):
+    print(fibonacci(number) % 3, end=',')
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+It looks like it repeats every eight numbers. In general, the fact that the modulus of fibonacci numbers is periodic was is a known feature of them. Each period is known as a &lt;a href="https://en.wikipedia.org/wiki/Pisano_period"&gt;Pisano period&lt;/a&gt; (Pisano was the real last name of the man known as Fibonacci).
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org76054b4" class="outline-2"&gt;
+&lt;h2 id="org76054b4"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org76054b4"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Task&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Given two integers \(n\) and \(m\), output \(F_n \mod m\) (the remainder of \(F_n\) divided by \(m\)).&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Two integers \(n\) and \(m\) on the same line separated by a space.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(1 \le n \le 10^{18}, 2 \le m \le 10^5\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(F_n \mod m\)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc4d77a1" class="outline-2"&gt;
+&lt;h2 id="orgc4d77a1"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc4d77a1"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-right"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;Input&lt;/th&gt;
+&lt;th scope="col" class="org-right"&gt;Output&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;239 1000&lt;/td&gt;
+&lt;td class="org-right"&gt;161&lt;/td&gt;
+&lt;td class="org-left"&gt;$F&lt;sub&gt;239&lt;/sub&gt; \mod 1000&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;2816213588 239&lt;/td&gt;
+&lt;td class="org-right"&gt;151&lt;/td&gt;
+&lt;td class="org-left"&gt;\(F_{2816213588} \mod 239\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;1 239&lt;/td&gt;
+&lt;td class="org-right"&gt;1&lt;/td&gt;
+&lt;td class="org-left"&gt;\(F_1 \mod 239\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;115 1000&lt;/td&gt;
+&lt;td class="org-right"&gt;885&lt;/td&gt;
+&lt;td class="org-left"&gt;\(F_{115} \mod 1000\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;2816213588 30524&lt;/td&gt;
+&lt;td class="org-right"&gt;10249&lt;/td&gt;
+&lt;td class="org-left"&gt;\(F_{2816213588} \mod 30524\)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;previous, current = 0, 1
+x = 2816213588 // 30524
+for number in range(x):
+    previous, current = current, (previous + current) % 30524
+print(current)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>problems algorithms fibonacci</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/</guid><pubDate>Wed, 27 Jun 2018 22:52:25 GMT</pubDate></item></channel></rss>

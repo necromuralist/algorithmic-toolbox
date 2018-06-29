@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Calculate Fibonacci number /n/ modulo m.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fibonacci Number Again | Algorithmic Toolbox</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
+<link rel="prev" href="../least-common-multiple/" title="Least Common Multiple" type="text/html">
+<meta property="og:site_name" content="Algorithmic Toolbox">
+<meta property="og:title" content="Fibonacci Number Again">
+<meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/">
+<meta property="og:description" content="Calculate Fibonacci number /n/ modulo m.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-06-27T15:52:25-07:00">
+<meta property="article:tag" content="problems algorithms fibonacci">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-default navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://github.com/necromuralist/algorithmic_toolbox/">
+
+                <span id="blog-title">Algorithmic Toolbox</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+            </li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+<li>
+<a href="../../machine-learning-projects/">Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/p5_explorations/">P5 Explorations</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/tddmachinelearning/">TDD Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/student_intervention/">Student Intervention Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/boston_housing/">Boston Housing Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/data_science/">Data Science With Python</a>
+            </li>
+</ul>
+</li>
+</ul>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+	<span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://github.com/necromuralist/algorithmic_toolbox/">
+</form>
+<!-- End of custom search -->
+
+
+            <ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Fibonacci Number Again</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-06-27T15:52:25-07:00" itemprop="datePublished" title="2018-06-27 15:52">2018-06-27 15:52</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div class="highlight"><pre><span></span>from algorithmic_toolbox.implementations import fibonacci
+</pre></div>
+
+<div id="outline-container-org41df9b6" class="outline-2">
+<h2 id="org41df9b6">Introduction</h2>
+<div class="outline-text-2" id="text-org41df9b6">
+<p>
+In this problem we will calculate \(F_n \mod m\) where \(n\) can be very large (up to \(10^{18}\)). To see how to do this look at some output for modulus operations.
+</p>
+
+<div class="highlight"><pre><span></span>for number in range(15):
+    print(fibonacci(number) % 2, end=', ')
+</pre></div>
+
+<p>
+You can see that the output repeats in cycles of three.
+</p>
+
+<div class="highlight"><pre><span></span>cycle = [0, 1, 1]
+for number in range(15):
+    print(cycle[number % 3], end=',')
+</pre></div>
+
+<p>
+So if you know the cycle, you don't need to calculate the fibonacci number. What about mod 3?
+</p>
+
+<div class="highlight"><pre><span></span>for number in range(16):
+    print(fibonacci(number) % 3, end=',')
+</pre></div>
+
+<p>
+It looks like it repeats every eight numbers. In general, the fact that the modulus of fibonacci numbers is periodic was is a known feature of them. Each period is known as a <a href="https://en.wikipedia.org/wiki/Pisano_period">Pisano period</a> (Pisano was the real last name of the man known as Fibonacci).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org76054b4" class="outline-2">
+<h2 id="org76054b4">Problem Description</h2>
+<div class="outline-text-2" id="text-org76054b4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Task</b></td>
+<td class="org-left">Given two integers \(n\) and \(m\), output \(F_n \mod m\) (the remainder of \(F_n\) divided by \(m\)).</td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">Two integers \(n\) and \(m\) on the same line separated by a space.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 10^{18}, 2 \le m \le 10^5\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">\(F_n \mod m\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgc4d77a1" class="outline-2">
+<h2 id="orgc4d77a1">Samples</h2>
+<div class="outline-text-2" id="text-orgc4d77a1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">Input</th>
+<th scope="col" class="org-right">Output</th>
+<th scope="col" class="org-left"> </th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">239 1000</td>
+<td class="org-right">161</td>
+<td class="org-left">$F<sub>239</sub> \mod 1000</td>
+</tr>
+<tr>
+<td class="org-left">2816213588 239</td>
+<td class="org-right">151</td>
+<td class="org-left">\(F_{2816213588} \mod 239\)</td>
+</tr>
+<tr>
+<td class="org-left">1 239</td>
+<td class="org-right">1</td>
+<td class="org-left">\(F_1 \mod 239\)</td>
+</tr>
+<tr>
+<td class="org-left">115 1000</td>
+<td class="org-right">885</td>
+<td class="org-left">\(F_{115} \mod 1000\)</td>
+</tr>
+<tr>
+<td class="org-left">2816213588 30524</td>
+<td class="org-right">10249</td>
+<td class="org-left">\(F_{2816213588} \mod 30524\)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span>previous, current = 0, 1
+x = 2816213588 // 30524
+for number in range(x):
+    previous, current = current, (previous + current) % 30524
+print(current)
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/problems-algorithms-fibonacci/" rel="tag">problems algorithms fibonacci</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../least-common-multiple/" rel="prev" title="Least Common Multiple">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:necromuralist@protonmail.com">Cloistered Monkey</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

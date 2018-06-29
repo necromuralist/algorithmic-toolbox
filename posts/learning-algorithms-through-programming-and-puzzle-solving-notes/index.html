@@ -124,22 +124,22 @@
     <p>
 These are my notes from the book <i>Learning Algorithms Through Programming and Puzzle Solving</i>, available for purchase from <a href="https://leanpub.com/algo">leanpub.com</a>.
 </p>
-<div id="outline-container-org1258f20" class="outline-2">
-<h2 id="org1258f20">Algorithms and Complexity</h2>
-<div class="outline-text-2" id="text-org1258f20">
+<div id="outline-container-org73e6bc7" class="outline-2">
+<h2 id="org73e6bc7">Algorithms and Complexity</h2>
+<div class="outline-text-2" id="text-org73e6bc7">
 </div>
-<div id="outline-container-orgb22ede4" class="outline-3">
-<h3 id="orgb22ede4">What is an algorithm?</h3>
-<div class="outline-text-3" id="text-orgb22ede4">
+<div id="outline-container-org908eb07" class="outline-3">
+<h3 id="org908eb07">What is an algorithm?</h3>
+<div class="outline-text-3" id="text-org908eb07">
 <ul class="org-ul">
 <li>A sequence of instructions to solve a well formulated problem.</li>
 <li>Problems are specified in terms of their inputs and outputs and the algorithm has to transform the inputs into the outputs.</li>
 <li>An unambiguous specification of how to solve a class of problems (<a href="https://en.wikipedia.org/wiki/Algorithm">wikipedia</a>).</li>
 </ul>
 </div>
-<div id="outline-container-org743d304" class="outline-4">
-<h4 id="org743d304">What is a well-formulated problem?</h4>
-<div class="outline-text-4" id="text-org743d304">
+<div id="outline-container-org10dd112" class="outline-4">
+<h4 id="org10dd112">What is a well-formulated problem?</h4>
+<div class="outline-text-4" id="text-org10dd112">
 <ul class="org-ul">
 <li>unambiguous</li>
 <li>precise</li>
@@ -147,9 +147,9 @@ These are my notes from the book <i>Learning Algorithms Through Programming and 
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc2cb71b" class="outline-4">
-<h4 id="orgc2cb71b">What are two of the most important things to ask about an algorithm?</h4>
-<div class="outline-text-4" id="text-orgc2cb71b">
+<div id="outline-container-org20e39eb" class="outline-4">
+<h4 id="org20e39eb">What are two of the most important things to ask about an algorithm?</h4>
+<div class="outline-text-4" id="text-org20e39eb">
 <ul class="org-ul">
 <li>Does it work correctly?</li>
 <li>How long does it take?</li>
@@ -157,26 +157,26 @@ These are my notes from the book <i>Learning Algorithms Through Programming and 
 </div>
 </div>
 </div>
-<div id="outline-container-orga52820c" class="outline-3">
-<h3 id="orga52820c">What is Pseudocode?</h3>
-<div class="outline-text-3" id="text-orga52820c">
+<div id="outline-container-orgd5e1406" class="outline-3">
+<h3 id="orgd5e1406">What is Pseudocode?</h3>
+<div class="outline-text-3" id="text-orgd5e1406">
 <ul class="org-ul">
 <li>A language that ignores specifics needed for a programming language but is precise enough to describe an algorithm.</li>
 <li>An informal, high-level description of an algorithm (<a href="https://en.wikipedia.org/wiki/Pseudocode">wikipedia</a>)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1c8adf5" class="outline-3">
-<h3 id="org1c8adf5">What is the difference between a Problem and a Problem Instance?</h3>
-<div class="outline-text-3" id="text-org1c8adf5">
+<div id="outline-container-org1de4af9" class="outline-3">
+<h3 id="org1de4af9">What is the difference between a Problem and a Problem Instance?</h3>
+<div class="outline-text-3" id="text-org1de4af9">
 <ul class="org-ul">
 <li>A problem is a class of computational tasks</li>
 <li>A problem instance is a particular input for a problem class</li>
 </ul>
 </div>
-<div id="outline-container-org956eab4" class="outline-4">
-<h4 id="org956eab4">Example: The Change Problem</h4>
-<div class="outline-text-4" id="text-org956eab4">
+<div id="outline-container-orgbf84a67" class="outline-4">
+<h4 id="orgbf84a67">Example: The Change Problem</h4>
+<div class="outline-text-4" id="text-orgbf84a67">
 <p>
 The example given in the book is making change for someone. You want to be able to break a larger denomination (say a dollar) into smaller ones using the fewest number of coins. In this case they specifically say coin but you could re-state it to mean any type of money.
 </p>
@@ -197,7 +197,6 @@ The example given in the book is making change for someone. You want to be able 
 This is the way most people do it.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">MakeChange</span><span class="p">(</span><span class="n">money</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
     <span class="k">while</span> <span class="n">money</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 	<span class="n">coin</span> <span class="o">&lt;-</span> <span class="s2">"coin with largest denomination not greater than value of money."</span>
@@ -209,7 +208,6 @@ This is the way most people do it.
 <i>What was c and d for?</i> In the example solution they aren't used (and they also don't output the number of each coin as was required in the problem statement), but there is an alternative solution that always goes through the denominations once.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">MakeChange</span><span class="p">(</span><span class="n">money</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
     <span class="sd">"""Make change using the smallest number of coins</span>
 
@@ -232,9 +230,9 @@ You could probably improve on the second version by quitting once you have made 
 </div>
 </div>
 </div>
-<div id="outline-container-org10e14e2" class="outline-3">
-<h3 id="org10e14e2">What are correct and incorrect algorithms?</h3>
-<div class="outline-text-3" id="text-org10e14e2">
+<div id="outline-container-orgb641051" class="outline-3">
+<h3 id="orgb641051">What are correct and incorrect algorithms?</h3>
+<div class="outline-text-3" id="text-orgb641051">
 <ul class="org-ul">
 <li>Correct: every input instance produces a correct output</li>
 <li>Incorrect: At least one input produces an incorrect output</li>
@@ -245,17 +243,17 @@ By this definition the <code>MakeChange</code> algorithm might be incorrect depe
 </div>
 </div>
 
-<div id="outline-container-org4091b76" class="outline-3">
-<h3 id="org4091b76">What are fast and slow algorithms?</h3>
-<div class="outline-text-3" id="text-org4091b76">
+<div id="outline-container-org9ce9c7f" class="outline-3">
+<h3 id="org9ce9c7f">What are fast and slow algorithms?</h3>
+<div class="outline-text-3" id="text-org9ce9c7f">
 <p>
 Because different computers can perform at different speeds, <i>time</i> is a poor measure of algorithmic speed. Instead we use the count of basic operations that an algorithm uses.
 </p>
 </div>
 </div>
-<div id="outline-container-org98da69f" class="outline-3">
-<h3 id="org98da69f">What is Big-O Notation?</h3>
-<div class="outline-text-3" id="text-org98da69f">
+<div id="outline-container-org836f6d4" class="outline-3">
+<h3 id="org836f6d4">What is Big-O Notation?</h3>
+<div class="outline-text-3" id="text-org836f6d4">
 <p>
 As the number of inputs goes up, the fastest growing term in the equation describing the number of operations an algorithm makes begins to dominate the count, so generally only this term is used to characterize the running time of the algorithm. Lets say you have two for loops and, given an input of \(n\), they have a run-time of \(3n + n^3\). When \(n\) is 1, the first term is 3 and the second term is 1, but when \(n\) is \(1,000\), the first term is \(3,000\) while the second term is \(1,000,000,000\).
 </p>
@@ -271,30 +269,195 @@ As you can see, the \(n^3\) term grows much faster, accounting for just about al
 </div>
 </div>
 </div>
-<div id="outline-container-org160654b" class="outline-2">
-<h2 id="org160654b">Algorithm Design Techniques</h2>
+<div id="outline-container-org48a725e" class="outline-2">
+<h2 id="org48a725e">Algorithm Design Techniques</h2>
+<div class="outline-text-2" id="text-org48a725e">
+<p>
+Many algorithms share the same ideas even though the problems are different. These are the most common design techniques. The ideas are illustrated with the problem of trying to answer your phone when you've it handset somewhere in your house.
+</p>
 </div>
-<div id="outline-container-orgb68d637" class="outline-2">
-<h2 id="orgb68d637">Programming Challenges</h2>
+<div id="outline-container-org4a010a6" class="outline-3">
+<h3 id="org4a010a6">What are Exhaustive Search Algorithms?</h3>
+<div class="outline-text-3" id="text-org4a010a6">
+<p>
+This is a <i>brute force</i> approach where you look at every possible alternative in order to find your solution. To find your phone headset with brute-force you would simply sweep your entire house until you found it.
+</p>
 </div>
-<div id="outline-container-org23102e4" class="outline-2">
-<h2 id="org23102e4">Algorithmic Warm Up</h2>
 </div>
-<div id="outline-container-org621ae81" class="outline-2">
-<h2 id="org621ae81">Greedy Algorithms</h2>
+<div id="outline-container-org23ef591" class="outline-3">
+<h3 id="org23ef591">What are Brand-and-Bound Algorithms?</h3>
+<div class="outline-text-3" id="text-org23ef591">
+<p>
+<i>Branch-and-Bound</i> algorithms use a brute-force approach but eliminate certain alternatives without checking them based on some criteria that would make them ineligible. If you were searching your house and you heard the phone ring upstairs then you could eliminate the bottom floor of the house because you know it isn't ther.
+</p>
 </div>
-<div id="outline-container-orga0d7b58" class="outline-2">
-<h2 id="orga0d7b58">Divide-and-Conquer</h2>
 </div>
-<div id="outline-container-orgc5152d6" class="outline-2">
-<h2 id="orgc5152d6">Dynamic Programming</h2>
+<div id="outline-container-orgdbddb61" class="outline-3">
+<h3 id="orgdbddb61">What are Greedy Algorithms?</h3>
+<div class="outline-text-3" id="text-orgdbddb61">
+<p>
+<i>Greedy Algorithms</i> choose among alternatives at each iteration, always choosing the "best" alternative each time. To find your phone with in a <i>greedy</i> manner you would just walk in a straight line toward your phone. The downside to this approach is that if the only open door happens to be off the straight path, you will get stuck.
+</p>
 </div>
-<div id="outline-container-orgde5367a" class="outline-2">
-<h2 id="orgde5367a">Appendix</h2>
 </div>
-<div id="outline-container-org939bd20" class="outline-2">
-<h2 id="org939bd20">Sources</h2>
-<div class="outline-text-2" id="text-org939bd20">
+<div id="outline-container-org1c0a4e8" class="outline-3">
+<h3 id="org1c0a4e8">What are Dynamic Programming Algorithms?</h3>
+<div class="outline-text-3" id="text-org1c0a4e8">
+<p>
+<i>Dynamic Programming</i> breaks the larger problems into sub-problems and solves each of them to solve the larger problem. It organizes computations to try and avoid re-computing sub-problems if they happen to have already been solved by another sub-problem. There isn't a good way to apply this to the phone-search problem. Generally the method involves building a lookup table of incremental problem solutions.
+</p>
+</div>
+</div>
+<div id="outline-container-org205edeb" class="outline-3">
+<h3 id="org205edeb">What are Recursive Algorithms?</h3>
+<div class="outline-text-3" id="text-org205edeb">
+<p>
+An algorithm is <i>recursive</i> if it calls itself. 
+</p>
+</div>
+<div id="outline-container-org384308a" class="outline-4">
+<h4 id="org384308a">Tower of Hanoi</h4>
+<div class="outline-text-4" id="text-org384308a">
+<p>
+The <a href="https://en.wikipedia.org/wiki/Tower_of_Hanoi">Tower of Hanoi Problem</a> is an example of a recursively solved problem. You have three pegs with disks of different sizes on the leftmost peg and you need to move them to the rightmost peg, but a larger disk can never be place on a smaller disk. If you have one disk you just move it to the rightmost peg.
+</p>
+</div>
+
+<ul class="org-ul">
+<li>
+<a id="org0b8f92e"></a>Three disks<br><div class="outline-text-5" id="text-org0b8f92e">
+<ol class="org-ol">
+<li>Move the smallest disk to the rightmost peg</li>
+<li>Move the middle disk to the middle peg</li>
+<li>Move the smallest disk to the middle peg</li>
+<li>Move the largest disk to the rightmost peg</li>
+<li>Move the smallest disk to the leftmost peg</li>
+<li>Move the middle disk to the rightmost peg</li>
+<li>Move the smallest disk to the rightmost peg</li>
+</ol>
+<p>
+In general, the problem for n-disks is to move all but the largest disk to the middle peg, then move the largest disk to the rightmost peg, then do this for the remaining disks, and repeat until you only have one disk. So you are always solving the <i>n</i> disk problem by first solving the <i>n-1</i> disk problem.
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6ca1a03" class="outline-3">
+<h3 id="org6ca1a03">What are Divide-and-Conquer Algorithms?</h3>
+<div class="outline-text-3" id="text-org6ca1a03">
+<p>
+<i>Divide-and-Conquer</i> algorithms work by splitting problems into smaller, easier to solve problems, solving the sub-problems separately, then combining them for the final solution. <i>MergeSort</i> is one example of a divide-and-conquer algorithm. Repeatedly split a list in half until you have single elements, then repeatedly merge them back together in pairs, making sure that the pairs are sorted.
+</p>
+</div>
+</div>
+<div id="outline-container-org436c5f3" class="outline-3">
+<h3 id="org436c5f3">What are Randomized Algorithms?</h3>
+<div class="outline-text-3" id="text-org436c5f3">
+<p>
+In <i>randomized</i> algorithms, you generate random solutions and check them. For the phone problem, you could use a coin toss to decide where to look next.
+</p>
+<ul class="org-ul">
+<li>
+<i>Las Vegas</i> algorithms: always return correct solutions</li>
+<li>
+<i>Monte Carlo</i> algorithms: Usually produce approximate (and therefore incorrect) solutions</li>
+</ul>
+<p>
+Randomized algorithms are usually faster and simpler.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org82f1e40" class="outline-2">
+<h2 id="org82f1e40">Programming Challenges</h2>
+<div class="outline-text-2" id="text-org82f1e40">
+<p>
+To solve a programming challenge:
+</p>
+
+<ol class="org-ol">
+<li>Read the problem statement</li>
+<li>Design the algorithm</li>
+<li>Implement the algorithm</li>
+<li>Test and debug your implementation</li>
+<li>Submit your solution</li>
+</ol>
+</div>
+<div id="outline-container-orge9fc90c" class="outline-3">
+<h3 id="orge9fc90c">How do you solve a Programming Challenge?</h3>
+<div class="outline-text-3" id="text-orge9fc90c">
+<ol class="org-ol">
+<li>Read the problem statement</li>
+<li>Design the Algorithm
+<ul class="org-ul">
+<li>Calculate if your solution will work based on your big-O and the constraints of the problem.</li>
+</ul>
+</li>
+<li>Implement the algorithm</li>
+<li>Test and Debug your implementation
+<ul class="org-ul">
+<li>Start with a small dataset to check that it works correctly</li>
+<li>Move on to a larger dataset to make sure it's correct and runs within the time constraint</li>
+<li>Implement a separate function to generate the larger dataset</li>
+<li>Check the boundary inputs (the largest and smallest that you will get)</li>
+<li>Check randomly generated data</li>
+<li>Check degenerate cases (empty sets, trees with one path, etc.)</li>
+<li>Stress Test</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgf12f6dd" class="outline-3">
+<h3 id="orgf12f6dd">What are some good programming practices?</h3>
+<div class="outline-text-3" id="text-orgf12f6dd">
+<ul class="org-ul">
+<li>Stick to a specific code style.</li>
+<li>Use meaningful variable names</li>
+<li>Turn on all warnings</li>
+<li>Structure the code</li>
+<li>Only make your code compact if it doesn't reduce readability</li>
+<li>Use Assert statements
+<ul class="org-ul">
+<li>Preconditions</li>
+<li>Postconditions</li>
+<li>Points that should never be reached (put <code>assert False</code>)</li>
+</ul>
+</li>
+<li>Avoid integer overflow (estimate your maximum size and don't exceed your programming language's limits)</li>
+<li>Avoid floating point numbers if possible (if you only need intermediate calculations for comparisons, see if you can eliminate computations that produce floats)</li>
+<li>Stick to 0-based arrays, even if the problem statement uses 1-based</li>
+<li>Use semi-open intervals (like python's <code>range</code> function)
+<ul class="org-ul">
+<li>include left boundary, exclude right boundary</li>
+<li>The size of a semi-open interval <i>[l,r)</i> is <i>r - l</i>
+</li>
+<li>Splitting a semi-open interval is simpler: \([l,r) = [l,m) \cup [m, r)\)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org8223106" class="outline-2">
+<h2 id="org8223106">Algorithmic Warm Up</h2>
+</div>
+<div id="outline-container-org0d82170" class="outline-2">
+<h2 id="org0d82170">Greedy Algorithms</h2>
+</div>
+<div id="outline-container-org74ec535" class="outline-2">
+<h2 id="org74ec535">Divide-and-Conquer</h2>
+</div>
+<div id="outline-container-org0b2bf56" class="outline-2">
+<h2 id="org0b2bf56">Dynamic Programming</h2>
+</div>
+<div id="outline-container-org11e9c09" class="outline-2">
+<h2 id="org11e9c09">Appendix</h2>
+</div>
+<div id="outline-container-org4a267cc" class="outline-2">
+<h2 id="org4a267cc">Sources</h2>
+<div class="outline-text-2" id="text-org4a267cc">
 <ul class="org-ul">
 <li>Kulikov, Alexander S, and Pavel A Pevzner. “Learning Algorithms Through Programming and Puzzle Solving,” n.d., 138.</li>
 </ul>

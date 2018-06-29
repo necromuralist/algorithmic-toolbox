@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_algorithms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 25 Jun 2018 19:38:18 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Learning Algorithms Through Programming and Puzzle Solving Notes</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/learning-algorithms-through-programming-and-puzzle-solving-notes/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_algorithms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Thu, 28 Jun 2018 20:20:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Learning Algorithms Through Programming and Puzzle Solving Notes</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/learning-algorithms-through-programming-and-puzzle-solving-notes/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;p&gt;
 These are my notes from the book &lt;i&gt;Learning Algorithms Through Programming and Puzzle Solving&lt;/i&gt;, available for purchase from &lt;a href="https://leanpub.com/algo"&gt;leanpub.com&lt;/a&gt;.
 &lt;/p&gt;
-&lt;div id="outline-container-org1258f20" class="outline-2"&gt;
-&lt;h2 id="org1258f20"&gt;Algorithms and Complexity&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1258f20"&gt;
+&lt;div id="outline-container-org73e6bc7" class="outline-2"&gt;
+&lt;h2 id="org73e6bc7"&gt;Algorithms and Complexity&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org73e6bc7"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb22ede4" class="outline-3"&gt;
-&lt;h3 id="orgb22ede4"&gt;What is an algorithm?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb22ede4"&gt;
+&lt;div id="outline-container-org908eb07" class="outline-3"&gt;
+&lt;h3 id="org908eb07"&gt;What is an algorithm?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org908eb07"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;A sequence of instructions to solve a well formulated problem.&lt;/li&gt;
 &lt;li&gt;Problems are specified in terms of their inputs and outputs and the algorithm has to transform the inputs into the outputs.&lt;/li&gt;
 &lt;li&gt;An unambiguous specification of how to solve a class of problems (&lt;a href="https://en.wikipedia.org/wiki/Algorithm"&gt;wikipedia&lt;/a&gt;).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org743d304" class="outline-4"&gt;
-&lt;h4 id="org743d304"&gt;What is a well-formulated problem?&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org743d304"&gt;
+&lt;div id="outline-container-org10dd112" class="outline-4"&gt;
+&lt;h4 id="org10dd112"&gt;What is a well-formulated problem?&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org10dd112"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;unambiguous&lt;/li&gt;
 &lt;li&gt;precise&lt;/li&gt;
@@ -25,9 +25,9 @@ These are my notes from the book &lt;i&gt;Learning Algorithms Through Programmin
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc2cb71b" class="outline-4"&gt;
-&lt;h4 id="orgc2cb71b"&gt;What are two of the most important things to ask about an algorithm?&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc2cb71b"&gt;
+&lt;div id="outline-container-org20e39eb" class="outline-4"&gt;
+&lt;h4 id="org20e39eb"&gt;What are two of the most important things to ask about an algorithm?&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org20e39eb"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Does it work correctly?&lt;/li&gt;
 &lt;li&gt;How long does it take?&lt;/li&gt;
@@ -35,26 +35,26 @@ These are my notes from the book &lt;i&gt;Learning Algorithms Through Programmin
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga52820c" class="outline-3"&gt;
-&lt;h3 id="orga52820c"&gt;What is Pseudocode?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga52820c"&gt;
+&lt;div id="outline-container-orgd5e1406" class="outline-3"&gt;
+&lt;h3 id="orgd5e1406"&gt;What is Pseudocode?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd5e1406"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;A language that ignores specifics needed for a programming language but is precise enough to describe an algorithm.&lt;/li&gt;
 &lt;li&gt;An informal, high-level description of an algorithm (&lt;a href="https://en.wikipedia.org/wiki/Pseudocode"&gt;wikipedia&lt;/a&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org1c8adf5" class="outline-3"&gt;
-&lt;h3 id="org1c8adf5"&gt;What is the difference between a Problem and a Problem Instance?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1c8adf5"&gt;
+&lt;div id="outline-container-org1de4af9" class="outline-3"&gt;
+&lt;h3 id="org1de4af9"&gt;What is the difference between a Problem and a Problem Instance?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1de4af9"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;A problem is a class of computational tasks&lt;/li&gt;
 &lt;li&gt;A problem instance is a particular input for a problem class&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org956eab4" class="outline-4"&gt;
-&lt;h4 id="org956eab4"&gt;Example: The Change Problem&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org956eab4"&gt;
+&lt;div id="outline-container-orgbf84a67" class="outline-4"&gt;
+&lt;h4 id="orgbf84a67"&gt;Example: The Change Problem&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbf84a67"&gt;
 &lt;p&gt;
 The example given in the book is making change for someone. You want to be able to break a larger denomination (say a dollar) into smaller ones using the fewest number of coins. In this case they specifically say coin but you could re-state it to mean any type of money.
 &lt;/p&gt;
@@ -75,7 +75,6 @@ The example given in the book is making change for someone. You want to be able 
 This is the way most people do it.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;MakeChange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;money&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;money&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 	&lt;span class="n"&gt;coin&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="s2"&gt;"coin with largest denomination not greater than value of money."&lt;/span&gt;
@@ -87,7 +86,6 @@ This is the way most people do it.
 &lt;i&gt;What was c and d for?&lt;/i&gt; In the example solution they aren't used (and they also don't output the number of each coin as was required in the problem statement), but there is an alternative solution that always goes through the denominations once.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;MakeChange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;money&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Make change using the smallest number of coins&lt;/span&gt;
 
@@ -110,9 +108,9 @@ You could probably improve on the second version by quitting once you have made 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org10e14e2" class="outline-3"&gt;
-&lt;h3 id="org10e14e2"&gt;What are correct and incorrect algorithms?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org10e14e2"&gt;
+&lt;div id="outline-container-orgb641051" class="outline-3"&gt;
+&lt;h3 id="orgb641051"&gt;What are correct and incorrect algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb641051"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Correct: every input instance produces a correct output&lt;/li&gt;
 &lt;li&gt;Incorrect: At least one input produces an incorrect output&lt;/li&gt;
@@ -124,17 +122,17 @@ By this definition the &lt;code&gt;MakeChange&lt;/code&gt; algorithm might be in
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4091b76" class="outline-3"&gt;
-&lt;h3 id="org4091b76"&gt;What are fast and slow algorithms?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4091b76"&gt;
+&lt;div id="outline-container-org9ce9c7f" class="outline-3"&gt;
+&lt;h3 id="org9ce9c7f"&gt;What are fast and slow algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9ce9c7f"&gt;
 &lt;p&gt;
 Because different computers can perform at different speeds, &lt;i&gt;time&lt;/i&gt; is a poor measure of algorithmic speed. Instead we use the count of basic operations that an algorithm uses.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org98da69f" class="outline-3"&gt;
-&lt;h3 id="org98da69f"&gt;What is Big-O Notation?&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org98da69f"&gt;
+&lt;div id="outline-container-org836f6d4" class="outline-3"&gt;
+&lt;h3 id="org836f6d4"&gt;What is Big-O Notation?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org836f6d4"&gt;
 &lt;p&gt;
 As the number of inputs goes up, the fastest growing term in the equation describing the number of operations an algorithm makes begins to dominate the count, so generally only this term is used to characterize the running time of the algorithm. Lets say you have two for loops and, given an input of \(n\), they have a run-time of \(3n + n^3\). When \(n\) is 1, the first term is 3 and the second term is 1, but when \(n\) is \(1,000\), the first term is \(3,000\) while the second term is \(1,000,000,000\).
 &lt;/p&gt;
@@ -151,30 +149,190 @@ As you can see, the \(n^3\) term grows much faster, accounting for just about al
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org160654b" class="outline-2"&gt;
-&lt;h2 id="org160654b"&gt;Algorithm Design Techniques&lt;/h2&gt;
+&lt;div id="outline-container-org48a725e" class="outline-2"&gt;
+&lt;h2 id="org48a725e"&gt;Algorithm Design Techniques&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org48a725e"&gt;
+&lt;p&gt;
+Many algorithms share the same ideas even though the problems are different. These are the most common design techniques. The ideas are illustrated with the problem of trying to answer your phone when you've it handset somewhere in your house.
+&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb68d637" class="outline-2"&gt;
-&lt;h2 id="orgb68d637"&gt;Programming Challenges&lt;/h2&gt;
+&lt;div id="outline-container-org4a010a6" class="outline-3"&gt;
+&lt;h3 id="org4a010a6"&gt;What are Exhaustive Search Algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4a010a6"&gt;
+&lt;p&gt;
+This is a &lt;i&gt;brute force&lt;/i&gt; approach where you look at every possible alternative in order to find your solution. To find your phone headset with brute-force you would simply sweep your entire house until you found it.
+&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org23102e4" class="outline-2"&gt;
-&lt;h2 id="org23102e4"&gt;Algorithmic Warm Up&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org621ae81" class="outline-2"&gt;
-&lt;h2 id="org621ae81"&gt;Greedy Algorithms&lt;/h2&gt;
+&lt;div id="outline-container-org23ef591" class="outline-3"&gt;
+&lt;h3 id="org23ef591"&gt;What are Brand-and-Bound Algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org23ef591"&gt;
+&lt;p&gt;
+&lt;i&gt;Branch-and-Bound&lt;/i&gt; algorithms use a brute-force approach but eliminate certain alternatives without checking them based on some criteria that would make them ineligible. If you were searching your house and you heard the phone ring upstairs then you could eliminate the bottom floor of the house because you know it isn't ther.
+&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga0d7b58" class="outline-2"&gt;
-&lt;h2 id="orga0d7b58"&gt;Divide-and-Conquer&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc5152d6" class="outline-2"&gt;
-&lt;h2 id="orgc5152d6"&gt;Dynamic Programming&lt;/h2&gt;
+&lt;div id="outline-container-orgdbddb61" class="outline-3"&gt;
+&lt;h3 id="orgdbddb61"&gt;What are Greedy Algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdbddb61"&gt;
+&lt;p&gt;
+&lt;i&gt;Greedy Algorithms&lt;/i&gt; choose among alternatives at each iteration, always choosing the "best" alternative each time. To find your phone with in a &lt;i&gt;greedy&lt;/i&gt; manner you would just walk in a straight line toward your phone. The downside to this approach is that if the only open door happens to be off the straight path, you will get stuck.
+&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgde5367a" class="outline-2"&gt;
-&lt;h2 id="orgde5367a"&gt;Appendix&lt;/h2&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org939bd20" class="outline-2"&gt;
-&lt;h2 id="org939bd20"&gt;Sources&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org939bd20"&gt;
+&lt;div id="outline-container-org1c0a4e8" class="outline-3"&gt;
+&lt;h3 id="org1c0a4e8"&gt;What are Dynamic Programming Algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1c0a4e8"&gt;
+&lt;p&gt;
+&lt;i&gt;Dynamic Programming&lt;/i&gt; breaks the larger problems into sub-problems and solves each of them to solve the larger problem. It organizes computations to try and avoid re-computing sub-problems if they happen to have already been solved by another sub-problem. There isn't a good way to apply this to the phone-search problem. Generally the method involves building a lookup table of incremental problem solutions.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org205edeb" class="outline-3"&gt;
+&lt;h3 id="org205edeb"&gt;What are Recursive Algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org205edeb"&gt;
+&lt;p&gt;
+An algorithm is &lt;i&gt;recursive&lt;/i&gt; if it calls itself. 
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org384308a" class="outline-4"&gt;
+&lt;h4 id="org384308a"&gt;Tower of Hanoi&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org384308a"&gt;
+&lt;p&gt;
+The &lt;a href="https://en.wikipedia.org/wiki/Tower_of_Hanoi"&gt;Tower of Hanoi Problem&lt;/a&gt; is an example of a recursively solved problem. You have three pegs with disks of different sizes on the leftmost peg and you need to move them to the rightmost peg, but a larger disk can never be place on a smaller disk. If you have one disk you just move it to the rightmost peg.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org0b8f92e"&gt;&lt;/a&gt;Three disks&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org0b8f92e"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Move the smallest disk to the rightmost peg&lt;/li&gt;
+&lt;li&gt;Move the middle disk to the middle peg&lt;/li&gt;
+&lt;li&gt;Move the smallest disk to the middle peg&lt;/li&gt;
+&lt;li&gt;Move the largest disk to the rightmost peg&lt;/li&gt;
+&lt;li&gt;Move the smallest disk to the leftmost peg&lt;/li&gt;
+&lt;li&gt;Move the middle disk to the rightmost peg&lt;/li&gt;
+&lt;li&gt;Move the smallest disk to the rightmost peg&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+In general, the problem for n-disks is to move all but the largest disk to the middle peg, then move the largest disk to the rightmost peg, then do this for the remaining disks, and repeat until you only have one disk. So you are always solving the &lt;i&gt;n&lt;/i&gt; disk problem by first solving the &lt;i&gt;n-1&lt;/i&gt; disk problem.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6ca1a03" class="outline-3"&gt;
+&lt;h3 id="org6ca1a03"&gt;What are Divide-and-Conquer Algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6ca1a03"&gt;
+&lt;p&gt;
+&lt;i&gt;Divide-and-Conquer&lt;/i&gt; algorithms work by splitting problems into smaller, easier to solve problems, solving the sub-problems separately, then combining them for the final solution. &lt;i&gt;MergeSort&lt;/i&gt; is one example of a divide-and-conquer algorithm. Repeatedly split a list in half until you have single elements, then repeatedly merge them back together in pairs, making sure that the pairs are sorted.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org436c5f3" class="outline-3"&gt;
+&lt;h3 id="org436c5f3"&gt;What are Randomized Algorithms?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org436c5f3"&gt;
+&lt;p&gt;
+In &lt;i&gt;randomized&lt;/i&gt; algorithms, you generate random solutions and check them. For the phone problem, you could use a coin toss to decide where to look next.
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;i&gt;Las Vegas&lt;/i&gt; algorithms: always return correct solutions&lt;/li&gt;
+&lt;li&gt;&lt;i&gt;Monte Carlo&lt;/i&gt; algorithms: Usually produce approximate (and therefore incorrect) solutions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Randomized algorithms are usually faster and simpler.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org82f1e40" class="outline-2"&gt;
+&lt;h2 id="org82f1e40"&gt;Programming Challenges&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org82f1e40"&gt;
+&lt;p&gt;
+To solve a programming challenge:
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Read the problem statement&lt;/li&gt;
+&lt;li&gt;Design the algorithm&lt;/li&gt;
+&lt;li&gt;Implement the algorithm&lt;/li&gt;
+&lt;li&gt;Test and debug your implementation&lt;/li&gt;
+&lt;li&gt;Submit your solution&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orge9fc90c" class="outline-3"&gt;
+&lt;h3 id="orge9fc90c"&gt;How do you solve a Programming Challenge?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge9fc90c"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Read the problem statement&lt;/li&gt;
+&lt;li&gt;Design the Algorithm
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Calculate if your solution will work based on your big-O and the constraints of the problem.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Implement the algorithm&lt;/li&gt;
+&lt;li&gt;Test and Debug your implementation
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Start with a small dataset to check that it works correctly&lt;/li&gt;
+&lt;li&gt;Move on to a larger dataset to make sure it's correct and runs within the time constraint&lt;/li&gt;
+&lt;li&gt;Implement a separate function to generate the larger dataset&lt;/li&gt;
+&lt;li&gt;Check the boundary inputs (the largest and smallest that you will get)&lt;/li&gt;
+&lt;li&gt;Check randomly generated data&lt;/li&gt;
+&lt;li&gt;Check degenerate cases (empty sets, trees with one path, etc.)&lt;/li&gt;
+&lt;li&gt;Stress Test&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgf12f6dd" class="outline-3"&gt;
+&lt;h3 id="orgf12f6dd"&gt;What are some good programming practices?&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf12f6dd"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Stick to a specific code style.&lt;/li&gt;
+&lt;li&gt;Use meaningful variable names&lt;/li&gt;
+&lt;li&gt;Turn on all warnings&lt;/li&gt;
+&lt;li&gt;Structure the code&lt;/li&gt;
+&lt;li&gt;Only make your code compact if it doesn't reduce readability&lt;/li&gt;
+&lt;li&gt;Use Assert statements
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Preconditions&lt;/li&gt;
+&lt;li&gt;Postconditions&lt;/li&gt;
+&lt;li&gt;Points that should never be reached (put &lt;code&gt;assert False&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Avoid integer overflow (estimate your maximum size and don't exceed your programming language's limits)&lt;/li&gt;
+&lt;li&gt;Avoid floating point numbers if possible (if you only need intermediate calculations for comparisons, see if you can eliminate computations that produce floats)&lt;/li&gt;
+&lt;li&gt;Stick to 0-based arrays, even if the problem statement uses 1-based&lt;/li&gt;
+&lt;li&gt;Use semi-open intervals (like python's &lt;code&gt;range&lt;/code&gt; function)
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;include left boundary, exclude right boundary&lt;/li&gt;
+&lt;li&gt;The size of a semi-open interval &lt;i&gt;[l,r)&lt;/i&gt; is &lt;i&gt;r - l&lt;/i&gt;&lt;/li&gt;
+&lt;li&gt;Splitting a semi-open interval is simpler: \([l,r) = [l,m) \cup [m, r)\)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org8223106" class="outline-2"&gt;
+&lt;h2 id="org8223106"&gt;Algorithmic Warm Up&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org0d82170" class="outline-2"&gt;
+&lt;h2 id="org0d82170"&gt;Greedy Algorithms&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org74ec535" class="outline-2"&gt;
+&lt;h2 id="org74ec535"&gt;Divide-and-Conquer&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org0b2bf56" class="outline-2"&gt;
+&lt;h2 id="org0b2bf56"&gt;Dynamic Programming&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org11e9c09" class="outline-2"&gt;
+&lt;h2 id="org11e9c09"&gt;Appendix&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org4a267cc" class="outline-2"&gt;
+&lt;h2 id="org4a267cc"&gt;Sources&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4a267cc"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Kulikov, Alexander S, and Pavel A Pevzner. “Learning Algorithms Through Programming and Puzzle Solving,” n.d., 138.&lt;/li&gt;
 &lt;/ul&gt;

@@ -1,5 +1,7 @@
+joblib
 jupyter
 Nikola
+pip-tools
 pipdeptree
 virtualfish
 watchdog

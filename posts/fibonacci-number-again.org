@@ -10,7 +10,12 @@
 #+END_COMMENT
 
 #+BEGIN_SRC ipython :session fibonacci :results none
-from algorithmic_toolbox.implementations import fibonacci
+# this package
+from algorithmic_toolbox.helpers import time_it
+from algorithmic_toolbox.implementations import (
+    fibonacci_cached,
+    memory,
+    )
 #+END_SRC
 
 * Introduction
@@ -18,7 +23,7 @@ from algorithmic_toolbox.implementations import fibonacci
 
 #+BEGIN_SRC ipython :session fibonacci :results output
 for number in range(15):
-    print(fibonacci(number) % 2, end=', ')
+    print(fibonacci_cached(number) % 2, end=', ')
 #+END_SRC
 
 #+RESULTS:
@@ -39,7 +44,7 @@ So if you know the cycle, you don't need to calculate the fibonacci number. What
 
 #+BEGIN_SRC ipython :session fibonacci :results output
 for number in range(16):
-    print(fibonacci(number) % 3, end=',')
+    print(fibonacci_cached(number) % 3, end=',')
 #+END_SRC
 
 #+RESULTS:
@@ -55,7 +60,12 @@ It looks like it repeats every eight numbers. In general, the fact that the modu
 | *Input*       | Two integers $n$ and $m$ on the same line separated by a space.                              |
 | *Constraints* | $1 \le n \le 10^{18}, 2 \le m \le 10^5$                                                      |
 | *Output*      | $F_n \mod m$                                                                                 |
-
+** Constants
+#+BEGIN_SRC ipython :session fibonacci :results none
+MAX_N = 10**18
+MAX_M = 10**5
+MAX_TIME = 5
+#+END_SRC
 * Samples
 
 | Input            | Output |                             |
@@ -76,3 +86,57 @@ print(current)
 
 #+RESULTS:
 : 11325
+
+* Identity Version
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+def fibonacci_identity(n):
+    """Calculates the nth fibonacci number
+    
+    Args:
+     n (int): count of number to calculate
+
+    Returns:
+     int: nth fibonacci number
+    """
+    return _fibonacci(n)[0]
+#+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results none
+def _fibonacci(n):
+    """Calculates fibonacci number
+
+    Returns:
+     tuple: F(2k), F(2K + 1)
+    """
+    if n == 0:
+        return (0, 1)
+
+    a, b = _fibonacci(n//2)
+    c = a * (b * 2 - a)
+    d = a**2 + b**2
+    if n % 2 == 0:
+        return c, d
+    return d, c + d
+#+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+f_0 = fibonacci_cached(45)
+f_1 = fibonacci_identity(45)
+print(f_0)
+print(f_1)
+assert f_0 == f_1
+#+END_SRC
+
+#+RESULTS:
+: 1134903170
+: 1134903170
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+for n in range(0, MAX_N, 1000):
+    print("{}: {}".format(n, fibonacci_cached(n)))
+#+END_SRC
+
+#+BEGIN_SRC ipython :session fibonacci :results output
+expected = fibonacci_cached(MAX_N)
+#+END_SRC

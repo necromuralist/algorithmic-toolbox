@@ -1,0 +1,154 @@
+#+BEGIN_COMMENT
+.. title: Maximum Value of the Loot
+.. slug: maximum-value-of-the-loot
+.. date: 2018-07-02 19:09:29 UTC-07:00
+.. tags: algorithms problems greedy
+.. category: greedy
+.. link: 
+.. description: Maximize the value of what you can stuff into a backpack.
+.. type: text
+#+END_COMMENT
+
+* Introduction
+  A thief breaks into a spice shop and finds spices with varying values per pound. She needs to be able to maximize the amount she steals by stuffing spices into her backpack.
+
+|                    | Description                                                                                                                    |
+| *First Input*      | $n$, the number of compounds and $W$, the capacity of the backpack.                                                            |
+| *Remaining Inputs* | $n$ lines of price-per-pound and weight of each compound                                                                       |
+| *Output*           | Maximum price of spices stuffed into the backpack.                                                                             |
+| *Constraints*      | $1 \le n \le 10^3$, $0 \le W \le 2 \cdot 10^6$, $0 \le p_i \le 2 \cdot 10^6$, $0 \le w_i \le 2 \cdot 10^6$ for $1 \le i \le n$ |
+
+Although the inputs will always be integers, the outputs might be real numbers. To match the grader output at least four digits to the right of the decimal point.
+* Samples
+** Sample One
+Input:
+
+#+BEGIN_EXAMPLE
+3 50
+60 20
+100 50
+120 30
+#+END_EXAMPLE
+
+Output:
+#+BEGIN_EXAMPLE
+180.0000
+#+END_EXAMPLE
+
+The output tells us that the thief's maximum haul is worth $180, which if you look at the inputs means taking 20 pounds of the first spice (worth $60) and 30 pounds of the last spice.
+
+** Sample Two
+
+#+BEGIN_EXAMPLE
+1 10
+500 30
+#+END_EXAMPLE
+
+Output.
+
+#+BEGIN_EXAMPLE
+166.6667
+#+END_EXAMPLE
+
+The input tells us that the thief can only carry 10 pounds of the only available spice, so her haul is $\frac{500}{3}$.
+
+* Helpers
+
+#+BEGIN_SRC ipython :session money :results none
+def assert_close(expected, actual, tag, tolerance=10**-3):
+    """Checks that the expected and actual values are close enough
+
+    Args:
+     expected (float): expected value
+     actual (float): actual calculated value
+     tag (str): identfier for error messages
+     tolerance (float): amount they can differ
+
+    Raises:
+     AssertionError: values were too far apart
+    """
+    assert abs(expected - actual) < tolerance, \
+        "({}) Expected: {} Actual: {} Difference: {}".format(
+            tag, expected, actual, abs(expected - actual))
+    return
+#+END_SRC
+
+* Implementation
+  Because this takes a greedy approach, it will have a $O(n)$ run-time. Since I'm sorting the values first there's actually a $O(\log n) + O(n)$, but especially since I'm using the built-in python generators, the sort is negligible compared to the main loop.
+
+#+BEGIN_SRC ipython :session money :results none
+def maximize_loot(capacity, weights, values):
+    """Figure out the maximum value the thief can haul off
+
+    Args:
+     capacity (int): number of pounds backpack can hold
+     weights (list): how many pounds of each item there is
+     values (list): how much each item is worth per pound
+
+    Raises:
+     AssertionError: weights and values are different lengths
+
+    Returns:
+     float: max-value the backpack can hold
+    """
+    weight_count = len(weights)
+    assert weight_count == len(values), \
+        "Weights and Values not same shape: weights={} values={}".format(
+            weight_count, len(values))
+    values_per_pound = ((values[index]/weights[index], index)
+                        for index in range(weight_count))
+
+    # we have to reverse-sort it (otherwise sorting puts the smallest
+    # number first)
+    per_poundage = sorted(values_per_pound, reverse=True)
+
+    # loot is the value of what we've taken so far
+    loot = 0
+
+    # precondition: per_poundage is the value-per-pound in descending
+    # order for each item along with the index of the original weight/value
+    for value, index in per_poundage:
+        # invariant: value is the largest price-per-pound available
+        if capacity < weights[index]:
+            # we don't have enough strength to take all of this item
+            # so just take as much as we can and quit
+            loot += value * capacity
+            break
+        # otherwise take all of this item
+        loot += values[index]
+        # reducing our capacity by its total weight
+        capacity -= weights[index]
+        if capacity == 0:
+            # we're out of capacity, quit
+            break
+    return loot
+#+END_SRC
+
+** Test One
+#+BEGIN_SRC ipython :session money :results none
+n = 3 
+capacity = 50
+prices = [60, 100, 120]
+weights = [20, 50, 30]
+expected = 180.0000
+actual = maximize_loot(capacity, weights, prices)
+assert_close(expected, actual, "Test One")
+#+END_SRC
+
+** Test Two
+
+#+BEGIN_SRC ipython :session money :results none
+capacity = 10
+prices = [500]
+weights = [30]
+expected = 166.6667
+actual = maximize_loot(capacity, weights, prices)
+assert_close(expected, actual, "Test Two")
+#+END_SRC
+
+** Grader Output
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.03/5.00, max memory used: 9752576/671088640.)
+#+END_EXAMPLE
+

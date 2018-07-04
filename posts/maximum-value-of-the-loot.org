@@ -50,33 +50,17 @@ Output.
 166.6667
 #+END_EXAMPLE
 
-The input tells us that the thief can only carry 10 pounds of the only available spice, so her haul is $\frac{500}{3}$.
-
-* Helpers
-
-#+BEGIN_SRC ipython :session money :results none
-def assert_close(expected, actual, tag, tolerance=10**-3):
-    """Checks that the expected and actual values are close enough
-
-    Args:
-     expected (float): expected value
-     actual (float): actual calculated value
-     tag (str): identfier for error messages
-     tolerance (float): amount they can differ
-
-    Raises:
-     AssertionError: values were too far apart
-    """
-    assert abs(expected - actual) < tolerance, \
-        "({}) Expected: {} Actual: {} Difference: {}".format(
-            tag, expected, actual, abs(expected - actual))
-    return
-#+END_SRC
+The input tells us that the thief can only carry 10 pounds of the only available spice, so her haul is $\frac{500}{3}\approx 166.6667$.
 
 * Implementation
   Because this takes a greedy approach, it will have a $O(n)$ run-time. Since I'm sorting the values first there's actually a $O(\log n) + O(n)$, but especially since I'm using the built-in python generators, the sort is negligible compared to the main loop.
 
-#+BEGIN_SRC ipython :session money :results none
+#+BEGIN_SRC python :session money :results none
+# this package
+from algorithmic_toolbox.helpers import assert_close
+#+END_SRC
+
+#+BEGIN_SRC python :session money :results none
 def maximize_loot(capacity, weights, values):
     """Figure out the maximum value the thief can haul off
 
@@ -125,7 +109,7 @@ def maximize_loot(capacity, weights, values):
 #+END_SRC
 
 ** Test One
-#+BEGIN_SRC ipython :session money :results none
+#+BEGIN_SRC python :session money :results none
 n = 3 
 capacity = 50
 prices = [60, 100, 120]
@@ -137,7 +121,7 @@ assert_close(expected, actual, "Test One")
 
 ** Test Two
 
-#+BEGIN_SRC ipython :session money :results none
+#+BEGIN_SRC python :session money :results none
 capacity = 10
 prices = [500]
 weights = [30]

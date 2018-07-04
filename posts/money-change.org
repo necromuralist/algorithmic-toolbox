@@ -25,12 +25,12 @@
 * Solution
   While /m/ is greater than 0, keep taking a coin with the largest denomination that isn't greater that /m/, subtracting its value from /m/.
 
-#+BEGIN_SRC ipython :session money :results none
+#+BEGIN_SRC python :session money :results none
 DENOMINATIONS = 10, 5, 1
 #+END_SRC
 
 
-#+BEGIN_SRC ipython :session money :results none
+#+BEGIN_SRC python :session money :results none
 def change_money(money):
     """Make change
 
@@ -50,7 +50,7 @@ def change_money(money):
     return coins
 #+END_SRC
 
-#+BEGIN_SRC ipython :session money :results none
+#+BEGIN_SRC python :session money :results none
 expected = 2
 actual = change_money(2)
 assert expected == actual

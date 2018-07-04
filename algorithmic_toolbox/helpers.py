@@ -59,3 +59,37 @@ def time_two_inputs(implementation, tag, a_and_b, expected, max_input, max_time=
     if not allow_timeout:
         assert elapsed <= timedelta(max_time), "Took too long: {}".format(elapsed)
     return
+
+
+def assert_close(expected, actual, tag, tolerance=10**-3):
+    """Checks that the expected and actual values are close enough
+
+    Args:
+     expected (float): expected value
+     actual (float): actual calculated value
+     tag (str): identfier for error messages
+     tolerance (float): amount they can differ
+
+    Raises:
+     AssertionError: values were too far apart
+    """
+    assert abs(expected - actual) < tolerance, \
+        "({}) Expected: {} Actual: {} Difference: {}".format(
+            tag, expected, actual, abs(expected - actual))
+    return
+
+def assert_equal(expected, actual, tag):
+    """Checks that the expected and actual values are equal
+
+    Args:
+     expected (float): expected value
+     actual (float): actual calculated value
+     tag (str): identfier for error messages
+
+    Raises:
+     AssertionError: values were too far apart
+    """
+    assert expected == actual, \
+        "({}) Expected: {} Actual: {} Difference: {}".format(
+            tag, expected, actual, abs(expected - actual))
+    return

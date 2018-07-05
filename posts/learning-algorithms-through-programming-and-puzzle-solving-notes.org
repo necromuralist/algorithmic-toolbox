@@ -189,9 +189,36 @@ To solve a programming challenge:
      + The size of a semi-open interval /[l,r)/ is /r - l/
      + Splitting a semi-open interval is simpler: $[l,r) = [l,m) \cup [m, r)$
 * Algorithmic Warm Up
+** Fibonacci Number
+** Last Digit Of a Fibonacci Number
+** Greatest Common Divisor
+** Least Common Multiple
+** Fibonacci Number Again
+** Last Digit of the Sum Of Fibonacci Numbers
+** Last Digit of the Sum Of Fibonacci Numbers Again
 * Greedy Algorithms
+** Money Change
+** Maximum Value of the Loot
+** Maximum Advertisement Revenue
+** Collecting Signatures
+** Maximum Number Of Prizes
+** Maximum Salary
 * Divide-and-Conquer
+** Binary Search
+** Majority Element
+** Improved QuickSort
+** Number Of Inversions
+** Organizing a Lottery
+** Closest Points
 * Dynamic Programming
+** Money Change Problem
+** Primitive Calculator
+** Edit Distance
+** Longest Common Sub-Sequence of Two-Sequences
+** Longest Common Sub-Sequence of Three-Sequences
+** Maximum Amount of Gold
+** Partitioning Souvenirs
+** Maximum Value of an Arithmetic Expression
 * Appendix
 * Sources
   - Kulikov, Alexander S, and Pavel A Pevzner. “Learning Algorithms Through Programming and Puzzle Solving,” n.d., 138.

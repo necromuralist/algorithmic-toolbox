@@ -1,0 +1,215 @@
+#+BEGIN_COMMENT
+.. title: Binary Search
+.. slug: binary-search
+.. date: 2018-07-04 17:28:44 UTC-07:00
+.. tags: algorithms problems divideandconquer
+.. category: divideandconquer
+.. link: 
+.. description: Implementing a Binary Search
+.. type: text
+#+END_COMMENT
+
+* Binary Search
+  Binary search takes a sorted array and repeatedly divides it in half, checking whether an item searched for is at the mid-point. If you were to just traverse the array, you would have a runtime of $O(n)$. But because you are using divide and conquer (repeatedly halving to reduce the search space), you have a runtime of $O(\log n)$. 
+* Imports
+#+BEGIN_SRC python :session binary :results none
+# python standard library
+from math import log
+
+# pypi
+from expects import (
+    equal,
+    expect,
+)
+#+END_SRC
+* Constants
+#+BEGIN_SRC python :session binary :results none
+NOT_FOUND = -1
+#+END_SRC
+
+* Linear Search
+  The naive way is to just traverse the list.
+
+#+BEGIN_SRC python :session binary :results none
+def linear_search(a, x, verbose=True):
+    """Brute-force search
+
+    Args:
+     a (list): source to search
+     x : Item to search for
+     verbose (bool): Emit number of loops
+
+    Returns:
+     int: index of x in a or -1 if not found
+    """
+    counter = 0
+    for i in range(len(a)):
+        if verbose:
+            counter += 1
+            print("Loop {}".format(counter))
+        if a[i] == x:
+            return i
+    return NOT_FOUND
+#+END_SRC
+
+Interestingly, if you submit this it will time out.
+
+#+BEGIN_EXAMPLE
+Failed case #32/36: time limit exceeded (Time used: 9.98/5.00, memory used: 40480768/536870912.)
+#+END_EXAMPLE
+
+* The Algorithm
+  This is given as part of the problem statement.
+
+#+BEGIN_SRC python :session binary :results none
+def binary_search(K, q, verbose=False):
+    """Finds the index of an item in the list
+
+    Args:
+     K (list): A sorted list of integers
+     q (int): the item to search for
+     verbose (bool): if true, emit the number of loops done
+    
+    Returns:
+     int: index of q in K or -1 if not found
+    """
+    min_index, max_index = 0, len(K) - 1
+    counter = 0
+    while max_index >= min_index:
+        if verbose:
+            counter += 1
+            print("In loop {} - {}:{}".format(counter, min_index, max_index))
+
+        mid_index = (min_index + max_index)//2
+
+        if K[mid_index] == q:
+            return mid_index
+        elif K[mid_index] < q:
+            min_index = mid_index + 1
+        else:
+            max_index = mid_index - 1
+    return NOT_FOUND
+#+END_SRC
+
+** Testing
+
+#+BEGIN_SRC python :session binary :results output
+q = 9
+K = [1, 3, 7, 8, 9, 12, 15]
+expected = 4
+actual = binary_search(K, q, True)
+expect(actual).to(equal(expected))
+#+END_SRC
+
+#+RESULTS:
+: In loop 1 - 0:6
+: In loop 2 - 4:6
+: In loop 3 - 4:4
+
+Looking at the output you can see that after finding that the middle element didn't match /q/ it searched the upper half of the list (by raising the Minimum Index to 4) and then found /q/ at the point where the Minimum and Maximum Index were equal.
+
+We can compare this to the linear search.
+
+#+BEGIN_SRC python :session binary :results output
+actual = linear_search(K, q)
+expect(actual).to(equal(expected))
+#+END_SRC
+
+#+RESULTS:
+: Loop 1
+: Loop 2
+: Loop 3
+: Loop 4
+: Loop 5
+
+It works but it takes a little longer. You can see the theoretical (Big-O) runtimes are different as well.
+
+#+BEGIN_SRC python :session binary :results output
+print("O(n): {}".format(len(K)))
+print("O(log n): {:.2f}".format(log(len(K), 2)))
+#+END_SRC
+
+#+RESULTS:
+: O(n): 7
+: O(log n): 2.81
+
+* Sorted Array Multiple Search Problem
+  Because you need at least a linear runtime to read in the inputs, the grader can't tell that our search took less time than it took to read in the list. Because of this they set up a slightly harder problem to solve which can be graded.
+
+| *Problem*     | /Search multiple keys in a sorted sequence of keys/                                                  |
+| *Input*       | A sorted array $K=[k_0,\ldots,k_{n-1}]$ of integers and $Q=[q_0,\ldots,q_{n-1}$]                     |
+| *Output*      | For each $q_i$, its index in $K$ or $-1$ if it isn't in $K$                                          |
+| *Constraints* | $1\le n, m \le 10^4,1 \le k_i \le 10^9$ for all $0\le i < n;1 \le q_j \le 10^9$ for all $0 \le j <m$ |
+
+* Implementation
+
+#+BEGIN_SRC python :session binary :results none
+def multiple_search(source, keys):
+    """Searches the source for the keys
+
+    Args:
+     source (list): sorted list of search items
+     keys (list): items to search for in the source
+
+    Returns:
+     list: indices of keys in source
+    """
+    return [binary_search(source, key) for key in keys]
+#+END_SRC
+
+I wrote this based on the problem statement, but if you look at the sample code they actually do the iteration themselves so you only need to implement =binary_search=.
+* Sample
+Inputs
+#+BEGIN_EXAMPLE
+1 5 8 12 13
+8 1 23 1 11
+#+END_EXAMPLE
+
+Outputs
+
+#+BEGIN_EXAMPLE
+2 0 -1 0 -1
+#+END_EXAMPLE
+
+#+BEGIN_SRC python :session binary :results none
+class TestKeys:
+    source = 'source'
+    search_terms = 'search-terms'
+    expected = 'outputs'
+    
+TEST_CASES = dict(
+    one={
+        TestKeys.source: [1, 3, 7, 8, 9, 12, 15],
+        TestKeys.search_terms: [9, 56, 3, 55, 1],
+        TestKeys.expected: [4, -1, 1, -1, 0],
+    },
+    two={
+        TestKeys.source: [1, 5, 8, 12, 13],
+        TestKeys.search_terms: [8, 1, 23, 1, 11],
+        TestKeys.expected: [2, 0, -1, 0, -1],
+    }
+)
+#+END_SRC
+
+* Testing
+
+#+BEGIN_SRC python :session binary :results output
+for example, case in TEST_CASES.items():
+    print(example)
+    expected = case[TestKeys.expected]
+    actual = multiple_search(case[TestKeys.source],
+                             case[TestKeys.search_terms])
+    expect(actual).to(equal(expected))
+#+END_SRC
+
+#+RESULTS:
+: one
+: two
+
+* Grading
+
+The binary search improves quite a bit over the linear search, passing the grader.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.69/5.00, max memory used: 40230912/536870912.)
+#+END_EXAMPLE

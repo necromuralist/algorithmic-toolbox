@@ -121,9 +121,9 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org54846b1" class="outline-2">
-<h2 id="org54846b1">Imports</h2>
-<div class="outline-text-2" id="text-org54846b1">
+    <div id="outline-container-orgbe1545a" class="outline-2">
+<h2 id="orgbe1545a">Imports</h2>
+<div class="outline-text-2" id="text-orgbe1545a">
 <div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
@@ -136,9 +136,9 @@
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgb0d717e" class="outline-2">
-<h2 id="orgb0d717e">The Fibonacci Problem</h2>
-<div class="outline-text-2" id="text-orgb0d717e">
+<div id="outline-container-org3939bc5" class="outline-2">
+<h2 id="org3939bc5">The Fibonacci Problem</h2>
+<div class="outline-text-2" id="text-org3939bc5">
 <p>
 THe Fibonacci Sequence is defined as
 </p>
@@ -177,9 +177,9 @@ THe Fibonacci Sequence is defined as
 </table>
 </div>
 
-<div id="outline-container-org18ba331" class="outline-3">
-<h3 id="org18ba331">Sample Values</h3>
-<div class="outline-text-3" id="text-org18ba331">
+<div id="outline-container-orga99bdff" class="outline-3">
+<h3 id="orga99bdff">Sample Values</h3>
+<div class="outline-text-3" id="text-orga99bdff">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -200,9 +200,9 @@ THe Fibonacci Sequence is defined as
 </div>
 </div>
 
-<div id="outline-container-org000d05a" class="outline-3">
-<h3 id="org000d05a">Constants</h3>
-<div class="outline-text-3" id="text-org000d05a">
+<div id="outline-container-orgb3c0b6f" class="outline-3">
+<h3 id="orgb3c0b6f">Constants</h3>
+<div class="outline-text-3" id="text-orgb3c0b6f">
 <p>
 These are translations from the problem description
 </p>
@@ -212,9 +212,9 @@ These are translations from the problem description
 </div>
 </div>
 </div>
-<div id="outline-container-org5cf3744" class="outline-2">
-<h2 id="org5cf3744">Helpers</h2>
-<div class="outline-text-2" id="text-org5cf3744">
+<div id="outline-container-orgc34c649" class="outline-2">
+<h2 id="orgc34c649">Helpers</h2>
+<div class="outline-text-2" id="text-orgc34c649">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_it</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">input_value</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">):</span>
     <span class="sd">"""Times the implementation</span>
 
@@ -243,9 +243,9 @@ These are translations from the problem description
 </div>
 </div>
 
-<div id="outline-container-orga26d7d4" class="outline-2">
-<h2 id="orga26d7d4">Naive Implementation</h2>
-<div class="outline-text-2" id="text-orga26d7d4">
+<div id="outline-container-orgcb29cca" class="outline-2">
+<h2 id="orgcb29cca">Naive Implementation</h2>
+<div class="outline-text-2" id="text-orgcb29cca">
 <p>
 The 'naive' implementation uses recursion to calculate a fibonacci number.
 </p>
@@ -281,9 +281,9 @@ stderr: (Time used: 5.63/5.00, memory used: 9613312/536870912.)
 </div>
 </div>
 
-<div id="outline-container-orgf0a093c" class="outline-2">
-<h2 id="orgf0a093c">The Tester</h2>
-<div class="outline-text-2" id="text-orgf0a093c">
+<div id="outline-container-orgcad7afa" class="outline-2">
+<h2 id="orgcad7afa">The Tester</h2>
+<div class="outline-text-2" id="text-orgcad7afa">
 <p>
 We have kind of a chicken and the egg problem here. We know that the recursive version is correct, but it is too slow. But in order to validate our newer versions, we need to run it to check for correctness. To solve this problem I'm going to use a cache.
 </p>
@@ -408,9 +408,9 @@ In case I accidentally re-run that last call and it uses the cache I'll note her
 </div>
 </div>
 
-<div id="outline-container-org72d5a6a" class="outline-2">
-<h2 id="org72d5a6a">An Iterative Version</h2>
-<div class="outline-text-2" id="text-org72d5a6a">
+<div id="outline-container-org709e579" class="outline-2">
+<h2 id="org709e579">An Iterative Version</h2>
+<div class="outline-text-2" id="text-org709e579">
 <p>
 To try and speed things up I'm going to use an iterative version instead of a recursive one.
 </p>

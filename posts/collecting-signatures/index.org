@@ -1,0 +1,127 @@
+#+BEGIN_COMMENT
+.. title: Collecting Signatures
+.. slug: collecting-signatures
+.. date: 2018-07-03 17:32:46 UTC-07:00
+.. tags: algorithms problems greedy
+.. category: greedy
+.. link: 
+.. description: Minimizing the amount of time collecting signatures.
+.. type: text
+#+END_COMMENT
+
+* General Problem
+  /Find the minimum number of points needed to cover all given segments on a line./
+
+| *Input*  | A sequence of $n$ segments $[a_1, b_1],\ldots[a_n, b_n]$ on a line      |
+| *Output* | A set of points of minimum size such that each segment contains a point |
+
+* The Concrete Problem
+  You have to collect signatures from the tenants in the building. You know the times each tenant will be in the building (represented by the /segments/ in the problem) and you want to minimize the number of visits and time spent at the building. Assume that the actual visit with the tenant will take no time.
+
+In other words, we have a bunch of line segments that may or may not overlap. We want to minimize the number of segments 
+
+| *Input*       | $n$, the number of segments, each following line is made of two points tha define a line segment $a_i, b_i$ |
+| *Output*      | The minimum number $m$ of points needed, followed by the integer values for each of the points              |
+| *Constraints* | $1 \le n \le 100; 0 \le a_i \le b_i \le 10^9$ for all i                                                     |
+
+* Sample Inputs
+** Sample One
+Input:
+#+BEGIN_EXAMPLE
+3
+1 3
+2 5
+3 6
+#+END_EXAMPLE
+Output:
+#+BEGIN_EXAMPLE
+1
+3
+#+END_EXAMPLE
+
+Note that the way the code is setup, the first input value isn't relevant to our solver.
+
+** Sample Two
+Input:
+#+BEGIN_EXAMPLE
+4
+4 7
+1 3
+2 5
+5 6
+#+END_EXAMPLE
+
+Output:
+#+BEGIN_EXAMPLE
+2
+3 6
+#+END_EXAMPLE
+
+* Implementation
+** Imports
+#+BEGIN_SRC ipython :session segments :results none
+# from pypi
+from expects import (
+    equal,
+    expect,
+)
+#+END_SRC
+
+** Overlapping
+First, what does it mean to say that two segments overlap? Let's say we have two segments. They won't overlap if:
+ - the first segment's rightmost point is to the left of the other segment's leftmost point
+ - the second segment's rightmost point is to the left of the other segment's leftmost point
+
+So they won't overlap if:
+
+\[
+R_0 < L_1 \lor L_0 > R_1
+\]
+
+Where $R$ means the rightmost point for that segment and $L$ means the leftmost point of that segment (and the first segment is $0$ and the second one is $1$). To find where they /do/ overlap we can negate the inequality.
+
+\[
+\neg (R_0 < L_1 \lor L_0 > R_1) = R_0 \le L_1 \land L_0 \le R_1
+\]
+
+Python functions are expensive, but to make it clearer I'll create a function to test for overlapping and if the final solution is too small I won't use it.
+
+
+** The Schedule
+#+BEGIN_SRC ipython :session segments :results none
+def schedule(schedules):
+    """Finds the times to visit
+    
+    Args:
+     schedules (list): list of times people are available
+
+    Returns:
+     list: times to visit
+    """
+    return
+#+END_SRC
+* Testing
+#+BEGIN_SRC ipython :session segments :results none
+SAMPLES = dict(
+    one=dict(
+        inputs=[(1,3), (2, 5), (3, 6)],
+        outputs=[3],
+    ),
+    two=dict(
+        inputs=[(4, 7), (1, 3), (2, 5), (5, 6)],
+        outputs=[3, 6],
+    )
+)
+#+END_SRC
+
+#+BEGIN_SRC ipython :session segments :results none
+class SampleKeys:
+    inputs = "inputs"
+    expected = "outputs"
+#+END_SRC
+
+#+BEGIN_SRC ipython :session segments :results none
+for sample, values in SAMPLES.items():
+    actual = schedule(values[SampleKeys.inputs])
+    expect(actual).to(equal(values[SampleKeys.expected]))
+#+END_SRC

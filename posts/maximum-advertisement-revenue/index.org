@@ -1,0 +1,93 @@
+#+BEGIN_COMMENT
+.. title: Maximum Advertisement Revenue
+.. slug: maximum-advertisement-revenue
+.. date: 2018-07-03 16:46:30 UTC-07:00
+.. tags: algorithms problems greedy
+.. category: greedy
+.. link: 
+.. description: Find the maximum dot product of two sequences of numbers.
+.. type: text
+#+END_COMMENT
+
+* The Maximum Product of Two Sequences Problem
+  This is the more general problem statement.
+
+| *Problem* | /Find the maximum dot product of two sequences of numbers./ |
+| *Inputs*  | Two sequences of $n$ positive integers.                     |
+| *Output*  | The maximum sum of pair-wise multiplications of the values. |
+
+* The Revenue Optimization Problem
+  We have $n$ advertising slots that we want to sell to advertisers. Each slot gets a different number of clicks and each advertiser is willing to pay a different amount. How do you pair the advertiser with the slot to maximize you click-revenue?
+
+| *Input*       | Sequence of integer prices $price_1, price_2, \ldots, price_n$ and a sequence of click-counts $count_1, count_2,\ldots,count_n$. |
+| *Output*      | The maximum value achievable by matching prices with click counts                                                                |
+| *Constraints* | $1 \le n \le 10^3; 0 \le price_i, clicks_i \le 10^5$ for all $1 \le i \le n$                                                     |
+
+* Samples
+
+| /n/ | prices | clicks | output |
+|-----+--------+--------+--------|
+|   1 | 23     | 39     |    897 |
+|   3 | 2 3 9  | 7 4 2  |     79 |
+
+* Testing
+
+#+BEGIN_SRC python :session advertising :results none
+# from pypi
+from expects import (
+    equal,
+    expect,
+)
+#+END_SRC
+
+#+BEGIN_SRC python :session advertising :results none
+SAMPLES = dict(one=
+               dict(prices=[23,],
+                    clicks=[39,],
+                    output=897),
+               two=
+               dict(prices=[2, 3, 9],
+                    clicks=[7, 4, 2],
+                    output=79)
+)
+#+END_SRC
+#+BEGIN_SRC python :session advertising :results none
+class Keys:
+    prices = "prices"
+    clicks = "clicks"
+    expected = "output"
+#+END_SRC
+* Implementation
+  This might be cheating, but I'm going to use python's generator functions again to sort things.
+
+#+BEGIN_SRC python :session advertising :results none
+def optimal_advertising(prices, clicks):
+    """Finds the optimal dot product
+
+    Args:
+     prices (list): prices we can charge advertisers
+     clicks (list): expected clicks per slot
+
+    Returns:
+     float: the maximum we can get from the prices-clicks
+    """
+    clicks = sorted(clicks, reverse=True)
+    prices = sorted(prices, reverse=True)
+    clicks_and_prices = zip(clicks, prices)
+    return sum(click * price for click, price in clicks_and_prices)
+#+END_SRC
+
+* Testing
+
+#+BEGIN_SRC python :session advertising :results none
+for label, sample in SAMPLES.items():
+    expected = sample[Keys.expected]
+    actual = optimal_advertising(sample[Keys.prices], sample[Keys.clicks])
+    expect(actual).to(equal(expected))
+#+END_SRC
+
+* Grader Output
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.03/5.00, max memory used: 9887744/536870912.)
+#+END_EXAMPLE

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Find the maximum dot product of two sequences of numbers.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maximum Advertisement Revenue | Algorithmic Toolbox</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-advertisement-revenue/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
+<link rel="prev" href="../maximum-value-of-the-loot/" title="Maximum Value of the Loot" type="text/html">
+<link rel="next" href="../collecting-signatures/" title="Collecting Signatures" type="text/html">
+<meta property="og:site_name" content="Algorithmic Toolbox">
+<meta property="og:title" content="Maximum Advertisement Revenue">
+<meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-advertisement-revenue/">
+<meta property="og:description" content="Find the maximum dot product of two sequences of numbers.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-07-03T16:46:30-07:00">
+<meta property="article:tag" content="algorithms problems greedy">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-default navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://github.com/necromuralist/algorithmic_toolbox/">
+
+                <span id="blog-title">Algorithmic Toolbox</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+            </li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+<li>
+<a href="../../machine-learning-projects/">Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/p5_explorations/">P5 Explorations</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/tddmachinelearning/">TDD Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/student_intervention/">Student Intervention Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/boston_housing/">Boston Housing Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/data_science/">Data Science With Python</a>
+            </li>
+</ul>
+</li>
+</ul>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+	<span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://github.com/necromuralist/algorithmic_toolbox/">
+</form>
+<!-- End of custom search -->
+
+
+            <ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Maximum Advertisement Revenue</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-07-03T16:46:30-07:00" itemprop="datePublished" title="2018-07-03 16:46">2018-07-03 16:46</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgc95183c" class="outline-2">
+<h2 id="orgc95183c">The Maximum Product of Two Sequences Problem</h2>
+<div class="outline-text-2" id="text-orgc95183c">
+<p>
+This is the more general problem statement.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Problem</b></td>
+<td class="org-left"><i>Find the maximum dot product of two sequences of numbers.</i></td>
+</tr>
+<tr>
+<td class="org-left"><b>Inputs</b></td>
+<td class="org-left">Two sequences of \(n\) positive integers.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">The maximum sum of pair-wise multiplications of the values.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org4207357" class="outline-2">
+<h2 id="org4207357">The Revenue Optimization Problem</h2>
+<div class="outline-text-2" id="text-org4207357">
+<p>
+We have \(n\) advertising slots that we want to sell to advertisers. Each slot gets a different number of clicks and each advertiser is willing to pay a different amount. How do you pair the advertiser with the slot to maximize you click-revenue?
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">Sequence of integer prices \(price_1, price_2, \ldots, price_n\) and a sequence of click-counts \(count_1, count_2,\ldots,count_n\).</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">The maximum value achievable by matching prices with click counts</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 10^3; 0 \le price_i, clicks_i \le 10^5\) for all \(1 \le i \le n\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org95a66aa" class="outline-2">
+<h2 id="org95a66aa">Samples</h2>
+<div class="outline-text-2" id="text-org95a66aa">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-left">
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-right"><i>n</i></th>
+<th scope="col" class="org-left">prices</th>
+<th scope="col" class="org-left">clicks</th>
+<th scope="col" class="org-right">output</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">23</td>
+<td class="org-left">39</td>
+<td class="org-right">897</td>
+</tr>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">2 3 9</td>
+<td class="org-left">7 4 2</td>
+<td class="org-right">79</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgf5c00aa" class="outline-2">
+<h2 id="orgf5c00aa">Testing</h2>
+<div class="outline-text-2" id="text-orgf5c00aa">
+<div class="highlight"><pre><span></span><span class="c1"># from pypi</span>
+<span class="kn">from</span> <span class="nn">expects</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">equal</span><span class="p">,</span>
+    <span class="n">expect</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">one</span><span class="o">=</span>
+	       <span class="nb">dict</span><span class="p">(</span><span class="n">prices</span><span class="o">=</span><span class="p">[</span><span class="mi">23</span><span class="p">,],</span>
+		    <span class="n">clicks</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,],</span>
+		    <span class="n">output</span><span class="o">=</span><span class="mi">897</span><span class="p">),</span>
+	       <span class="n">two</span><span class="o">=</span>
+	       <span class="nb">dict</span><span class="p">(</span><span class="n">prices</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+		    <span class="n">clicks</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+		    <span class="n">output</span><span class="o">=</span><span class="mi">79</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Keys</span><span class="p">:</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="s2">"prices"</span>
+    <span class="n">clicks</span> <span class="o">=</span> <span class="s2">"clicks"</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s2">"output"</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org9595cf4" class="outline-2">
+<h2 id="org9595cf4">Implementation</h2>
+<div class="outline-text-2" id="text-org9595cf4">
+<p>
+This might be cheating, but I'm going to use python's generator functions again to sort things.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">optimal_advertising</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">clicks</span><span class="p">):</span>
+    <span class="sd">"""Finds the optimal dot product</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     prices (list): prices we can charge advertisers</span>
+<span class="sd">     clicks (list): expected clicks per slot</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     float: the maximum we can get from the prices-clicks</span>
+<span class="sd">    """</span>
+    <span class="n">clicks</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">clicks</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">clicks_and_prices</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">clicks</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">click</span> <span class="o">*</span> <span class="n">price</span> <span class="k">for</span> <span class="n">click</span><span class="p">,</span> <span class="n">price</span> <span class="ow">in</span> <span class="n">clicks_and_prices</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org19d25d2" class="outline-2">
+<h2 id="org19d25d2">Testing</h2>
+<div class="outline-text-2" id="text-org19d25d2">
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">optimal_advertising</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">prices</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">clicks</span><span class="p">])</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgaf6e3aa" class="outline-2">
+<h2 id="orgaf6e3aa">Grader Output</h2>
+<div class="outline-text-2" id="text-orgaf6e3aa">
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9887744/536870912.)
+</pre>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/algorithms-problems-greedy/" rel="tag">algorithms problems greedy</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../maximum-value-of-the-loot/" rel="prev" title="Maximum Value of the Loot">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../collecting-signatures/" rel="next" title="Collecting Signatures">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:necromuralist@protonmail.com">Cloistered Monkey</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

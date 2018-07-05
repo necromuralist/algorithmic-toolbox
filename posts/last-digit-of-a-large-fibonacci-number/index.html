@@ -121,9 +121,9 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org9861b41" class="outline-2">
-<h2 id="org9861b41">Introduction</h2>
-<div class="outline-text-2" id="text-org9861b41">
+    <div id="outline-container-org3e35378" class="outline-2">
+<h2 id="org3e35378">Introduction</h2>
+<div class="outline-text-2" id="text-org3e35378">
 <p>
 The goal is to find the last digit of the <i>n</i>-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
 </p>
@@ -146,9 +146,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org4f077b3" class="outline-2">
-<h2 id="org4f077b3">Problem Description</h2>
-<div class="outline-text-2" id="text-org4f077b3">
+<div id="outline-container-org4312063" class="outline-2">
+<h2 id="org4312063">Problem Description</h2>
+<div class="outline-text-2" id="text-org4312063">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -180,9 +180,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org249dfb8" class="outline-2">
-<h2 id="org249dfb8">Samples</h2>
-<div class="outline-text-2" id="text-org249dfb8">
+<div id="outline-container-org8020602" class="outline-2">
+<h2 id="org8020602">Samples</h2>
+<div class="outline-text-2" id="text-org8020602">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -210,17 +210,17 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org4347463" class="outline-2">
-<h2 id="org4347463">Constants</h2>
-<div class="outline-text-2" id="text-org4347463">
+<div id="outline-container-org177e0cd" class="outline-2">
+<h2 id="org177e0cd">Constants</h2>
+<div class="outline-text-2" id="text-org177e0cd">
 <div class="highlight"><pre><span></span><span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span>
 <span class="n">MAX_TIME</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org6ae1cf7" class="outline-2">
-<h2 id="org6ae1cf7">Imports</h2>
-<div class="outline-text-2" id="text-org6ae1cf7">
+<div id="outline-container-org485a681" class="outline-2">
+<h2 id="org485a681">Imports</h2>
+<div class="outline-text-2" id="text-org485a681">
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
     <span class="n">timedelta</span><span class="p">,</span>
@@ -230,9 +230,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org8789515" class="outline-2">
-<h2 id="org8789515">Naive Implementation</h2>
-<div class="outline-text-2" id="text-org8789515">
+<div id="outline-container-orgde08c51" class="outline-2">
+<h2 id="orgde08c51">Naive Implementation</h2>
+<div class="outline-text-2" id="text-orgde08c51">
 <p>
 By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
 </p>
@@ -257,9 +257,9 @@ By taking the modulo of 10 for the final number you reduce it to the final digit
 </div>
 </div>
 
-<div id="outline-container-orge4fa1ae" class="outline-2">
-<h2 id="orge4fa1ae">Modulo Version</h2>
-<div class="outline-text-2" id="text-orge4fa1ae">
+<div id="outline-container-org855ae54" class="outline-2">
+<h2 id="org855ae54">Modulo Version</h2>
+<div class="outline-text-2" id="text-org855ae54">
 <p>
 Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
 </p>

@@ -12,7 +12,8 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/fibonacci-number-again/" type="text/html">
+<link rel="next" href="index-1.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/binary-search/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -98,133 +99,983 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/fibonacci-number-again/" class="u-url">Fibonacci Number Again</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/binary-search/" class="u-url">Binary Search</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Cloistered Monkey
             </span></p>
-            <p class="dateline"><a href="posts/fibonacci-number-again/" rel="bookmark"><time class="published dt-published" datetime="2018-06-27T15:52:25-07:00" title="2018-06-27 15:52">2018-06-27 15:52</time></a></p>
+            <p class="dateline"><a href="posts/binary-search/" rel="bookmark"><time class="published dt-published" datetime="2018-07-04T17:28:44-07:00" title="2018-07-04 17:28">2018-07-04 17:28</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div class="highlight"><pre><span></span>from algorithmic_toolbox.implementations import fibonacci
-</pre></div>
-
-<div id="outline-container-org41df9b6" class="outline-2">
-<h2 id="org41df9b6">Introduction</h2>
-<div class="outline-text-2" id="text-org41df9b6">
+    <div id="outline-container-orgcb292da" class="outline-2">
+<h2 id="orgcb292da">Binary Search</h2>
+<div class="outline-text-2" id="text-orgcb292da">
 <p>
-In this problem we will calculate \(F_n \mod m\) where \(n\) can be very large (up to \(10^{18}\)). To see how to do this look at some output for modulus operations.
-</p>
-
-<div class="highlight"><pre><span></span>for number in range(15):
-    print(fibonacci(number) % 2, end=', ')
-</pre></div>
-
-<p>
-You can see that the output repeats in cycles of three.
-</p>
-
-<div class="highlight"><pre><span></span>cycle = [0, 1, 1]
-for number in range(15):
-    print(cycle[number % 3], end=',')
-</pre></div>
-
-<p>
-So if you know the cycle, you don't need to calculate the fibonacci number. What about mod 3?
-</p>
-
-<div class="highlight"><pre><span></span>for number in range(16):
-    print(fibonacci(number) % 3, end=',')
-</pre></div>
-
-<p>
-It looks like it repeats every eight numbers. In general, the fact that the modulus of fibonacci numbers is periodic was is a known feature of them. Each period is known as a <a href="https://en.wikipedia.org/wiki/Pisano_period">Pisano period</a> (Pisano was the real last name of the man known as Fibonacci).
+Binary search takes a sorted array and repeatedly divides it in half, checking whether an item searched for is at the mid-point. If you were to just traverse the array, you would have a runtime of \(O(n)\). But because you are using divide and conquer (repeatedly halving to reduce the search space), you have a runtime of \(O(\log n)\). 
 </p>
 </div>
 </div>
+<div id="outline-container-org09a92f3" class="outline-2">
+<h2 id="org09a92f3">Imports</h2>
+<div class="outline-text-2" id="text-org09a92f3">
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log</span>
 
-<div id="outline-container-org76054b4" class="outline-2">
-<h2 id="org76054b4">Problem Description</h2>
-<div class="outline-text-2" id="text-org76054b4">
+<span class="c1"># pypi</span>
+<span class="kn">from</span> <span class="nn">expects</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">equal</span><span class="p">,</span>
+    <span class="n">expect</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org1334fdf" class="outline-2">
+<h2 id="org1334fdf">Constants</h2>
+<div class="outline-text-2" id="text-org1334fdf">
+<div class="highlight"><pre><span></span><span class="n">NOT_FOUND</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgeba8dbe" class="outline-2">
+<h2 id="orgeba8dbe">Linear Search</h2>
+<div class="outline-text-2" id="text-orgeba8dbe">
+<p>
+The naive way is to just traverse the list.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">linear_search</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">"""Brute-force search</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     a (list): source to search</span>
+<span class="sd">     x : Item to search for</span>
+<span class="sd">     verbose (bool): Emit number of loops</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: index of x in a or -1 if not found</span>
+<span class="sd">    """</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+	<span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+	    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+	    <span class="k">print</span><span class="p">(</span><span class="s2">"Loop {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">counter</span><span class="p">))</span>
+	<span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">NOT_FOUND</span>
+</pre></div>
+
+<p>
+Interestingly, if you submit this it will time out.
+</p>
+
+<pre class="example">
+Failed case #32/36: time limit exceeded (Time used: 9.98/5.00, memory used: 40480768/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8b5a42a" class="outline-2">
+<h2 id="org8b5a42a">The Algorithm</h2>
+<div class="outline-text-2" id="text-org8b5a42a">
+<p>
+This is given as part of the problem statement.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">"""Finds the index of an item in the list</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     K (list): A sorted list of integers</span>
+<span class="sd">     q (int): the item to search for</span>
+<span class="sd">     verbose (bool): if true, emit the number of loops done</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: index of q in K or -1 if not found</span>
+<span class="sd">    """</span>
+    <span class="n">min_index</span><span class="p">,</span> <span class="n">max_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">max_index</span> <span class="o">&gt;=</span> <span class="n">min_index</span><span class="p">:</span>
+	<span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+	    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+	    <span class="k">print</span><span class="p">(</span><span class="s2">"In loop {} - {}:{}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">counter</span><span class="p">,</span> <span class="n">min_index</span><span class="p">,</span> <span class="n">max_index</span><span class="p">))</span>
+
+	<span class="n">mid_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_index</span> <span class="o">+</span> <span class="n">max_index</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+
+	<span class="k">if</span> <span class="n">K</span><span class="p">[</span><span class="n">mid_index</span><span class="p">]</span> <span class="o">==</span> <span class="n">q</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">mid_index</span>
+	<span class="k">elif</span> <span class="n">K</span><span class="p">[</span><span class="n">mid_index</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">q</span><span class="p">:</span>
+	    <span class="n">min_index</span> <span class="o">=</span> <span class="n">mid_index</span> <span class="o">+</span> <span class="mi">1</span>
+	<span class="k">else</span><span class="p">:</span>
+	    <span class="n">max_index</span> <span class="o">=</span> <span class="n">mid_index</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">NOT_FOUND</span>
+</pre></div>
+</div>
+
+<div id="outline-container-org87d2424" class="outline-3">
+<h3 id="org87d2424">Testing</h3>
+<div class="outline-text-3" id="text-org87d2424">
+<div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">K</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">binary_search</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Looking at the output you can see that after finding that the middle element didn't match <i>q</i> it searched the upper half of the list (by raising the Minimum Index to 4) and then found <i>q</i> at the point where the Minimum and Maximum Index were equal.
+</p>
+
+<p>
+We can compare this to the linear search.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">actual</span> <span class="o">=</span> <span class="n">linear_search</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+
+<p>
+It works but it takes a little longer. You can see the theoretical (Big-O) runtimes are different as well.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"O(n): {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"O(log n): {:.2f}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="p">),</span> <span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0bc658e" class="outline-2">
+<h2 id="org0bc658e">Sorted Array Multiple Search Problem</h2>
+<div class="outline-text-2" id="text-org0bc658e">
+<p>
+Because you need at least a linear runtime to read in the inputs, the grader can't tell that our search took less time than it took to read in the list. Because of this they set up a slightly harder problem to solve which can be graded.
+</p>
+
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
 <col class="org-left">
 </colgroup>
-<thead><tr>
-<th scope="col" class="org-left"> </th>
-<th scope="col" class="org-left">Description</th>
-</tr></thead>
 <tbody>
 <tr>
-<td class="org-left"><b>Task</b></td>
-<td class="org-left">Given two integers \(n\) and \(m\), output \(F_n \mod m\) (the remainder of \(F_n\) divided by \(m\)).</td>
+<td class="org-left"><b>Problem</b></td>
+<td class="org-left"><i>Search multiple keys in a sorted sequence of keys</i></td>
 </tr>
 <tr>
 <td class="org-left"><b>Input</b></td>
-<td class="org-left">Two integers \(n\) and \(m\) on the same line separated by a space.</td>
-</tr>
-<tr>
-<td class="org-left"><b>Constraints</b></td>
-<td class="org-left">\(1 \le n \le 10^{18}, 2 \le m \le 10^5\)</td>
+<td class="org-left">A sorted array \(K=[k_0,\ldots,k_{n-1}]\) of integers and \(Q=[q_0,\ldots,q_{n-1}\)]</td>
 </tr>
 <tr>
 <td class="org-left"><b>Output</b></td>
-<td class="org-left">\(F_n \mod m\)</td>
+<td class="org-left">For each \(q_i\), its index in \(K\) or \(-1\) if it isn't in \(K\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1\le n, m \le 10^4,1 \le k_i \le 10^9\) for all \(0\le i &lt; n;1 \le q_j \le 10^9\) for all \(0 \le j <m></m>
+</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 
-<div id="outline-container-orgc4d77a1" class="outline-2">
-<h2 id="orgc4d77a1">Samples</h2>
-<div class="outline-text-2" id="text-orgc4d77a1">
+<div id="outline-container-orge7c6bc5" class="outline-2">
+<h2 id="orge7c6bc5">Implementation</h2>
+<div class="outline-text-2" id="text-orge7c6bc5">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multiple_search</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+    <span class="sd">"""Searches the source for the keys</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     source (list): sorted list of search items</span>
+<span class="sd">     keys (list): items to search for in the source</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     list: indices of keys in source</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">binary_search</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+</pre></div>
+
+<p>
+I wrote this based on the problem statement, but if you look at the sample code they actually do the iteration themselves so you only need to implement <code>binary_search</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org99844c6" class="outline-2">
+<h2 id="org99844c6">Sample</h2>
+<div class="outline-text-2" id="text-org99844c6">
+<p>
+Inputs
+</p>
+<pre class="example">
+1 5 8 12 13
+8 1 23 1 11
+</pre>
+
+<p>
+Outputs
+</p>
+
+<pre class="example">
+2 0 -1 0 -1
+</pre>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestKeys</span><span class="p">:</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="s1">'source'</span>
+    <span class="n">search_terms</span> <span class="o">=</span> <span class="s1">'search-terms'</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s1">'outputs'</span>
+
+<span class="n">TEST_CASES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">one</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">source</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">search_terms</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">two</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">source</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">search_terms</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgc22e142" class="outline-2">
+<h2 id="orgc22e142">Testing</h2>
+<div class="outline-text-2" id="text-orgc22e142">
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">TEST_CASES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">case</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">multiple_search</span><span class="p">(</span><span class="n">case</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">source</span><span class="p">],</span>
+			     <span class="n">case</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">search_terms</span><span class="p">])</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org66796a3" class="outline-2">
+<h2 id="org66796a3">Grading</h2>
+<div class="outline-text-2" id="text-org66796a3">
+<p>
+The binary search improves quite a bit over the linear search, passing the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.69/5.00, max memory used: 40230912/536870912.)
+</pre>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/collecting-signatures/" class="u-url">Collecting Signatures</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/collecting-signatures/" rel="bookmark"><time class="published dt-published" datetime="2018-07-03T17:32:46-07:00" title="2018-07-03 17:32">2018-07-03 17:32</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org593d81b" class="outline-2">
+<h2 id="org593d81b">General Problem</h2>
+<div class="outline-text-2" id="text-org593d81b">
+<p>
+<i>Find the minimum number of points needed to cover all given segments on a line.</i>
+</p>
+
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A sequence of \(n\) segments \([a_1, b_1],\ldots[a_n, b_n]\) on a line</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">A set of points of minimum size such that each segment contains a point</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org4f8db6a" class="outline-2">
+<h2 id="org4f8db6a">The Concrete Problem</h2>
+<div class="outline-text-2" id="text-org4f8db6a">
+<p>
+You have to collect signatures from the tenants in the building. You know the times each tenant will be in the building (represented by the <i>segments</i> in the problem) and you want to minimize the number of visits and time spent at the building. Assume that the actual visit with the tenant will take no time.
+</p>
+
+<p>
+In other words, we have a bunch of line segments that may or may not overlap. We want to minimize the number of segments 
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">\(n\), the number of segments, each following line is made of two points tha define a line segment \(a_i, b_i\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">The minimum number \(m\) of points needed, followed by the integer values for each of the points</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 100; 0 \le a_i \le b_i \le 10^9\) for all i</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org8f01583" class="outline-2">
+<h2 id="org8f01583">Sample Inputs</h2>
+<div class="outline-text-2" id="text-org8f01583">
+</div>
+<div id="outline-container-org0d333a8" class="outline-3">
+<h3 id="org0d333a8">Sample One</h3>
+<div class="outline-text-3" id="text-org0d333a8">
+<p>
+Input:
+</p>
+<pre class="example">
+3
+1 3
+2 5
+3 6
+</pre>
+<p>
+Output:
+</p>
+<pre class="example">
+1
+3
+</pre>
+
+<p>
+Note that the way the code is setup, the first input value isn't relevant to our solver.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org00a7351" class="outline-3">
+<h3 id="org00a7351">Sample Two</h3>
+<div class="outline-text-3" id="text-org00a7351">
+<p>
+Input:
+</p>
+<pre class="example">
+4
+4 7
+1 3
+2 5
+5 6
+</pre>
+
+<p>
+Output:
+</p>
+<pre class="example">
+2
+3 6
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf60b5f9" class="outline-2">
+<h2 id="orgf60b5f9">Implementation</h2>
+<div class="outline-text-2" id="text-orgf60b5f9">
+</div>
+<div id="outline-container-orgeeaf7e9" class="outline-3">
+<h3 id="orgeeaf7e9">Imports</h3>
+<div class="outline-text-3" id="text-orgeeaf7e9">
+<div class="highlight"><pre><span></span># from pypi
+from expects import (
+    equal,
+    expect,
+)
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org3b44383" class="outline-3">
+<h3 id="org3b44383">Overlapping</h3>
+<div class="outline-text-3" id="text-org3b44383">
+<p>
+First, what does it mean to say that two segments overlap? Let's say we have two segments. They won't overlap if:
+</p>
+<ul class="org-ul">
+<li>the first segment's rightmost point is to the left of the other segment's leftmost point</li>
+<li>the second segment's rightmost point is to the left of the other segment's leftmost point</li>
+</ul>
+<p>
+So they won't overlap if:
+</p>
+
+<p>
+\[
+R_0 &lt; L_1 \lor L_0 &gt; R_1
+\]
+</p>
+
+<p>
+Where \(R\) means the rightmost point for that segment and \(L\) means the leftmost point of that segment (and the first segment is \(0\) and the second one is \(1\)). To find where they <i>do</i> overlap we can negate the inequality.
+</p>
+
+<p>
+\[
+\neg (R_0 &lt; L_1 \lor L_0 &gt; R_1) = R_0 \le L_1 \land L_0 \le R_1
+\]
+</p>
+
+<p>
+Python functions are expensive, but to make it clearer I'll create a function to test for overlapping and if the final solution is too small I won't use it.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org0f7dce7" class="outline-3">
+<h3 id="org0f7dce7">The Schedule</h3>
+<div class="outline-text-3" id="text-org0f7dce7">
+<div class="highlight"><pre><span></span>def schedule(schedules):
+    """Finds the times to visit
+
+    Args:
+     schedules (list): list of times people are available
+
+    Returns:
+     list: times to visit
+    """
+    return
+</pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbce987e" class="outline-2">
+<h2 id="orgbce987e">Testing</h2>
+<div class="outline-text-2" id="text-orgbce987e">
+<div class="highlight"><pre><span></span>SAMPLES = dict(
+    one=dict(
+	inputs=[(1,3), (2, 5), (3, 6)],
+	outputs=[3],
+    ),
+    two=dict(
+	inputs=[(4, 7), (1, 3), (2, 5), (5, 6)],
+	outputs=[3, 6],
+    )
+)
+</pre></div>
+
+<div class="highlight"><pre><span></span>class SampleKeys:
+    inputs = "inputs"
+    expected = "outputs"
+</pre></div>
+
+<div class="highlight"><pre><span></span>for sample, values in SAMPLES.items():
+    actual = schedule(values[SampleKeys.inputs])
+    expect(actual).to(equal(values[SampleKeys.expected]))
+</pre></div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/maximum-advertisement-revenue/" class="u-url">Maximum Advertisement Revenue</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/maximum-advertisement-revenue/" rel="bookmark"><time class="published dt-published" datetime="2018-07-03T16:46:30-07:00" title="2018-07-03 16:46">2018-07-03 16:46</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-orgc95183c" class="outline-2">
+<h2 id="orgc95183c">The Maximum Product of Two Sequences Problem</h2>
+<div class="outline-text-2" id="text-orgc95183c">
+<p>
+This is the more general problem statement.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Problem</b></td>
+<td class="org-left"><i>Find the maximum dot product of two sequences of numbers.</i></td>
+</tr>
+<tr>
+<td class="org-left"><b>Inputs</b></td>
+<td class="org-left">Two sequences of \(n\) positive integers.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">The maximum sum of pair-wise multiplications of the values.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org4207357" class="outline-2">
+<h2 id="org4207357">The Revenue Optimization Problem</h2>
+<div class="outline-text-2" id="text-org4207357">
+<p>
+We have \(n\) advertising slots that we want to sell to advertisers. Each slot gets a different number of clicks and each advertiser is willing to pay a different amount. How do you pair the advertiser with the slot to maximize you click-revenue?
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">Sequence of integer prices \(price_1, price_2, \ldots, price_n\) and a sequence of click-counts \(count_1, count_2,\ldots,count_n\).</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">The maximum value achievable by matching prices with click counts</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 10^3; 0 \le price_i, clicks_i \le 10^5\) for all \(1 \le i \le n\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org95a66aa" class="outline-2">
+<h2 id="org95a66aa">Samples</h2>
+<div class="outline-text-2" id="text-org95a66aa">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-left">
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-right"><i>n</i></th>
+<th scope="col" class="org-left">prices</th>
+<th scope="col" class="org-left">clicks</th>
+<th scope="col" class="org-right">output</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">23</td>
+<td class="org-left">39</td>
+<td class="org-right">897</td>
+</tr>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">2 3 9</td>
+<td class="org-left">7 4 2</td>
+<td class="org-right">79</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgf5c00aa" class="outline-2">
+<h2 id="orgf5c00aa">Testing</h2>
+<div class="outline-text-2" id="text-orgf5c00aa">
+<div class="highlight"><pre><span></span><span class="c1"># from pypi</span>
+<span class="kn">from</span> <span class="nn">expects</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">equal</span><span class="p">,</span>
+    <span class="n">expect</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">one</span><span class="o">=</span>
+	       <span class="nb">dict</span><span class="p">(</span><span class="n">prices</span><span class="o">=</span><span class="p">[</span><span class="mi">23</span><span class="p">,],</span>
+		    <span class="n">clicks</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,],</span>
+		    <span class="n">output</span><span class="o">=</span><span class="mi">897</span><span class="p">),</span>
+	       <span class="n">two</span><span class="o">=</span>
+	       <span class="nb">dict</span><span class="p">(</span><span class="n">prices</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+		    <span class="n">clicks</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+		    <span class="n">output</span><span class="o">=</span><span class="mi">79</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Keys</span><span class="p">:</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="s2">"prices"</span>
+    <span class="n">clicks</span> <span class="o">=</span> <span class="s2">"clicks"</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s2">"output"</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org9595cf4" class="outline-2">
+<h2 id="org9595cf4">Implementation</h2>
+<div class="outline-text-2" id="text-org9595cf4">
+<p>
+This might be cheating, but I'm going to use python's generator functions again to sort things.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">optimal_advertising</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">clicks</span><span class="p">):</span>
+    <span class="sd">"""Finds the optimal dot product</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     prices (list): prices we can charge advertisers</span>
+<span class="sd">     clicks (list): expected clicks per slot</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     float: the maximum we can get from the prices-clicks</span>
+<span class="sd">    """</span>
+    <span class="n">clicks</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">clicks</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">clicks_and_prices</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">clicks</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">click</span> <span class="o">*</span> <span class="n">price</span> <span class="k">for</span> <span class="n">click</span><span class="p">,</span> <span class="n">price</span> <span class="ow">in</span> <span class="n">clicks_and_prices</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org19d25d2" class="outline-2">
+<h2 id="org19d25d2">Testing</h2>
+<div class="outline-text-2" id="text-org19d25d2">
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">optimal_advertising</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">prices</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">clicks</span><span class="p">])</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgaf6e3aa" class="outline-2">
+<h2 id="orgaf6e3aa">Grader Output</h2>
+<div class="outline-text-2" id="text-orgaf6e3aa">
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9887744/536870912.)
+</pre>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/maximum-value-of-the-loot/" class="u-url">Maximum Value of the Loot</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/maximum-value-of-the-loot/" rel="bookmark"><time class="published dt-published" datetime="2018-07-02T19:09:29-07:00" title="2018-07-02 19:09">2018-07-02 19:09</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org90876cc" class="outline-2">
+<h2 id="org90876cc">Introduction</h2>
+<div class="outline-text-2" id="text-org90876cc">
+<p>
+A thief breaks into a spice shop and finds spices with varying values per pound. She needs to be able to maximize the amount she steals by stuffing spices into her backpack.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"> </td>
+<td class="org-left">Description</td>
+</tr>
+<tr>
+<td class="org-left"><b>First Input</b></td>
+<td class="org-left">\(n\), the number of compounds and \(W\), the capacity of the backpack.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Remaining Inputs</b></td>
+<td class="org-left">\(n\) lines of price-per-pound and weight of each compound</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">Maximum price of spices stuffed into the backpack.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 10^3\), \(0 \le W \le 2 \cdot 10^6\), \(0 \le p_i \le 2 \cdot 10^6\), \(0 \le w_i \le 2 \cdot 10^6\) for \(1 \le i \le n\)</td>
+</tr>
+</tbody>
+</table>
+<p>
+Although the inputs will always be integers, the outputs might be real numbers. To match the grader output at least four digits to the right of the decimal point.
+</p>
+</div>
+</div>
+<div id="outline-container-org6f70973" class="outline-2">
+<h2 id="org6f70973">Samples</h2>
+<div class="outline-text-2" id="text-org6f70973">
+</div>
+<div id="outline-container-org29fc405" class="outline-3">
+<h3 id="org29fc405">Sample One</h3>
+<div class="outline-text-3" id="text-org29fc405">
+<p>
+Input:
+</p>
+
+<pre class="example">
+3 50
+60 20
+100 50
+120 30
+</pre>
+
+<p>
+Output:
+</p>
+<pre class="example">
+180.0000
+</pre>
+
+<p>
+The output tells us that the thief's maximum haul is worth $180, which if you look at the inputs means taking 20 pounds of the first spice (worth $60) and 30 pounds of the last spice.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4011368" class="outline-3">
+<h3 id="org4011368">Sample Two</h3>
+<div class="outline-text-3" id="text-org4011368">
+<pre class="example">
+1 10
+500 30
+</pre>
+
+<p>
+Output.
+</p>
+
+<pre class="example">
+166.6667
+</pre>
+
+<p>
+The input tells us that the thief can only carry 10 pounds of the only available spice, so her haul is \(\frac{500}{3}\approx 166.6667\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge92ea0a" class="outline-2">
+<h2 id="orge92ea0a">Implementation</h2>
+<div class="outline-text-2" id="text-orge92ea0a">
+<p>
+Because this takes a greedy approach, it will have a \(O(n)\) run-time. Since I'm sorting the values first there's actually a \(O(\log n) + O(n)\), but especially since I'm using the built-in python generators, the sort is negligible compared to the main loop.
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1"># this package</span>
+<span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">assert_close</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">maximize_loot</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+    <span class="sd">"""Figure out the maximum value the thief can haul off</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     capacity (int): number of pounds backpack can hold</span>
+<span class="sd">     weights (list): how many pounds of each item there is</span>
+<span class="sd">     values (list): how much each item is worth per pound</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">     AssertionError: weights and values are different lengths</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     float: max-value the backpack can hold</span>
+<span class="sd">    """</span>
+    <span class="n">weight_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">weight_count</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> \
+	<span class="s2">"Weights and Values not same shape: weights={} values={}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">weight_count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">values_per_pound</span> <span class="o">=</span> <span class="p">((</span><span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">/</span><span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">weight_count</span><span class="p">))</span>
+
+    <span class="c1"># we have to reverse-sort it (otherwise sorting puts the smallest</span>
+    <span class="c1"># number first)</span>
+    <span class="n">per_poundage</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">values_per_pound</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c1"># loot is the value of what we've taken so far</span>
+    <span class="n">loot</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># precondition: per_poundage is the value-per-pound in descending</span>
+    <span class="c1"># order for each item along with the index of the original weight/value</span>
+    <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">per_poundage</span><span class="p">:</span>
+	<span class="c1"># invariant: value is the largest price-per-pound available</span>
+	<span class="k">if</span> <span class="n">capacity</span> <span class="o">&lt;</span> <span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">]:</span>
+	    <span class="c1"># we don't have enough strength to take all of this item</span>
+	    <span class="c1"># so just take as much as we can and quit</span>
+	    <span class="n">loot</span> <span class="o">+=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">capacity</span>
+	    <span class="k">break</span>
+	<span class="c1"># otherwise take all of this item</span>
+	<span class="n">loot</span> <span class="o">+=</span> <span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+	<span class="c1"># reducing our capacity by its total weight</span>
+	<span class="n">capacity</span> <span class="o">-=</span> <span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+	<span class="k">if</span> <span class="n">capacity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+	    <span class="c1"># we're out of capacity, quit</span>
+	    <span class="k">break</span>
+    <span class="k">return</span> <span class="n">loot</span>
+</pre></div>
+</div>
+
+<div id="outline-container-org18b2f36" class="outline-3">
+<h3 id="org18b2f36">Test One</h3>
+<div class="outline-text-3" id="text-org18b2f36">
+<div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">3</span> 
+<span class="n">capacity</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">]</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mf">180.0000</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">maximize_loot</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+<span class="n">assert_close</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="s2">"Test One"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7c7290d" class="outline-3">
+<h3 id="org7c7290d">Test Two</h3>
+<div class="outline-text-3" id="text-org7c7290d">
+<div class="highlight"><pre><span></span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">500</span><span class="p">]</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">]</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mf">166.6667</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">maximize_loot</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+<span class="n">assert_close</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="s2">"Test Two"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org121c08a" class="outline-3">
+<h3 id="org121c08a">Grader Output</h3>
+<div class="outline-text-3" id="text-org121c08a">
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9752576/671088640.)
+</pre>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/money-change/" class="u-url">Money Change</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/money-change/" rel="bookmark"><time class="published dt-published" datetime="2018-07-02T16:40:25-07:00" title="2018-07-02 16:40">2018-07-02 16:40</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-orgfc0946f" class="outline-2">
+<h2 id="orgfc0946f">Problem Description</h2>
+<div class="outline-text-2" id="text-orgfc0946f">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Task</b></td>
+<td class="org-left">Find the minimum number of coins to change the input to coins with denominations 1, 5, 10</td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A single integer <i>m</i>.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">$1 ≤ m ≤ 10<sup>3</sup>&amp;</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">Minimum number of coins with denominations 1, 5, or 10 that changes <i>m</i>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org338782c" class="outline-2">
+<h2 id="org338782c">Samples</h2>
+<div class="outline-text-2" id="text-org338782c">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
 <col class="org-right">
 <col class="org-left">
 </colgroup>
 <thead><tr>
-<th scope="col" class="org-left">Input</th>
+<th scope="col" class="org-right">Input</th>
 <th scope="col" class="org-right">Output</th>
-<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Coins</th>
 </tr></thead>
 <tbody>
 <tr>
-<td class="org-left">239 1000</td>
-<td class="org-right">161</td>
-<td class="org-left">$F<sub>239</sub> \mod 1000</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-left">1 + 1</td>
 </tr>
 <tr>
-<td class="org-left">2816213588 239</td>
-<td class="org-right">151</td>
-<td class="org-left">\(F_{2816213588} \mod 239\)</td>
-</tr>
-<tr>
-<td class="org-left">1 239</td>
-<td class="org-right">1</td>
-<td class="org-left">\(F_1 \mod 239\)</td>
-</tr>
-<tr>
-<td class="org-left">115 1000</td>
-<td class="org-right">885</td>
-<td class="org-left">\(F_{115} \mod 1000\)</td>
-</tr>
-<tr>
-<td class="org-left">2816213588 30524</td>
-<td class="org-right">10249</td>
-<td class="org-left">\(F_{2816213588} \mod 30524\)</td>
+<td class="org-right">28</td>
+<td class="org-right">6</td>
+<td class="org-left">10 + 10 + 5 + 1 + 1 + 1</td>
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span>previous, current = 0, 1
-x = 2816213588 // 30524
-for number in range(x):
-    previous, current = current, (previous + current) % 30524
-print(current)
+</div>
+</div>
+
+<div id="outline-container-orga7e1a96" class="outline-2">
+<h2 id="orga7e1a96">Solution</h2>
+<div class="outline-text-2" id="text-orga7e1a96">
+<p>
+While <i>m</i> is greater than 0, keep taking a coin with the largest denomination that isn't greater that <i>m</i>, subtracting its value from <i>m</i>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">DENOMINATIONS</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span>
 </pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">change_money</span><span class="p">(</span><span class="n">money</span><span class="p">):</span>
+    <span class="sd">"""Make change</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     money (int): amount to break</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: minimum number of coins that money breaks into</span>
+<span class="sd">    """</span>
+    <span class="n">coins</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">money</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">denomination</span> <span class="ow">in</span> <span class="n">DENOMINATIONS</span><span class="p">:</span>
+	    <span class="k">if</span> <span class="n">money</span> <span class="o">&gt;=</span> <span class="n">denomination</span><span class="p">:</span>
+		<span class="n">money</span> <span class="o">-=</span> <span class="n">denomination</span>
+		<span class="n">coins</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="k">break</span>
+    <span class="k">return</span> <span class="n">coins</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">expected</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">change_money</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">change_money</span><span class="p">(</span><span class="mi">28</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
+</pre></div>
+
+<p>
+Although this is really a brute-force approach, it is good enough.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9596928/536870912.)
+</pre>
+
+<p>
+If you look at it, even in the worst case where you only give out pennies, the maximum run time is the value of <i>money</i>, that is, if \(money=1.50\) then the maximum theoretical run time is \(150\), regardless of the denominations,  so this solution is \(O(n)\), even though it looks brute-force-ish.
+</p>
 </div>
 </div>
     </div>
@@ -236,17 +1087,17 @@ print(current)
             <p class="dateline"><a href="posts/least-common-multiple/" rel="bookmark"><time class="published dt-published" datetime="2018-06-27T11:08:18-07:00" title="2018-06-27 11:08">2018-06-27 11:08</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgf89ab6f" class="outline-2">
-<h2 id="orgf89ab6f">Introduction</h2>
-<div class="outline-text-2" id="text-orgf89ab6f">
+    <div id="outline-container-orgab95d4d" class="outline-2">
+<h2 id="orgab95d4d">Introduction</h2>
+<div class="outline-text-2" id="text-orgab95d4d">
 <p>
 The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common multiple</a> of two positive integers, <i>a</i> and <i>b</i> is the least positive integer <i>m</i> that is divisible by both <i>a</i> and <i>b</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-org98ba27b" class="outline-2">
-<h2 id="org98ba27b">Problem Description</h2>
-<div class="outline-text-2" id="text-org98ba27b">
+<div id="outline-container-org41a5f96" class="outline-2">
+<h2 id="org41a5f96">Problem Description</h2>
+<div class="outline-text-2" id="text-org41a5f96">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -277,9 +1128,9 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </table>
 </div>
 </div>
-<div id="outline-container-org8407e02" class="outline-2">
-<h2 id="org8407e02">Samples</h2>
-<div class="outline-text-2" id="text-org8407e02">
+<div id="outline-container-org85b7222" class="outline-2">
+<h2 id="org85b7222">Samples</h2>
+<div class="outline-text-2" id="text-org85b7222">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -307,17 +1158,17 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgf6f4508" class="outline-2">
-<h2 id="orgf6f4508">Imports</h2>
-<div class="outline-text-2" id="text-orgf6f4508">
+<div id="outline-container-org60d52d7" class="outline-2">
+<h2 id="org60d52d7">Imports</h2>
+<div class="outline-text-2" id="text-org60d52d7">
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">time_two_inputs</span>
 <span class="kn">from</span> <span class="nn">algorithmic_toolbox.implementations</span> <span class="kn">import</span> <span class="n">greatest_common_divisor</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org81e7aab" class="outline-2">
-<h2 id="org81e7aab">Naive</h2>
-<div class="outline-text-2" id="text-org81e7aab">
+<div id="outline-container-orgbcdf538" class="outline-2">
+<h2 id="orgbcdf538">Naive</h2>
+<div class="outline-text-2" id="text-orgbcdf538">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lcm_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">"""Computes the Least Common multiple of a and b</span>
 
@@ -347,9 +1198,9 @@ Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: std
 </div>
 </div>
 
-<div id="outline-container-orge07da7c" class="outline-2">
-<h2 id="orge07da7c">Using The Greatest Common Divisor</h2>
-<div class="outline-text-2" id="text-orge07da7c">
+<div id="outline-container-org2c535a8" class="outline-2">
+<h2 id="org2c535a8">Using The Greatest Common Divisor</h2>
+<div class="outline-text-2" id="text-org2c535a8">
 <p>
 If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
 </p>
@@ -385,18 +1236,18 @@ Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
             <p class="dateline"><a href="posts/greatest-common-divisor/" rel="bookmark"><time class="published dt-published" datetime="2018-06-26T14:51:11-07:00" title="2018-06-26 14:51">2018-06-26 14:51</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgcfecd43" class="outline-2">
-<h2 id="orgcfecd43">Introduction</h2>
-<div class="outline-text-2" id="text-orgcfecd43">
+    <div id="outline-container-orgbccde5d" class="outline-2">
+<h2 id="orgbccde5d">Introduction</h2>
+<div class="outline-text-2" id="text-orgbccde5d">
 <p>
 The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> and <i>b</i>) which are not both equal to 0 is the greatest integer <i>d</i> that divides both <i>a</i> and <i>b</i>. The goal here is to implement the <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclidean Algorithm</a> for computing the GCD.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga8bd1f5" class="outline-2">
-<h2 id="orga8bd1f5">Problem Description</h2>
-<div class="outline-text-2" id="text-orga8bd1f5">
+<div id="outline-container-org8b93291" class="outline-2">
+<h2 id="org8b93291">Problem Description</h2>
+<div class="outline-text-2" id="text-org8b93291">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -428,9 +1279,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </div>
 </div>
 
-<div id="outline-container-orge9b776c" class="outline-2">
-<h2 id="orge9b776c">Imports</h2>
-<div class="outline-text-2" id="text-orge9b776c">
+<div id="outline-container-org72fbe55" class="outline-2">
+<h2 id="org72fbe55">Imports</h2>
+<div class="outline-text-2" id="text-org72fbe55">
 <div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
@@ -439,9 +1290,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orga86f891" class="outline-2">
-<h2 id="orga86f891">Samples</h2>
-<div class="outline-text-2" id="text-orga86f891">
+<div id="outline-container-org03229fc" class="outline-2">
+<h2 id="org03229fc">Samples</h2>
+<div class="outline-text-2" id="text-org03229fc">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -494,9 +1345,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgeb989e1" class="outline-2">
-<h2 id="orgeb989e1">Naive GCD</h2>
-<div class="outline-text-2" id="text-orgeb989e1">
+<div id="outline-container-org7037d39" class="outline-2">
+<h2 id="org7037d39">Naive GCD</h2>
+<div class="outline-text-2" id="text-org7037d39">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gcd_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">"""Naive implementation of GCD</span>
 
@@ -525,9 +1376,9 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 </div>
 </div>
 
-<div id="outline-container-org03029f3" class="outline-2">
-<h2 id="org03029f3">Modulus Version</h2>
-<div class="outline-text-2" id="text-org03029f3">
+<div id="outline-container-orgd3644f2" class="outline-2">
+<h2 id="orgd3644f2">Modulus Version</h2>
+<div class="outline-text-2" id="text-orgd3644f2">
 <p>
 This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
 </p>
@@ -573,9 +1424,9 @@ My computer appears to be faster than the grader, but it still fails.
             <p class="dateline"><a href="posts/last-digit-of-a-large-fibonacci-number/" rel="bookmark"><time class="published dt-published" datetime="2018-06-25T16:28:37-07:00" title="2018-06-25 16:28">2018-06-25 16:28</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org9861b41" class="outline-2">
-<h2 id="org9861b41">Introduction</h2>
-<div class="outline-text-2" id="text-org9861b41">
+    <div id="outline-container-org3e35378" class="outline-2">
+<h2 id="org3e35378">Introduction</h2>
+<div class="outline-text-2" id="text-org3e35378">
 <p>
 The goal is to find the last digit of the <i>n</i>-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
 </p>
@@ -598,9 +1449,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org4f077b3" class="outline-2">
-<h2 id="org4f077b3">Problem Description</h2>
-<div class="outline-text-2" id="text-org4f077b3">
+<div id="outline-container-org4312063" class="outline-2">
+<h2 id="org4312063">Problem Description</h2>
+<div class="outline-text-2" id="text-org4312063">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -632,9 +1483,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org249dfb8" class="outline-2">
-<h2 id="org249dfb8">Samples</h2>
-<div class="outline-text-2" id="text-org249dfb8">
+<div id="outline-container-org8020602" class="outline-2">
+<h2 id="org8020602">Samples</h2>
+<div class="outline-text-2" id="text-org8020602">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -662,17 +1513,17 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </div>
 </div>
 
-<div id="outline-container-org4347463" class="outline-2">
-<h2 id="org4347463">Constants</h2>
-<div class="outline-text-2" id="text-org4347463">
+<div id="outline-container-org177e0cd" class="outline-2">
+<h2 id="org177e0cd">Constants</h2>
+<div class="outline-text-2" id="text-org177e0cd">
 <div class="highlight"><pre><span></span><span class="n">MAX_INPUT</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span>
 <span class="n">MAX_TIME</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org6ae1cf7" class="outline-2">
-<h2 id="org6ae1cf7">Imports</h2>
-<div class="outline-text-2" id="text-org6ae1cf7">
+<div id="outline-container-org485a681" class="outline-2">
+<h2 id="org485a681">Imports</h2>
+<div class="outline-text-2" id="text-org485a681">
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
     <span class="n">timedelta</span><span class="p">,</span>
@@ -682,9 +1533,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org8789515" class="outline-2">
-<h2 id="org8789515">Naive Implementation</h2>
-<div class="outline-text-2" id="text-org8789515">
+<div id="outline-container-orgde08c51" class="outline-2">
+<h2 id="orgde08c51">Naive Implementation</h2>
+<div class="outline-text-2" id="text-orgde08c51">
 <p>
 By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
 </p>
@@ -709,9 +1560,9 @@ By taking the modulo of 10 for the final number you reduce it to the final digit
 </div>
 </div>
 
-<div id="outline-container-orge4fa1ae" class="outline-2">
-<h2 id="orge4fa1ae">Modulo Version</h2>
-<div class="outline-text-2" id="text-orge4fa1ae">
+<div id="outline-container-org855ae54" class="outline-2">
+<h2 id="org855ae54">Modulo Version</h2>
+<div class="outline-text-2" id="text-org855ae54">
 <p>
 Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
 </p>
@@ -759,9 +1610,9 @@ Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
             <p class="dateline"><a href="posts/fibonacci-number/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T20:49:54-07:00" title="2018-06-24 20:49">2018-06-24 20:49</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org54846b1" class="outline-2">
-<h2 id="org54846b1">Imports</h2>
-<div class="outline-text-2" id="text-org54846b1">
+    <div id="outline-container-orgbe1545a" class="outline-2">
+<h2 id="orgbe1545a">Imports</h2>
+<div class="outline-text-2" id="text-orgbe1545a">
 <div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
@@ -774,9 +1625,9 @@ Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgb0d717e" class="outline-2">
-<h2 id="orgb0d717e">The Fibonacci Problem</h2>
-<div class="outline-text-2" id="text-orgb0d717e">
+<div id="outline-container-org3939bc5" class="outline-2">
+<h2 id="org3939bc5">The Fibonacci Problem</h2>
+<div class="outline-text-2" id="text-org3939bc5">
 <p>
 THe Fibonacci Sequence is defined as
 </p>
@@ -815,9 +1666,9 @@ THe Fibonacci Sequence is defined as
 </table>
 </div>
 
-<div id="outline-container-org18ba331" class="outline-3">
-<h3 id="org18ba331">Sample Values</h3>
-<div class="outline-text-3" id="text-org18ba331">
+<div id="outline-container-orga99bdff" class="outline-3">
+<h3 id="orga99bdff">Sample Values</h3>
+<div class="outline-text-3" id="text-orga99bdff">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -838,9 +1689,9 @@ THe Fibonacci Sequence is defined as
 </div>
 </div>
 
-<div id="outline-container-org000d05a" class="outline-3">
-<h3 id="org000d05a">Constants</h3>
-<div class="outline-text-3" id="text-org000d05a">
+<div id="outline-container-orgb3c0b6f" class="outline-3">
+<h3 id="orgb3c0b6f">Constants</h3>
+<div class="outline-text-3" id="text-orgb3c0b6f">
 <p>
 These are translations from the problem description
 </p>
@@ -850,9 +1701,9 @@ These are translations from the problem description
 </div>
 </div>
 </div>
-<div id="outline-container-org5cf3744" class="outline-2">
-<h2 id="org5cf3744">Helpers</h2>
-<div class="outline-text-2" id="text-org5cf3744">
+<div id="outline-container-orgc34c649" class="outline-2">
+<h2 id="orgc34c649">Helpers</h2>
+<div class="outline-text-2" id="text-orgc34c649">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">time_it</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">input_value</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="n">MAX_TIME</span><span class="p">):</span>
     <span class="sd">"""Times the implementation</span>
 
@@ -881,9 +1732,9 @@ These are translations from the problem description
 </div>
 </div>
 
-<div id="outline-container-orga26d7d4" class="outline-2">
-<h2 id="orga26d7d4">Naive Implementation</h2>
-<div class="outline-text-2" id="text-orga26d7d4">
+<div id="outline-container-orgcb29cca" class="outline-2">
+<h2 id="orgcb29cca">Naive Implementation</h2>
+<div class="outline-text-2" id="text-orgcb29cca">
 <p>
 The 'naive' implementation uses recursion to calculate a fibonacci number.
 </p>
@@ -919,9 +1770,9 @@ stderr: (Time used: 5.63/5.00, memory used: 9613312/536870912.)
 </div>
 </div>
 
-<div id="outline-container-orgf0a093c" class="outline-2">
-<h2 id="orgf0a093c">The Tester</h2>
-<div class="outline-text-2" id="text-orgf0a093c">
+<div id="outline-container-orgcad7afa" class="outline-2">
+<h2 id="orgcad7afa">The Tester</h2>
+<div class="outline-text-2" id="text-orgcad7afa">
 <p>
 We have kind of a chicken and the egg problem here. We know that the recursive version is correct, but it is too slow. But in order to validate our newer versions, we need to run it to check for correctness. To solve this problem I'm going to use a cache.
 </p>
@@ -1046,9 +1897,9 @@ In case I accidentally re-run that last call and it uses the cache I'll note her
 </div>
 </div>
 
-<div id="outline-container-org72d5a6a" class="outline-2">
-<h2 id="org72d5a6a">An Iterative Version</h2>
-<div class="outline-text-2" id="text-org72d5a6a">
+<div id="outline-container-org709e579" class="outline-2">
+<h2 id="org709e579">An Iterative Version</h2>
+<div class="outline-text-2" id="text-org709e579">
 <p>
 To try and speed things up I'm going to use an iterative version instead of a recursive one.
 </p>
@@ -1100,14 +1951,13 @@ Good job! (Max time used: 0.03/5.00, max memory used: 9637888/536870912.)
             <p class="dateline"><a href="posts/maximum-pairwise-product/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T16:42:47-07:00" title="2018-06-24 16:42">2018-06-24 16:42</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org0a140e8" class="outline-2">
-<h2 id="org0a140e8">Imports</h2>
-<div class="outline-text-2" id="text-org0a140e8">
+    <div id="outline-container-org577b7fa" class="outline-2">
+<h2 id="org577b7fa">Imports</h2>
+<div class="outline-text-2" id="text-org577b7fa">
 <p>
 Since the test only uses python standard library I'll try and stick to that, but since the stress-test isn't part of the assignment I'll cheat and use numpy to generate the random input.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="c1"># python standad library</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
@@ -1122,9 +1972,9 @@ Since the test only uses python standard library I'll try and stick to that, but
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgd927186" class="outline-2">
-<h2 id="orgd927186">Problem Statement</h2>
-<div class="outline-text-2" id="text-orgd927186">
+<div id="outline-container-orgb73d5bb" class="outline-2">
+<h2 id="orgb73d5bb">Problem Statement</h2>
+<div class="outline-text-2" id="text-orgb73d5bb">
 <p>
 <i>Find the maximum product of two distinct numbers in a sequence of non-negative integers.</i>
 </p>
@@ -1187,9 +2037,9 @@ Given a sequence of non-negative numbers \(a_1,\ldots,a_n\), compute
 </table>
 </div>
 
-<div id="outline-container-org7d4ba88" class="outline-3">
-<h3 id="org7d4ba88">Example Values</h3>
-<div class="outline-text-3" id="text-org7d4ba88">
+<div id="outline-container-org50a1cf7" class="outline-3">
+<h3 id="org50a1cf7">Example Values</h3>
+<div class="outline-text-3" id="text-org50a1cf7">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-right">
@@ -1243,14 +2093,13 @@ Given a sequence of non-negative numbers \(a_1,\ldots,a_n\), compute
 </div>
 </div>
 
-<div id="outline-container-orgaf4886b" class="outline-2">
-<h2 id="orgaf4886b">Some Constants</h2>
-<div class="outline-text-2" id="text-orgaf4886b">
+<div id="outline-container-orge327ccc" class="outline-2">
+<h2 id="orge327ccc">Some Constants</h2>
+<div class="outline-text-2" id="text-orge327ccc">
 <p>
 This is just a translation of some of the problem statement values to python so we can use them.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">MAX_TIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">MAX_INPUTS</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
 <span class="n">MAX_VALUE</span> <span class="o">=</span> <span class="n">MAX_INPUTS</span>
@@ -1269,14 +2118,13 @@ This is just a translation of some of the problem statement values to python so 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgaa8b1d4" class="outline-2">
-<h2 id="orgaa8b1d4">Helpers</h2>
-<div class="outline-text-2" id="text-orgaa8b1d4">
+<div id="outline-container-org77ccbb7" class="outline-2">
+<h2 id="org77ccbb7">Helpers</h2>
+<div class="outline-text-2" id="text-org77ccbb7">
 <p>
 These are some functions to help validate the algorithms.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_inputs</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">INPUTS</span><span class="p">,</span> <span class="n">use_max</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">"""Checks the inputs with the implementation</span>
 
@@ -1312,14 +2160,13 @@ These are some functions to help validate the algorithms.
 </div>
 </div>
 
-<div id="outline-container-org1e2e520" class="outline-2">
-<h2 id="org1e2e520">Brute Force Implementation</h2>
-<div class="outline-text-2" id="text-org1e2e520">
+<div id="outline-container-org1876a8c" class="outline-2">
+<h2 id="org1876a8c">Brute Force Implementation</h2>
+<div class="outline-text-2" id="text-org1876a8c">
 <p>
 This is given as part of the problem. It traverses all the values and finds the largest product.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_brute</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Calculates the largest pairwise-product for a list</span>
 
@@ -1338,7 +2185,6 @@ This is given as part of the problem. It traverses all the values and finds the 
     <span class="k">return</span> <span class="n">max_product</span>
 </pre></div>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_brute</span><span class="p">,</span> <span class="n">use_max</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
@@ -1356,14 +2202,13 @@ Failed case #4/17: time limit exceeded (Time used: 9.98/5.00, memory used: 20905
 </div>
 </div>
 
-<div id="outline-container-orge6680c0" class="outline-2">
-<h2 id="orge6680c0">Search</h2>
-<div class="outline-text-2" id="text-orge6680c0">
+<div id="outline-container-org7156c5e" class="outline-2">
+<h2 id="org7156c5e">Search</h2>
+<div class="outline-text-2" id="text-org7156c5e">
 <p>
 Instead of using nested for-loops, we can search the numbers twice to find the two biggest numbers, this changes the run time to \(2n\) or \(O(n)\).
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_take_two</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Finds the maximum pairwise product in te numbers</span>
 
@@ -1390,7 +2235,6 @@ Instead of using nested for-loops, we can search the numbers twice to find the t
     <span class="k">return</span> <span class="n">first_value</span> <span class="o">*</span> <span class="n">second_value</span>
 </pre></div>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_take_two</span><span class="p">)</span>
 </pre></div>
 
@@ -1404,14 +2248,13 @@ Good job! (Max time used: 0.15/5.00, max memory used: 26734592/536870912.)
 </div>
 </div>
 
-<div id="outline-container-org1a6d25f" class="outline-2">
-<h2 id="org1a6d25f">Another Improvement</h2>
-<div class="outline-text-2" id="text-org1a6d25f">
+<div id="outline-container-orgd6e7fd0" class="outline-2">
+<h2 id="orgd6e7fd0">Another Improvement</h2>
+<div class="outline-text-2" id="text-orgd6e7fd0">
 <p>
 Rather than go through the second loop, I thought that since the previous maximum value is always the next highest value so far, we can just save it directly.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_take_three</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Finds the maximum pairwise product in te numbers</span>
 
@@ -1433,20 +2276,18 @@ Rather than go through the second loop, I thought that since the previous maximu
     <span class="k">return</span> <span class="n">max_value</span> <span class="o">*</span> <span class="n">previous_value</span>
 </pre></div>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_take_three</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgcf662b6" class="outline-2">
-<h2 id="orgcf662b6">Stress Test</h2>
-<div class="outline-text-2" id="text-orgcf662b6">
+<div id="outline-container-orged31026" class="outline-2">
+<h2 id="orged31026">Stress Test</h2>
+<div class="outline-text-2" id="text-orged31026">
 <p>
 Even thought we're already passing, part of the assignment was to create a stress test to really exercise the algorithm once you have it passing.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">stress_test</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">maximum_size</span><span class="o">=</span><span class="n">MAX_INPUTS</span> <span class="p">,</span>
 		<span class="n">maximum_value</span><span class="o">=</span><span class="n">MAX_VALUE</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="sd">"""Repeatedly creates random inputs to test the implementation</span>
@@ -1499,15 +2340,14 @@ Even thought we're already passing, part of the assignment was to create a stres
 </div>
 </div>
 
-<div id="outline-container-orgcfe66d6" class="outline-2">
-<h2 id="orgcfe66d6">Boosted Brute Force</h2>
-<div class="outline-text-2" id="text-orgcfe66d6">
+<div id="outline-container-org677b9cf" class="outline-2">
+<h2 id="org677b9cf">Boosted Brute Force</h2>
+<div class="outline-text-2" id="text-org677b9cf">
 <p>
 To try and get this working I'm going to use numba to (hopefully) speed it enough to make the stress test runnable.
 </p>
 
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="nd">@jit</span>
 <span class="k">def</span> <span class="nf">max_pairwise_product_brute_jit</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Calculates the largest pairwise-product for a list</span>
@@ -1527,21 +2367,19 @@ To try and get this working I'm going to use numba to (hopefully) speed it enoug
     <span class="k">return</span> <span class="n">max_product</span>
 </pre></div>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"One Pass Method"</span><span class="p">)</span>
 <span class="n">stress_test</span><span class="p">(</span><span class="n">max_pairwise_product_take_three</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"One-Pass"</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org15990a0" class="outline-2">
-<h2 id="org15990a0">Using Sort</h2>
-<div class="outline-text-2" id="text-org15990a0">
+<div id="outline-container-orgc991b68" class="outline-2">
+<h2 id="orgc991b68">Using Sort</h2>
+<div class="outline-text-2" id="text-orgc991b68">
 <p>
 Since we need the top two values we can get a more efficient algorithm by sorting the values.
 </p>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
     <span class="sd">"""Calculates the largest pairwise-product for a list</span>
 
@@ -1556,488 +2394,8 @@ Since we need the top two values we can get a more efficient algorithm by sortin
     <span class="k">return</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Sort method"</span><span class="p">)</span>
 <span class="n">stress_test</span><span class="p">(</span><span class="n">max_pairwise_product_sort</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"Sort"</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/learning-algorithms-through-programming-and-puzzle-solving-notes/" class="u-url">Learning Algorithms Through Programming and Puzzle Solving Notes</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Cloistered Monkey
-            </span></p>
-            <p class="dateline"><a href="posts/learning-algorithms-through-programming-and-puzzle-solving-notes/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T11:13:00-07:00" title="2018-06-24 11:13">2018-06-24 11:13</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <p>
-These are my notes from the book <i>Learning Algorithms Through Programming and Puzzle Solving</i>, available for purchase from <a href="https://leanpub.com/algo">leanpub.com</a>.
-</p>
-<div id="outline-container-org73e6bc7" class="outline-2">
-<h2 id="org73e6bc7">Algorithms and Complexity</h2>
-<div class="outline-text-2" id="text-org73e6bc7">
-</div>
-<div id="outline-container-org908eb07" class="outline-3">
-<h3 id="org908eb07">What is an algorithm?</h3>
-<div class="outline-text-3" id="text-org908eb07">
-<ul class="org-ul">
-<li>A sequence of instructions to solve a well formulated problem.</li>
-<li>Problems are specified in terms of their inputs and outputs and the algorithm has to transform the inputs into the outputs.</li>
-<li>An unambiguous specification of how to solve a class of problems (<a href="https://en.wikipedia.org/wiki/Algorithm">wikipedia</a>).</li>
-</ul>
-</div>
-<div id="outline-container-org10dd112" class="outline-4">
-<h4 id="org10dd112">What is a well-formulated problem?</h4>
-<div class="outline-text-4" id="text-org10dd112">
-<ul class="org-ul">
-<li>unambiguous</li>
-<li>precise</li>
-<li>No room for misinterpretation</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org20e39eb" class="outline-4">
-<h4 id="org20e39eb">What are two of the most important things to ask about an algorithm?</h4>
-<div class="outline-text-4" id="text-org20e39eb">
-<ul class="org-ul">
-<li>Does it work correctly?</li>
-<li>How long does it take?</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-orgd5e1406" class="outline-3">
-<h3 id="orgd5e1406">What is Pseudocode?</h3>
-<div class="outline-text-3" id="text-orgd5e1406">
-<ul class="org-ul">
-<li>A language that ignores specifics needed for a programming language but is precise enough to describe an algorithm.</li>
-<li>An informal, high-level description of an algorithm (<a href="https://en.wikipedia.org/wiki/Pseudocode">wikipedia</a>)</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org1de4af9" class="outline-3">
-<h3 id="org1de4af9">What is the difference between a Problem and a Problem Instance?</h3>
-<div class="outline-text-3" id="text-org1de4af9">
-<ul class="org-ul">
-<li>A problem is a class of computational tasks</li>
-<li>A problem instance is a particular input for a problem class</li>
-</ul>
-</div>
-<div id="outline-container-orgbf84a67" class="outline-4">
-<h4 id="orgbf84a67">Example: The Change Problem</h4>
-<div class="outline-text-4" id="text-orgbf84a67">
-<p>
-The example given in the book is making change for someone. You want to be able to break a larger denomination (say a dollar) into smaller ones using the fewest number of coins. In this case they specifically say coin but you could re-state it to mean any type of money.
-</p>
-
-<p>
-\[
-\textbf{Input:}\text{ An integer }money\text{ and an array of }d\text{ denominations } c = c_1, c_2, \ldots, c_n,\text{ in decreasing order of value }(c_1 &gt; c_2 &gt; \ldots &gt;c_n).
-\]
-</p>
-
-<p>
-\[
-\textbf{Output:}\text{ A list of}d\text{ integers } i_1, i_2,\ldots,i_d\text{ such that }c_1 i_1 + c_2 i_2 + \ldots + c_d i_d = money,\text{ and } i_1 + i_2 + \ldots + i_d\text{ is as small as possible.}
-\]
-</p>
-
-<p>
-This is the way most people do it.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">MakeChange</span><span class="p">(</span><span class="n">money</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-    <span class="k">while</span> <span class="n">money</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-	<span class="n">coin</span> <span class="o">&lt;-</span> <span class="s2">"coin with largest denomination not greater than value of money."</span>
-	<span class="s2">"Give coin to customer"</span>
-	<span class="n">money</span> <span class="o">&lt;-</span> <span class="n">money</span> <span class="o">-</span> <span class="n">coin</span>
-</pre></div>
-
-<p>
-<i>What was c and d for?</i> In the example solution they aren't used (and they also don't output the number of each coin as was required in the problem statement), but there is an alternative solution that always goes through the denominations once.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">MakeChange</span><span class="p">(</span><span class="n">money</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-    <span class="sd">"""Make change using the smallest number of coins</span>
-
-<span class="sd">    Inputs:</span>
-<span class="sd">     - money: the original amount that you want to break up</span>
-<span class="sd">     - c: an array of coin denominations</span>
-<span class="sd">     - d: The number of denominations in c</span>
-
-<span class="sd">    Outputs:</span>
-<span class="sd">     list of counts for each coin denomination</span>
-<span class="sd">    """</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">{</span><span class="mf">1.</span><span class="o">.</span><span class="n">d</span><span class="p">}:</span>
-	<span class="n">i_k</span> <span class="o">&lt;-</span> <span class="n">floor</span><span class="p">(</span><span class="n">money</span><span class="o">/</span><span class="n">c_k</span><span class="p">)</span>
-	<span class="n">money</span> <span class="o">=</span> <span class="n">money</span> <span class="o">-</span> <span class="n">i_k</span> <span class="o">*</span> <span class="n">c_k</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">i_1</span><span class="p">,</span><span class="o">...</span><span class="p">,</span> <span class="n">i_d</span><span class="p">)</span>
-</pre></div>
-<p>
-You could probably improve on the second version by quitting once you have made the change (i.e. <i>money</i> is 0).
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-orgb641051" class="outline-3">
-<h3 id="orgb641051">What are correct and incorrect algorithms?</h3>
-<div class="outline-text-3" id="text-orgb641051">
-<ul class="org-ul">
-<li>Correct: every input instance produces a correct output</li>
-<li>Incorrect: At least one input produces an incorrect output</li>
-</ul>
-<p>
-By this definition the <code>MakeChange</code> algorithm might be incorrect depending on the denominations of the coins. Suppose you had denominations of 25, 15, 11, 5, and 1 and you owed someone 46 cents, the algorithm would produce \(1 \times 25, 1 \times 15, 1 \times 5\), and \(1 \times 1\). But if you skipped the largest coin you could use \(2 \times 15, 1 \times 11\) and get the same change with three coins instead of four.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org9ce9c7f" class="outline-3">
-<h3 id="org9ce9c7f">What are fast and slow algorithms?</h3>
-<div class="outline-text-3" id="text-org9ce9c7f">
-<p>
-Because different computers can perform at different speeds, <i>time</i> is a poor measure of algorithmic speed. Instead we use the count of basic operations that an algorithm uses.
-</p>
-</div>
-</div>
-<div id="outline-container-org836f6d4" class="outline-3">
-<h3 id="org836f6d4">What is Big-O Notation?</h3>
-<div class="outline-text-3" id="text-org836f6d4">
-<p>
-As the number of inputs goes up, the fastest growing term in the equation describing the number of operations an algorithm makes begins to dominate the count, so generally only this term is used to characterize the running time of the algorithm. Lets say you have two for loops and, given an input of \(n\), they have a run-time of \(3n + n^3\). When \(n\) is 1, the first term is 3 and the second term is 1, but when \(n\) is \(1,000\), the first term is \(3,000\) while the second term is \(1,000,000,000\).
-</p>
-
-
-<div class="figure">
-<p><img src="posts/learning-algorithms-through-programming-and-puzzle-solving-notes/big_o_example.png" alt="big_o_example.png"></p>
-</div>
-
-<p>
-As you can see, the \(n^3\) term grows much faster, accounting for just about all of the number of operations as \(n\) grows (to make the \(3n\) line visible at all I had to set the axis to a negative number). Although the So when using <a href="https://en.wikipedia.org/wiki/Big_O_notation">Big-O Notation</a> we would say that it has a run time of \(O(n^3)\). Note that we generally don't put in any constant multipliers, so if the second term had been \(2n^3\), it would still be \(O(n^3)\).
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-org48a725e" class="outline-2">
-<h2 id="org48a725e">Algorithm Design Techniques</h2>
-<div class="outline-text-2" id="text-org48a725e">
-<p>
-Many algorithms share the same ideas even though the problems are different. These are the most common design techniques. The ideas are illustrated with the problem of trying to answer your phone when you've it handset somewhere in your house.
-</p>
-</div>
-<div id="outline-container-org4a010a6" class="outline-3">
-<h3 id="org4a010a6">What are Exhaustive Search Algorithms?</h3>
-<div class="outline-text-3" id="text-org4a010a6">
-<p>
-This is a <i>brute force</i> approach where you look at every possible alternative in order to find your solution. To find your phone headset with brute-force you would simply sweep your entire house until you found it.
-</p>
-</div>
-</div>
-<div id="outline-container-org23ef591" class="outline-3">
-<h3 id="org23ef591">What are Brand-and-Bound Algorithms?</h3>
-<div class="outline-text-3" id="text-org23ef591">
-<p>
-<i>Branch-and-Bound</i> algorithms use a brute-force approach but eliminate certain alternatives without checking them based on some criteria that would make them ineligible. If you were searching your house and you heard the phone ring upstairs then you could eliminate the bottom floor of the house because you know it isn't ther.
-</p>
-</div>
-</div>
-<div id="outline-container-orgdbddb61" class="outline-3">
-<h3 id="orgdbddb61">What are Greedy Algorithms?</h3>
-<div class="outline-text-3" id="text-orgdbddb61">
-<p>
-<i>Greedy Algorithms</i> choose among alternatives at each iteration, always choosing the "best" alternative each time. To find your phone with in a <i>greedy</i> manner you would just walk in a straight line toward your phone. The downside to this approach is that if the only open door happens to be off the straight path, you will get stuck.
-</p>
-</div>
-</div>
-<div id="outline-container-org1c0a4e8" class="outline-3">
-<h3 id="org1c0a4e8">What are Dynamic Programming Algorithms?</h3>
-<div class="outline-text-3" id="text-org1c0a4e8">
-<p>
-<i>Dynamic Programming</i> breaks the larger problems into sub-problems and solves each of them to solve the larger problem. It organizes computations to try and avoid re-computing sub-problems if they happen to have already been solved by another sub-problem. There isn't a good way to apply this to the phone-search problem. Generally the method involves building a lookup table of incremental problem solutions.
-</p>
-</div>
-</div>
-<div id="outline-container-org205edeb" class="outline-3">
-<h3 id="org205edeb">What are Recursive Algorithms?</h3>
-<div class="outline-text-3" id="text-org205edeb">
-<p>
-An algorithm is <i>recursive</i> if it calls itself. 
-</p>
-</div>
-<div id="outline-container-org384308a" class="outline-4">
-<h4 id="org384308a">Tower of Hanoi</h4>
-<div class="outline-text-4" id="text-org384308a">
-<p>
-The <a href="https://en.wikipedia.org/wiki/Tower_of_Hanoi">Tower of Hanoi Problem</a> is an example of a recursively solved problem. You have three pegs with disks of different sizes on the leftmost peg and you need to move them to the rightmost peg, but a larger disk can never be place on a smaller disk. If you have one disk you just move it to the rightmost peg.
-</p>
-</div>
-
-<ul class="org-ul">
-<li>
-<a id="org0b8f92e"></a>Three disks<br><div class="outline-text-5" id="text-org0b8f92e">
-<ol class="org-ol">
-<li>Move the smallest disk to the rightmost peg</li>
-<li>Move the middle disk to the middle peg</li>
-<li>Move the smallest disk to the middle peg</li>
-<li>Move the largest disk to the rightmost peg</li>
-<li>Move the smallest disk to the leftmost peg</li>
-<li>Move the middle disk to the rightmost peg</li>
-<li>Move the smallest disk to the rightmost peg</li>
-</ol>
-<p>
-In general, the problem for n-disks is to move all but the largest disk to the middle peg, then move the largest disk to the rightmost peg, then do this for the remaining disks, and repeat until you only have one disk. So you are always solving the <i>n</i> disk problem by first solving the <i>n-1</i> disk problem.
-</p>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org6ca1a03" class="outline-3">
-<h3 id="org6ca1a03">What are Divide-and-Conquer Algorithms?</h3>
-<div class="outline-text-3" id="text-org6ca1a03">
-<p>
-<i>Divide-and-Conquer</i> algorithms work by splitting problems into smaller, easier to solve problems, solving the sub-problems separately, then combining them for the final solution. <i>MergeSort</i> is one example of a divide-and-conquer algorithm. Repeatedly split a list in half until you have single elements, then repeatedly merge them back together in pairs, making sure that the pairs are sorted.
-</p>
-</div>
-</div>
-<div id="outline-container-org436c5f3" class="outline-3">
-<h3 id="org436c5f3">What are Randomized Algorithms?</h3>
-<div class="outline-text-3" id="text-org436c5f3">
-<p>
-In <i>randomized</i> algorithms, you generate random solutions and check them. For the phone problem, you could use a coin toss to decide where to look next.
-</p>
-<ul class="org-ul">
-<li>
-<i>Las Vegas</i> algorithms: always return correct solutions</li>
-<li>
-<i>Monte Carlo</i> algorithms: Usually produce approximate (and therefore incorrect) solutions</li>
-</ul>
-<p>
-Randomized algorithms are usually faster and simpler.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-org82f1e40" class="outline-2">
-<h2 id="org82f1e40">Programming Challenges</h2>
-<div class="outline-text-2" id="text-org82f1e40">
-<p>
-To solve a programming challenge:
-</p>
-
-<ol class="org-ol">
-<li>Read the problem statement</li>
-<li>Design the algorithm</li>
-<li>Implement the algorithm</li>
-<li>Test and debug your implementation</li>
-<li>Submit your solution</li>
-</ol>
-</div>
-<div id="outline-container-orge9fc90c" class="outline-3">
-<h3 id="orge9fc90c">How do you solve a Programming Challenge?</h3>
-<div class="outline-text-3" id="text-orge9fc90c">
-<ol class="org-ol">
-<li>Read the problem statement</li>
-<li>Design the Algorithm
-<ul class="org-ul">
-<li>Calculate if your solution will work based on your big-O and the constraints of the problem.</li>
-</ul>
-</li>
-<li>Implement the algorithm</li>
-<li>Test and Debug your implementation
-<ul class="org-ul">
-<li>Start with a small dataset to check that it works correctly</li>
-<li>Move on to a larger dataset to make sure it's correct and runs within the time constraint</li>
-<li>Implement a separate function to generate the larger dataset</li>
-<li>Check the boundary inputs (the largest and smallest that you will get)</li>
-<li>Check randomly generated data</li>
-<li>Check degenerate cases (empty sets, trees with one path, etc.)</li>
-<li>Stress Test</li>
-</ul>
-</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orgf12f6dd" class="outline-3">
-<h3 id="orgf12f6dd">What are some good programming practices?</h3>
-<div class="outline-text-3" id="text-orgf12f6dd">
-<ul class="org-ul">
-<li>Stick to a specific code style.</li>
-<li>Use meaningful variable names</li>
-<li>Turn on all warnings</li>
-<li>Structure the code</li>
-<li>Only make your code compact if it doesn't reduce readability</li>
-<li>Use Assert statements
-<ul class="org-ul">
-<li>Preconditions</li>
-<li>Postconditions</li>
-<li>Points that should never be reached (put <code>assert False</code>)</li>
-</ul>
-</li>
-<li>Avoid integer overflow (estimate your maximum size and don't exceed your programming language's limits)</li>
-<li>Avoid floating point numbers if possible (if you only need intermediate calculations for comparisons, see if you can eliminate computations that produce floats)</li>
-<li>Stick to 0-based arrays, even if the problem statement uses 1-based</li>
-<li>Use semi-open intervals (like python's <code>range</code> function)
-<ul class="org-ul">
-<li>include left boundary, exclude right boundary</li>
-<li>The size of a semi-open interval <i>[l,r)</i> is <i>r - l</i>
-</li>
-<li>Splitting a semi-open interval is simpler: \([l,r) = [l,m) \cup [m, r)\)</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-org8223106" class="outline-2">
-<h2 id="org8223106">Algorithmic Warm Up</h2>
-</div>
-<div id="outline-container-org0d82170" class="outline-2">
-<h2 id="org0d82170">Greedy Algorithms</h2>
-</div>
-<div id="outline-container-org74ec535" class="outline-2">
-<h2 id="org74ec535">Divide-and-Conquer</h2>
-</div>
-<div id="outline-container-org0b2bf56" class="outline-2">
-<h2 id="org0b2bf56">Dynamic Programming</h2>
-</div>
-<div id="outline-container-org11e9c09" class="outline-2">
-<h2 id="org11e9c09">Appendix</h2>
-</div>
-<div id="outline-container-org4a267cc" class="outline-2">
-<h2 id="org4a267cc">Sources</h2>
-<div class="outline-text-2" id="text-org4a267cc">
-<ul class="org-ul">
-<li>Kulikov, Alexander S, and Pavel A Pevzner. “Learning Algorithms Through Programming and Puzzle Solving,” n.d., 138.</li>
-</ul>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/a-plus-b/" class="u-url">A Plus B</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Cloistered Monkey
-            </span></p>
-            <p class="dateline"><a href="posts/a-plus-b/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T11:04:09-07:00" title="2018-06-24 11:04">2018-06-24 11:04</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-org2daa514" class="outline-2">
-<h2 id="org2daa514">Introduction</h2>
-<div class="outline-text-2" id="text-org2daa514">
-<p>
-This is an introductory problem to make sure you know how the submissions work. The problem is to take two integers and add them together.
-</p>
-</div>
-<div id="outline-container-org6a022a5" class="outline-3">
-<h3 id="org6a022a5">Sum of Two Digits</h3>
-<div class="outline-text-3" id="text-org6a022a5">
-<p>
-<i>Compute the sum of two single-digit numbers</i>.
-</p>
-
-<ul class="org-ul">
-<li>
-<b>Input:</b> Two single-digit numbers.</li>
-<li>
-<b>Output:</b> The sum of these numbers.</li>
-</ul>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-left"> </th>
-<th scope="col" class="org-left">Description</th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-left"><b>Input Format</b></td>
-<td class="org-left">Integers <i>a</i> and <i>b</i> on the same line separated by a space.</td>
-</tr>
-<tr>
-<td class="org-left"><b>Output Format</b></td>
-<td class="org-left">The sum of <i>a</i> and <i>b</i>.</td>
-</tr>
-<tr>
-<td class="org-left"><b>Constraints</b></td>
-<td class="org-left">\(0 \le a,b \le 9\)</td>
-</tr>
-<tr>
-<td class="org-left"><b>Time Limit</b></td>
-<td class="org-left">5 Seconds</td>
-</tr>
-<tr>
-<td class="org-left"><b>Memory Limit</b></td>
-<td class="org-left">512 Mb</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-org97967fd" class="outline-3">
-<h3 id="org97967fd">Sample</h3>
-<div class="outline-text-3" id="text-org97967fd">
-<p>
-<b>Input</b>
-</p>
-<pre class="example">
-9 7
-</pre>
-<p>
-<b>Output</b>
-</p>
-<pre class="example">
-16
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org8cf2da3" class="outline-2">
-<h2 id="org8cf2da3">Setup</h2>
-<div class="outline-text-2" id="text-org8cf2da3">
-<p>
-In order for the grader to know what interpreter you're using you have to put a comment at the top of the file.
-</p>
-
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
-<div class="highlight"><pre><span></span><span class="c1"># Uses python 3</span>
-</pre></div>
-
-<p>
-In addition, the inputs are given via <code>stdin</code> so you need to import <code>sys</code> to read it.
-</p>
-
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org9d8cb70" class="outline-2">
-<h2 id="org9d8cb70">The Input</h2>
-<div class="outline-text-2" id="text-org9d8cb70">
-<p>
-So the first thing to do is read in the inputs. Since standard input is a string we need to split it to get the two terms and then cast them to integers. I'm assuming the grader behaves well and so I'm not doing any kind of checking of the input.
-</p>
-
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
-<div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orga2931a3" class="outline-2">
-<h2 id="orga2931a3">The Solution</h2>
-<div class="outline-text-2" id="text-orga2931a3">
-<p>
-In order to give the grader my output I have to print it.
-</p>
-
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2045,13 +2403,12 @@ In order to give the grader my output I have to print it.
     </article>
 </div>
 
-
-
-
-
-
-
-        </div>
+        <nav class="postindexpager"><ul class="pager">
+<li class="next">
+                <a href="index-1.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav>
+</div>
         <!--End of body content-->
 
         <footer id="footer">

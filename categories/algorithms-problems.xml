@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Jun 2018 22:51:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Least Common Multiple</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgf89ab6f" class="outline-2"&gt;
-&lt;h2 id="orgf89ab6f"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf89ab6f"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 03 Jul 2018 02:22:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Least Common Multiple</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgab95d4d" class="outline-2"&gt;
+&lt;h2 id="orgab95d4d"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgab95d4d"&gt;
 &lt;p&gt;
 The &lt;a href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;least common multiple&lt;/a&gt; of two positive integers, &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt; is the least positive integer &lt;i&gt;m&lt;/i&gt; that is divisible by both &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org98ba27b" class="outline-2"&gt;
-&lt;h2 id="org98ba27b"&gt;Problem Description&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org98ba27b"&gt;
+&lt;div id="outline-container-org41a5f96" class="outline-2"&gt;
+&lt;h2 id="org41a5f96"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org41a5f96"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -48,9 +48,9 @@ The &lt;a href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;least co
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8407e02" class="outline-2"&gt;
-&lt;h2 id="org8407e02"&gt;Samples&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8407e02"&gt;
+&lt;div id="outline-container-org85b7222" class="outline-2"&gt;
+&lt;h2 id="org85b7222"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org85b7222"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -85,17 +85,17 @@ The &lt;a href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;least co
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf6f4508" class="outline-2"&gt;
-&lt;h2 id="orgf6f4508"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf6f4508"&gt;
+&lt;div id="outline-container-org60d52d7" class="outline-2"&gt;
+&lt;h2 id="org60d52d7"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org60d52d7"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;algorithmic_toolbox.helpers&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;time_two_inputs&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;algorithmic_toolbox.implementations&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;greatest_common_divisor&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org81e7aab" class="outline-2"&gt;
-&lt;h2 id="org81e7aab"&gt;Naive&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org81e7aab"&gt;
+&lt;div id="outline-container-orgbcdf538" class="outline-2"&gt;
+&lt;h2 id="orgbcdf538"&gt;Naive&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbcdf538"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;lcm_naive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Computes the Least Common multiple of a and b&lt;/span&gt;
 
@@ -125,9 +125,9 @@ Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: std
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge07da7c" class="outline-2"&gt;
-&lt;h2 id="orge07da7c"&gt;Using The Greatest Common Divisor&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge07da7c"&gt;
+&lt;div id="outline-container-org2c535a8" class="outline-2"&gt;
+&lt;h2 id="org2c535a8"&gt;Using The Greatest Common Divisor&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2c535a8"&gt;
 &lt;p&gt;
 If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
 &lt;/p&gt;
@@ -153,9 +153,9 @@ The Grader output:
 Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</guid><pubDate>Wed, 27 Jun 2018 18:08:18 GMT</pubDate></item><item><title>Last Digit of a Large Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org9861b41" class="outline-2"&gt;
-&lt;h2 id="org9861b41"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9861b41"&gt;
+&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</guid><pubDate>Wed, 27 Jun 2018 18:08:18 GMT</pubDate></item><item><title>Last Digit of a Large Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org3e35378" class="outline-2"&gt;
+&lt;h2 id="org3e35378"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3e35378"&gt;
 &lt;p&gt;
 The goal is to find the last digit of the &lt;i&gt;n&lt;/i&gt;-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
 &lt;/p&gt;
@@ -178,9 +178,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4f077b3" class="outline-2"&gt;
-&lt;h2 id="org4f077b3"&gt;Problem Description&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4f077b3"&gt;
+&lt;div id="outline-container-org4312063" class="outline-2"&gt;
+&lt;h2 id="org4312063"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4312063"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -220,9 +220,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org249dfb8" class="outline-2"&gt;
-&lt;h2 id="org249dfb8"&gt;Samples&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org249dfb8"&gt;
+&lt;div id="outline-container-org8020602" class="outline-2"&gt;
+&lt;h2 id="org8020602"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8020602"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -257,17 +257,17 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4347463" class="outline-2"&gt;
-&lt;h2 id="org4347463"&gt;Constants&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4347463"&gt;
+&lt;div id="outline-container-org177e0cd" class="outline-2"&gt;
+&lt;h2 id="org177e0cd"&gt;Constants&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org177e0cd"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;MAX_INPUT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;
 &lt;span class="n"&gt;MAX_TIME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6ae1cf7" class="outline-2"&gt;
-&lt;h2 id="org6ae1cf7"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6ae1cf7"&gt;
+&lt;div id="outline-container-org485a681" class="outline-2"&gt;
+&lt;h2 id="org485a681"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org485a681"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="n"&gt;timedelta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -277,9 +277,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8789515" class="outline-2"&gt;
-&lt;h2 id="org8789515"&gt;Naive Implementation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8789515"&gt;
+&lt;div id="outline-container-orgde08c51" class="outline-2"&gt;
+&lt;h2 id="orgde08c51"&gt;Naive Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgde08c51"&gt;
 &lt;p&gt;
 By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
 &lt;/p&gt;
@@ -304,9 +304,9 @@ By taking the modulo of 10 for the final number you reduce it to the final digit
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge4fa1ae" class="outline-2"&gt;
-&lt;h2 id="orge4fa1ae"&gt;Modulo Version&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge4fa1ae"&gt;
+&lt;div id="outline-container-org855ae54" class="outline-2"&gt;
+&lt;h2 id="org855ae54"&gt;Modulo Version&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org855ae54"&gt;
 &lt;p&gt;
 Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
 &lt;/p&gt;

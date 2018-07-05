@@ -1,0 +1,68 @@
+#+BEGIN_COMMENT
+.. title: Money Change
+.. slug: money-change
+.. date: 2018-07-02 16:40:25 UTC-07:00
+.. tags: algorithms problems greedy
+.. category: greedy
+.. link: 
+.. description: The giving change for money problem.
+.. type: text
+#+END_COMMENT
+
+* Problem Description
+| *Task*        | Find the minimum number of coins to change the input to coins with denominations 1, 5, 10 |
+| *Input*       | A single integer /m/.                                                                     |
+| *Constraints* | $1 \le m \le 10^3&                                                                        |
+| *Output*      | Minimum number of coins with denominations 1, 5, or 10 that changes /m/.                  |
+
+* Samples
+
+| Input | Output | Coins                   |
+|-------+--------+-------------------------|
+|     2 |      2 | 1 + 1                   |
+|    28 |      6 | 10 + 10 + 5 + 1 + 1 + 1 |
+
+* Solution
+  While /m/ is greater than 0, keep taking a coin with the largest denomination that isn't greater that /m/, subtracting its value from /m/.
+
+#+BEGIN_SRC python :session money :results none
+DENOMINATIONS = 10, 5, 1
+#+END_SRC
+
+
+#+BEGIN_SRC python :session money :results none
+def change_money(money):
+    """Make change
+
+    Args:
+     money (int): amount to break
+
+    Returns:
+     int: minimum number of coins that money breaks into
+    """
+    coins = 0
+    while money > 0:
+        for denomination in DENOMINATIONS:
+            if money >= denomination:
+                money -= denomination
+                coins += 1
+                break
+    return coins
+#+END_SRC
+
+#+BEGIN_SRC python :session money :results none
+expected = 2
+actual = change_money(2)
+assert expected == actual
+expected = 6
+actual = change_money(28)
+assert expected == actual
+#+END_SRC
+
+Although this is really a brute-force approach, it is good enough.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.03/5.00, max memory used: 9596928/536870912.)
+#+END_EXAMPLE
+
+If you look at it, even in the worst case where you only give out pennies, the maximum run time is the value of /money/, that is, if $money=1.50$ then the maximum theoretical run time is $150$, regardless of the denominations,  so this solution is $O(n)$, even though it looks brute-force-ish.

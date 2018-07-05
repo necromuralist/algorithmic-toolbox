@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems greedy)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems-greedy.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Thu, 05 Jul 2018 03:56:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Collecting Signatures</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/collecting-signatures/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org593d81b" class="outline-2"&gt;
+&lt;h2 id="org593d81b"&gt;General Problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org593d81b"&gt;
+&lt;p&gt;
+&lt;i&gt;Find the minimum number of points needed to cover all given segments on a line.&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;A sequence of \(n\) segments \([a_1, b_1],\ldots[a_n, b_n]\) on a line&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;A set of points of minimum size such that each segment contains a point&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4f8db6a" class="outline-2"&gt;
+&lt;h2 id="org4f8db6a"&gt;The Concrete Problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4f8db6a"&gt;
+&lt;p&gt;
+You have to collect signatures from the tenants in the building. You know the times each tenant will be in the building (represented by the &lt;i&gt;segments&lt;/i&gt; in the problem) and you want to minimize the number of visits and time spent at the building. Assume that the actual visit with the tenant will take no time.
+&lt;/p&gt;
+
+&lt;p&gt;
+In other words, we have a bunch of line segments that may or may not overlap. We want to minimize the number of segments 
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(n\), the number of segments, each following line is made of two points tha define a line segment \(a_i, b_i\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The minimum number \(m\) of points needed, followed by the integer values for each of the points&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(1 \le n \le 100; 0 \le a_i \le b_i \le 10^9\) for all i&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8f01583" class="outline-2"&gt;
+&lt;h2 id="org8f01583"&gt;Sample Inputs&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8f01583"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org0d333a8" class="outline-3"&gt;
+&lt;h3 id="org0d333a8"&gt;Sample One&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0d333a8"&gt;
+&lt;p&gt;
+Input:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+3
+1 3
+2 5
+3 6
+&lt;/pre&gt;
+&lt;p&gt;
+Output:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+1
+3
+&lt;/pre&gt;
+
+&lt;p&gt;
+Note that the way the code is setup, the first input value isn't relevant to our solver.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org00a7351" class="outline-3"&gt;
+&lt;h3 id="org00a7351"&gt;Sample Two&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org00a7351"&gt;
+&lt;p&gt;
+Input:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+4
+4 7
+1 3
+2 5
+5 6
+&lt;/pre&gt;
+
+&lt;p&gt;
+Output:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+2
+3 6
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf60b5f9" class="outline-2"&gt;
+&lt;h2 id="orgf60b5f9"&gt;Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf60b5f9"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgeeaf7e9" class="outline-3"&gt;
+&lt;h3 id="orgeeaf7e9"&gt;Imports&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeeaf7e9"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# from pypi
+from expects import (
+    equal,
+    expect,
+)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3b44383" class="outline-3"&gt;
+&lt;h3 id="org3b44383"&gt;Overlapping&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3b44383"&gt;
+&lt;p&gt;
+First, what does it mean to say that two segments overlap? Let's say we have two segments. They won't overlap if:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;the first segment's rightmost point is to the left of the other segment's leftmost point&lt;/li&gt;
+&lt;li&gt;the second segment's rightmost point is to the left of the other segment's leftmost point&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+So they won't overlap if:
+&lt;/p&gt;
+
+&lt;p&gt;
+\[
+R_0 &amp;lt; L_1 \lor L_0 &amp;gt; R_1
+\]
+&lt;/p&gt;
+
+&lt;p&gt;
+Where \(R\) means the rightmost point for that segment and \(L\) means the leftmost point of that segment (and the first segment is \(0\) and the second one is \(1\)). To find where they &lt;i&gt;do&lt;/i&gt; overlap we can negate the inequality.
+&lt;/p&gt;
+
+&lt;p&gt;
+\[
+\neg (R_0 &amp;lt; L_1 \lor L_0 &amp;gt; R_1) = R_0 \le L_1 \land L_0 \le R_1
+\]
+&lt;/p&gt;
+
+&lt;p&gt;
+Python functions are expensive, but to make it clearer I'll create a function to test for overlapping and if the final solution is too small I won't use it.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org0f7dce7" class="outline-3"&gt;
+&lt;h3 id="org0f7dce7"&gt;The Schedule&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0f7dce7"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def schedule(schedules):
+    """Finds the times to visit
+
+    Args:
+     schedules (list): list of times people are available
+
+    Returns:
+     list: times to visit
+    """
+    return
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgbce987e" class="outline-2"&gt;
+&lt;h2 id="orgbce987e"&gt;Testing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbce987e"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SAMPLES = dict(
+    one=dict(
+	inputs=[(1,3), (2, 5), (3, 6)],
+	outputs=[3],
+    ),
+    two=dict(
+	inputs=[(4, 7), (1, 3), (2, 5), (5, 6)],
+	outputs=[3, 6],
+    )
+)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;class SampleKeys:
+    inputs = "inputs"
+    expected = "outputs"
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for sample, values in SAMPLES.items():
+    actual = schedule(values[SampleKeys.inputs])
+    expect(actual).to(equal(values[SampleKeys.expected]))
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problems greedy</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/collecting-signatures/</guid><pubDate>Wed, 04 Jul 2018 00:32:46 GMT</pubDate></item><item><title>Maximum Advertisement Revenue</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-advertisement-revenue/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgc95183c" class="outline-2"&gt;
+&lt;h2 id="orgc95183c"&gt;The Maximum Product of Two Sequences Problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc95183c"&gt;
+&lt;p&gt;
+This is the more general problem statement.
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Problem&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;&lt;i&gt;Find the maximum dot product of two sequences of numbers.&lt;/i&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Inputs&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Two sequences of \(n\) positive integers.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The maximum sum of pair-wise multiplications of the values.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4207357" class="outline-2"&gt;
+&lt;h2 id="org4207357"&gt;The Revenue Optimization Problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4207357"&gt;
+&lt;p&gt;
+We have \(n\) advertising slots that we want to sell to advertisers. Each slot gets a different number of clicks and each advertiser is willing to pay a different amount. How do you pair the advertiser with the slot to maximize you click-revenue?
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Sequence of integer prices \(price_1, price_2, \ldots, price_n\) and a sequence of click-counts \(count_1, count_2,\ldots,count_n\).&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;The maximum value achievable by matching prices with click counts&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(1 \le n \le 10^3; 0 \le price_i, clicks_i \le 10^5\) for all \(1 \le i \le n\)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org95a66aa" class="outline-2"&gt;
+&lt;h2 id="org95a66aa"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org95a66aa"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-right"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-right"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-right"&gt;&lt;i&gt;n&lt;/i&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;prices&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;clicks&lt;/th&gt;
+&lt;th scope="col" class="org-right"&gt;output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-right"&gt;1&lt;/td&gt;
+&lt;td class="org-left"&gt;23&lt;/td&gt;
+&lt;td class="org-left"&gt;39&lt;/td&gt;
+&lt;td class="org-right"&gt;897&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-right"&gt;3&lt;/td&gt;
+&lt;td class="org-left"&gt;2 3 9&lt;/td&gt;
+&lt;td class="org-left"&gt;7 4 2&lt;/td&gt;
+&lt;td class="org-right"&gt;79&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf5c00aa" class="outline-2"&gt;
+&lt;h2 id="orgf5c00aa"&gt;Testing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf5c00aa"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# from pypi&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;expects&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;equal&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;SAMPLES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;one&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+	       &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;,],&lt;/span&gt;
+		    &lt;span class="n"&gt;clicks&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;39&lt;/span&gt;&lt;span class="p"&gt;,],&lt;/span&gt;
+		    &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;897&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+	       &lt;span class="n"&gt;two&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+	       &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+		    &lt;span class="n"&gt;clicks&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+		    &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;79&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Keys&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;prices&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"prices"&lt;/span&gt;
+    &lt;span class="n"&gt;clicks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"clicks"&lt;/span&gt;
+    &lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"output"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org9595cf4" class="outline-2"&gt;
+&lt;h2 id="org9595cf4"&gt;Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9595cf4"&gt;
+&lt;p&gt;
+This might be cheating, but I'm going to use python's generator functions again to sort things.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;optimal_advertising&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clicks&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;"""Finds the optimal dot product&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Args:&lt;/span&gt;
+&lt;span class="sd"&gt;     prices (list): prices we can charge advertisers&lt;/span&gt;
+&lt;span class="sd"&gt;     clicks (list): expected clicks per slot&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Returns:&lt;/span&gt;
+&lt;span class="sd"&gt;     float: the maximum we can get from the prices-clicks&lt;/span&gt;
+&lt;span class="sd"&gt;    """&lt;/span&gt;
+    &lt;span class="n"&gt;clicks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clicks&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reverse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;prices&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reverse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;clicks_and_prices&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clicks&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;click&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;price&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;click&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;price&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;clicks_and_prices&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org19d25d2" class="outline-2"&gt;
+&lt;h2 id="org19d25d2"&gt;Testing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org19d25d2"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sample&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;SAMPLES&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Keys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;actual&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;optimal_advertising&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Keys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Keys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clicks&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;actual&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;equal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgaf6e3aa" class="outline-2"&gt;
+&lt;h2 id="orgaf6e3aa"&gt;Grader Output&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgaf6e3aa"&gt;
+&lt;pre class="example"&gt;
+Good job! (Max time used: 0.03/5.00, max memory used: 9887744/536870912.)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problems greedy</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-advertisement-revenue/</guid><pubDate>Tue, 03 Jul 2018 23:46:30 GMT</pubDate></item><item><title>Maximum Value of the Loot</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-value-of-the-loot/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org90876cc" class="outline-2"&gt;
+&lt;h2 id="org90876cc"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org90876cc"&gt;
+&lt;p&gt;
+A thief breaks into a spice shop and finds spices with varying values per pound. She needs to be able to maximize the amount she steals by stuffing spices into her backpack.
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt;Description&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;First Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(n\), the number of compounds and \(W\), the capacity of the backpack.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Remaining Inputs&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(n\) lines of price-per-pound and weight of each compound&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Maximum price of spices stuffed into the backpack.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;\(1 \le n \le 10^3\), \(0 \le W \le 2 \cdot 10^6\), \(0 \le p_i \le 2 \cdot 10^6\), \(0 \le w_i \le 2 \cdot 10^6\) for \(1 \le i \le n\)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+Although the inputs will always be integers, the outputs might be real numbers. To match the grader output at least four digits to the right of the decimal point.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6f70973" class="outline-2"&gt;
+&lt;h2 id="org6f70973"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6f70973"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org29fc405" class="outline-3"&gt;
+&lt;h3 id="org29fc405"&gt;Sample One&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org29fc405"&gt;
+&lt;p&gt;
+Input:
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+3 50
+60 20
+100 50
+120 30
+&lt;/pre&gt;
+
+&lt;p&gt;
+Output:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+180.0000
+&lt;/pre&gt;
+
+&lt;p&gt;
+The output tells us that the thief's maximum haul is worth $180, which if you look at the inputs means taking 20 pounds of the first spice (worth $60) and 30 pounds of the last spice.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4011368" class="outline-3"&gt;
+&lt;h3 id="org4011368"&gt;Sample Two&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4011368"&gt;
+&lt;pre class="example"&gt;
+1 10
+500 30
+&lt;/pre&gt;
+
+&lt;p&gt;
+Output.
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+166.6667
+&lt;/pre&gt;
+
+&lt;p&gt;
+The input tells us that the thief can only carry 10 pounds of the only available spice, so her haul is \(\frac{500}{3}\approx 166.6667\).
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge92ea0a" class="outline-2"&gt;
+&lt;h2 id="orge92ea0a"&gt;Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge92ea0a"&gt;
+&lt;p&gt;
+Because this takes a greedy approach, it will have a \(O(n)\) run-time. Since I'm sorting the values first there's actually a \(O(\log n) + O(n)\), but especially since I'm using the built-in python generators, the sort is negligible compared to the main loop.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# this package&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;algorithmic_toolbox.helpers&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;assert_close&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;maximize_loot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;"""Figure out the maximum value the thief can haul off&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Args:&lt;/span&gt;
+&lt;span class="sd"&gt;     capacity (int): number of pounds backpack can hold&lt;/span&gt;
+&lt;span class="sd"&gt;     weights (list): how many pounds of each item there is&lt;/span&gt;
+&lt;span class="sd"&gt;     values (list): how much each item is worth per pound&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Raises:&lt;/span&gt;
+&lt;span class="sd"&gt;     AssertionError: weights and values are different lengths&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Returns:&lt;/span&gt;
+&lt;span class="sd"&gt;     float: max-value the backpack can hold&lt;/span&gt;
+&lt;span class="sd"&gt;    """&lt;/span&gt;
+    &lt;span class="n"&gt;weight_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;weight_count&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; \
+	&lt;span class="s2"&gt;"Weights and Values not same shape: weights={} values={}"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+	    &lt;span class="n"&gt;weight_count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;values_per_pound&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+			&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weight_count&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# we have to reverse-sort it (otherwise sorting puts the smallest&lt;/span&gt;
+    &lt;span class="c1"&gt;# number first)&lt;/span&gt;
+    &lt;span class="n"&gt;per_poundage&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;values_per_pound&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reverse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# loot is the value of what we've taken so far&lt;/span&gt;
+    &lt;span class="n"&gt;loot&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# precondition: per_poundage is the value-per-pound in descending&lt;/span&gt;
+    &lt;span class="c1"&gt;# order for each item along with the index of the original weight/value&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;per_poundage&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	&lt;span class="c1"&gt;# invariant: value is the largest price-per-pound available&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+	    &lt;span class="c1"&gt;# we don't have enough strength to take all of this item&lt;/span&gt;
+	    &lt;span class="c1"&gt;# so just take as much as we can and quit&lt;/span&gt;
+	    &lt;span class="n"&gt;loot&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt;
+	    &lt;span class="k"&gt;break&lt;/span&gt;
+	&lt;span class="c1"&gt;# otherwise take all of this item&lt;/span&gt;
+	&lt;span class="n"&gt;loot&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+	&lt;span class="c1"&gt;# reducing our capacity by its total weight&lt;/span&gt;
+	&lt;span class="n"&gt;capacity&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	    &lt;span class="c1"&gt;# we're out of capacity, quit&lt;/span&gt;
+	    &lt;span class="k"&gt;break&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;loot&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org18b2f36" class="outline-3"&gt;
+&lt;h3 id="org18b2f36"&gt;Test One&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org18b2f36"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; 
+&lt;span class="n"&gt;capacity&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;
+&lt;span class="n"&gt;prices&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;180.0000&lt;/span&gt;
+&lt;span class="n"&gt;actual&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;maximize_loot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;assert_close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;actual&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"Test One"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7c7290d" class="outline-3"&gt;
+&lt;h3 id="org7c7290d"&gt;Test Two&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7c7290d"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;capacity&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="n"&gt;prices&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;166.6667&lt;/span&gt;
+&lt;span class="n"&gt;actual&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;maximize_loot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prices&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;assert_close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;actual&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"Test Two"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org121c08a" class="outline-3"&gt;
+&lt;h3 id="org121c08a"&gt;Grader Output&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org121c08a"&gt;
+&lt;pre class="example"&gt;
+Good job! (Max time used: 0.03/5.00, max memory used: 9752576/671088640.)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problems greedy</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-value-of-the-loot/</guid><pubDate>Tue, 03 Jul 2018 02:09:29 GMT</pubDate></item><item><title>Money Change</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/money-change/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgfc0946f" class="outline-2"&gt;
+&lt;h2 id="orgfc0946f"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfc0946f"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Task&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Find the minimum number of coins to change the input to coins with denominations 1, 5, 10&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;A single integer &lt;i&gt;m&lt;/i&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;$1 ≤ m ≤ 10&lt;sup&gt;3&lt;/sup&gt;&amp;amp;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Minimum number of coins with denominations 1, 5, or 10 that changes &lt;i&gt;m&lt;/i&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org338782c" class="outline-2"&gt;
+&lt;h2 id="org338782c"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org338782c"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-right"&gt;
+
+&lt;col class="org-right"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-right"&gt;Input&lt;/th&gt;
+&lt;th scope="col" class="org-right"&gt;Output&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Coins&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-right"&gt;2&lt;/td&gt;
+&lt;td class="org-right"&gt;2&lt;/td&gt;
+&lt;td class="org-left"&gt;1 + 1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-right"&gt;28&lt;/td&gt;
+&lt;td class="org-right"&gt;6&lt;/td&gt;
+&lt;td class="org-left"&gt;10 + 10 + 5 + 1 + 1 + 1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga7e1a96" class="outline-2"&gt;
+&lt;h2 id="orga7e1a96"&gt;Solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga7e1a96"&gt;
+&lt;p&gt;
+While &lt;i&gt;m&lt;/i&gt; is greater than 0, keep taking a coin with the largest denomination that isn't greater that &lt;i&gt;m&lt;/i&gt;, subtracting its value from &lt;i&gt;m&lt;/i&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;DENOMINATIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;change_money&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;money&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;"""Make change&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Args:&lt;/span&gt;
+&lt;span class="sd"&gt;     money (int): amount to break&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Returns:&lt;/span&gt;
+&lt;span class="sd"&gt;     int: minimum number of coins that money breaks into&lt;/span&gt;
+&lt;span class="sd"&gt;    """&lt;/span&gt;
+    &lt;span class="n"&gt;coins&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;money&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;denomination&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;DENOMINATIONS&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;money&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;denomination&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+		&lt;span class="n"&gt;money&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;denomination&lt;/span&gt;
+		&lt;span class="n"&gt;coins&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+		&lt;span class="k"&gt;break&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;coins&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="n"&gt;actual&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;change_money&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;actual&lt;/span&gt;
+&lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;
+&lt;span class="n"&gt;actual&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;change_money&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;expected&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;actual&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Although this is really a brute-force approach, it is good enough.
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+Good job! (Max time used: 0.03/5.00, max memory used: 9596928/536870912.)
+&lt;/pre&gt;
+
+&lt;p&gt;
+If you look at it, even in the worst case where you only give out pennies, the maximum run time is the value of &lt;i&gt;money&lt;/i&gt;, that is, if \(money=1.50\) then the maximum theoretical run time is \(150\), regardless of the denominations,  so this solution is \(O(n)\), even though it looks brute-force-ish.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithms problems greedy</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/money-change/</guid><pubDate>Mon, 02 Jul 2018 23:40:25 GMT</pubDate></item></channel></rss>

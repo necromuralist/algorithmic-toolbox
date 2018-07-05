@@ -1,154 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 29 Jun 2018 02:07:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Fibonacci Number Again</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;from algorithmic_toolbox.implementations import fibonacci
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div id="outline-container-org41df9b6" class="outline-2"&gt;
-&lt;h2 id="org41df9b6"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org41df9b6"&gt;
-&lt;p&gt;
-In this problem we will calculate \(F_n \mod m\) where \(n\) can be very large (up to \(10^{18}\)). To see how to do this look at some output for modulus operations.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for number in range(15):
-    print(fibonacci(number) % 2, end=', ')
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-You can see that the output repeats in cycles of three.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cycle = [0, 1, 1]
-for number in range(15):
-    print(cycle[number % 3], end=',')
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-So if you know the cycle, you don't need to calculate the fibonacci number. What about mod 3?
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for number in range(16):
-    print(fibonacci(number) % 3, end=',')
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-It looks like it repeats every eight numbers. In general, the fact that the modulus of fibonacci numbers is periodic was is a known feature of them. Each period is known as a &lt;a href="https://en.wikipedia.org/wiki/Pisano_period"&gt;Pisano period&lt;/a&gt; (Pisano was the real last name of the man known as Fibonacci).
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org76054b4" class="outline-2"&gt;
-&lt;h2 id="org76054b4"&gt;Problem Description&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org76054b4"&gt;
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;b&gt;Task&lt;/b&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Given two integers \(n\) and \(m\), output \(F_n \mod m\) (the remainder of \(F_n\) divided by \(m\)).&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;b&gt;Input&lt;/b&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Two integers \(n\) and \(m\) on the same line separated by a space.&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;b&gt;Constraints&lt;/b&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;\(1 \le n \le 10^{18}, 2 \le m \le 10^5\)&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;b&gt;Output&lt;/b&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;\(F_n \mod m\)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgc4d77a1" class="outline-2"&gt;
-&lt;h2 id="orgc4d77a1"&gt;Samples&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc4d77a1"&gt;
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-right"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope="col" class="org-left"&gt;Input&lt;/th&gt;
-&lt;th scope="col" class="org-right"&gt;Output&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt; &lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;239 1000&lt;/td&gt;
-&lt;td class="org-right"&gt;161&lt;/td&gt;
-&lt;td class="org-left"&gt;$F&lt;sub&gt;239&lt;/sub&gt; \mod 1000&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;2816213588 239&lt;/td&gt;
-&lt;td class="org-right"&gt;151&lt;/td&gt;
-&lt;td class="org-left"&gt;\(F_{2816213588} \mod 239\)&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;1 239&lt;/td&gt;
-&lt;td class="org-right"&gt;1&lt;/td&gt;
-&lt;td class="org-left"&gt;\(F_1 \mod 239\)&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;115 1000&lt;/td&gt;
-&lt;td class="org-right"&gt;885&lt;/td&gt;
-&lt;td class="org-left"&gt;\(F_{115} \mod 1000\)&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;2816213588 30524&lt;/td&gt;
-&lt;td class="org-right"&gt;10249&lt;/td&gt;
-&lt;td class="org-left"&gt;\(F_{2816213588} \mod 30524\)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;previous, current = 0, 1
-x = 2816213588 // 30524
-for number in range(x):
-    previous, current = current, (previous + current) % 30524
-print(current)
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>problems algorithms fibonacci</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/</guid><pubDate>Wed, 27 Jun 2018 22:52:25 GMT</pubDate></item><item><title>Least Common Multiple</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgf89ab6f" class="outline-2"&gt;
-&lt;h2 id="orgf89ab6f"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf89ab6f"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about problems)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problems.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 03 Jul 2018 02:22:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Least Common Multiple</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgab95d4d" class="outline-2"&gt;
+&lt;h2 id="orgab95d4d"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgab95d4d"&gt;
 &lt;p&gt;
 The &lt;a href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;least common multiple&lt;/a&gt; of two positive integers, &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt; is the least positive integer &lt;i&gt;m&lt;/i&gt; that is divisible by both &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org98ba27b" class="outline-2"&gt;
-&lt;h2 id="org98ba27b"&gt;Problem Description&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org98ba27b"&gt;
+&lt;div id="outline-container-org41a5f96" class="outline-2"&gt;
+&lt;h2 id="org41a5f96"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org41a5f96"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -187,9 +48,9 @@ The &lt;a href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;least co
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8407e02" class="outline-2"&gt;
-&lt;h2 id="org8407e02"&gt;Samples&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8407e02"&gt;
+&lt;div id="outline-container-org85b7222" class="outline-2"&gt;
+&lt;h2 id="org85b7222"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org85b7222"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -224,17 +85,17 @@ The &lt;a href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;least co
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf6f4508" class="outline-2"&gt;
-&lt;h2 id="orgf6f4508"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf6f4508"&gt;
+&lt;div id="outline-container-org60d52d7" class="outline-2"&gt;
+&lt;h2 id="org60d52d7"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org60d52d7"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;algorithmic_toolbox.helpers&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;time_two_inputs&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;algorithmic_toolbox.implementations&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;greatest_common_divisor&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org81e7aab" class="outline-2"&gt;
-&lt;h2 id="org81e7aab"&gt;Naive&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org81e7aab"&gt;
+&lt;div id="outline-container-orgbcdf538" class="outline-2"&gt;
+&lt;h2 id="orgbcdf538"&gt;Naive&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbcdf538"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;lcm_naive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Computes the Least Common multiple of a and b&lt;/span&gt;
 
@@ -264,9 +125,9 @@ Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: std
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge07da7c" class="outline-2"&gt;
-&lt;h2 id="orge07da7c"&gt;Using The Greatest Common Divisor&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge07da7c"&gt;
+&lt;div id="outline-container-org2c535a8" class="outline-2"&gt;
+&lt;h2 id="org2c535a8"&gt;Using The Greatest Common Divisor&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2c535a8"&gt;
 &lt;p&gt;
 If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
 &lt;/p&gt;
@@ -292,18 +153,18 @@ The Grader output:
 Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</guid><pubDate>Wed, 27 Jun 2018 18:08:18 GMT</pubDate></item><item><title>Greatest Common Divisor</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgcfecd43" class="outline-2"&gt;
-&lt;h2 id="orgcfecd43"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcfecd43"&gt;
+&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/</guid><pubDate>Wed, 27 Jun 2018 18:08:18 GMT</pubDate></item><item><title>Greatest Common Divisor</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgbccde5d" class="outline-2"&gt;
+&lt;h2 id="orgbccde5d"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbccde5d"&gt;
 &lt;p&gt;
 The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;) which are not both equal to 0 is the greatest integer &lt;i&gt;d&lt;/i&gt; that divides both &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;. The goal here is to implement the &lt;a href="https://en.wikipedia.org/wiki/Euclidean_algorithm"&gt;Euclidean Algorithm&lt;/a&gt; for computing the GCD.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga8bd1f5" class="outline-2"&gt;
-&lt;h2 id="orga8bd1f5"&gt;Problem Description&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga8bd1f5"&gt;
+&lt;div id="outline-container-org8b93291" class="outline-2"&gt;
+&lt;h2 id="org8b93291"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8b93291"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -343,9 +204,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge9b776c" class="outline-2"&gt;
-&lt;h2 id="orge9b776c"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge9b776c"&gt;
+&lt;div id="outline-container-org72fbe55" class="outline-2"&gt;
+&lt;h2 id="org72fbe55"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org72fbe55"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# python standard library&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -354,9 +215,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga86f891" class="outline-2"&gt;
-&lt;h2 id="orga86f891"&gt;Samples&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga86f891"&gt;
+&lt;div id="outline-container-org03229fc" class="outline-2"&gt;
+&lt;h2 id="org03229fc"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org03229fc"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -416,9 +277,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgeb989e1" class="outline-2"&gt;
-&lt;h2 id="orgeb989e1"&gt;Naive GCD&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeb989e1"&gt;
+&lt;div id="outline-container-org7037d39" class="outline-2"&gt;
+&lt;h2 id="org7037d39"&gt;Naive GCD&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7037d39"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;gcd_naive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Naive implementation of GCD&lt;/span&gt;
 
@@ -447,9 +308,9 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org03029f3" class="outline-2"&gt;
-&lt;h2 id="org03029f3"&gt;Modulus Version&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org03029f3"&gt;
+&lt;div id="outline-container-orgd3644f2" class="outline-2"&gt;
+&lt;h2 id="orgd3644f2"&gt;Modulus Version&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd3644f2"&gt;
 &lt;p&gt;
 This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
 &lt;/p&gt;
@@ -485,9 +346,9 @@ My computer appears to be faster than the grader, but it still fails.
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;time_it&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gcd_modulus&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"Modulus"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a_b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>algorithms problems week2</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</guid><pubDate>Tue, 26 Jun 2018 21:51:11 GMT</pubDate></item><item><title>Last Digit of a Large Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org9861b41" class="outline-2"&gt;
-&lt;h2 id="org9861b41"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9861b41"&gt;
+&lt;/div&gt;</description><category>algorithms problems week2</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</guid><pubDate>Tue, 26 Jun 2018 21:51:11 GMT</pubDate></item><item><title>Last Digit of a Large Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org3e35378" class="outline-2"&gt;
+&lt;h2 id="org3e35378"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3e35378"&gt;
 &lt;p&gt;
 The goal is to find the last digit of the &lt;i&gt;n&lt;/i&gt;-th Fibonacci number. The problem is that Fibonacci numbers grow exponetially fast. For instance
 &lt;/p&gt;
@@ -510,9 +371,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4f077b3" class="outline-2"&gt;
-&lt;h2 id="org4f077b3"&gt;Problem Description&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4f077b3"&gt;
+&lt;div id="outline-container-org4312063" class="outline-2"&gt;
+&lt;h2 id="org4312063"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4312063"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -552,9 +413,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org249dfb8" class="outline-2"&gt;
-&lt;h2 id="org249dfb8"&gt;Samples&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org249dfb8"&gt;
+&lt;div id="outline-container-org8020602" class="outline-2"&gt;
+&lt;h2 id="org8020602"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8020602"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -589,17 +450,17 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4347463" class="outline-2"&gt;
-&lt;h2 id="org4347463"&gt;Constants&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4347463"&gt;
+&lt;div id="outline-container-org177e0cd" class="outline-2"&gt;
+&lt;h2 id="org177e0cd"&gt;Constants&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org177e0cd"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;MAX_INPUT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;
 &lt;span class="n"&gt;MAX_TIME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6ae1cf7" class="outline-2"&gt;
-&lt;h2 id="org6ae1cf7"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6ae1cf7"&gt;
+&lt;div id="outline-container-org485a681" class="outline-2"&gt;
+&lt;h2 id="org485a681"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org485a681"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="n"&gt;timedelta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -609,9 +470,9 @@ F_i \gets (F_{i-1} + F_{i-2}) \mod 10
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8789515" class="outline-2"&gt;
-&lt;h2 id="org8789515"&gt;Naive Implementation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8789515"&gt;
+&lt;div id="outline-container-orgde08c51" class="outline-2"&gt;
+&lt;h2 id="orgde08c51"&gt;Naive Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgde08c51"&gt;
 &lt;p&gt;
 By taking the modulo of 10 for the final number you reduce it to the final digit because it's the remainder of some number times 10. For example, 112 is 110 + 2, so \(112 \mod 10\) is \(112 - (11 \times 10) = 2\).
 &lt;/p&gt;
@@ -636,9 +497,9 @@ By taking the modulo of 10 for the final number you reduce it to the final digit
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge4fa1ae" class="outline-2"&gt;
-&lt;h2 id="orge4fa1ae"&gt;Modulo Version&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge4fa1ae"&gt;
+&lt;div id="outline-container-org855ae54" class="outline-2"&gt;
+&lt;h2 id="org855ae54"&gt;Modulo Version&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org855ae54"&gt;
 &lt;p&gt;
 Each number in the sequence is the sum of the previous two numbers. The last digit is always the sum of the last digits of the previous two numbers. So to calculate the last digit you only need to keep track of the last digit of each number. By taking the modulus of 10, you are always.
 &lt;/p&gt;
@@ -676,9 +537,9 @@ This is the grader output.
 Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</guid><pubDate>Mon, 25 Jun 2018 23:28:37 GMT</pubDate></item><item><title>Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org54846b1" class="outline-2"&gt;
-&lt;h2 id="org54846b1"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org54846b1"&gt;
+&lt;/div&gt;</description><category>algorithms problems</category><guid>https://github.com/necromuralist/algorithmic_toolbox/posts/last-digit-of-a-large-fibonacci-number/</guid><pubDate>Mon, 25 Jun 2018 23:28:37 GMT</pubDate></item><item><title>Fibonacci Number</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgbe1545a" class="outline-2"&gt;
+&lt;h2 id="orgbe1545a"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbe1545a"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# python standard library&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -691,9 +552,9 @@ Good job! (Max time used: 0.12/5.00, max memory used: 9580544/536870912.)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb0d717e" class="outline-2"&gt;
-&lt;h2 id="orgb0d717e"&gt;The Fibonacci Problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb0d717e"&gt;
+&lt;div id="outline-container-org3939bc5" class="outline-2"&gt;
+&lt;h2 id="org3939bc5"&gt;The Fibonacci Problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3939bc5"&gt;
 &lt;p&gt;
 THe Fibonacci Sequence is defined as
 &lt;/p&gt;
@@ -740,9 +601,9 @@ THe Fibonacci Sequence is defined as
 &lt;/table&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org18ba331" class="outline-3"&gt;
-&lt;h3 id="org18ba331"&gt;Sample Values&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org18ba331"&gt;
+&lt;div id="outline-container-orga99bdff" class="outline-3"&gt;
+&lt;h3 id="orga99bdff"&gt;Sample Values&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga99bdff"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -771,9 +632,9 @@ THe Fibonacci Sequence is defined as
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org000d05a" class="outline-3"&gt;
-&lt;h3 id="org000d05a"&gt;Constants&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org000d05a"&gt;
+&lt;div id="outline-container-orgb3c0b6f" class="outline-3"&gt;
+&lt;h3 id="orgb3c0b6f"&gt;Constants&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb3c0b6f"&gt;
 &lt;p&gt;
 These are translations from the problem description
 &lt;/p&gt;
@@ -783,9 +644,9 @@ These are translations from the problem description
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5cf3744" class="outline-2"&gt;
-&lt;h2 id="org5cf3744"&gt;Helpers&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5cf3744"&gt;
+&lt;div id="outline-container-orgc34c649" class="outline-2"&gt;
+&lt;h2 id="orgc34c649"&gt;Helpers&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc34c649"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;time_it&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;implementation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;input_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_time&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MAX_TIME&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Times the implementation&lt;/span&gt;
 
@@ -814,9 +675,9 @@ These are translations from the problem description
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga26d7d4" class="outline-2"&gt;
-&lt;h2 id="orga26d7d4"&gt;Naive Implementation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga26d7d4"&gt;
+&lt;div id="outline-container-orgcb29cca" class="outline-2"&gt;
+&lt;h2 id="orgcb29cca"&gt;Naive Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcb29cca"&gt;
 &lt;p&gt;
 The 'naive' implementation uses recursion to calculate a fibonacci number.
 &lt;/p&gt;
@@ -852,9 +713,9 @@ stderr: (Time used: 5.63/5.00, memory used: 9613312/536870912.)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf0a093c" class="outline-2"&gt;
-&lt;h2 id="orgf0a093c"&gt;The Tester&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf0a093c"&gt;
+&lt;div id="outline-container-orgcad7afa" class="outline-2"&gt;
+&lt;h2 id="orgcad7afa"&gt;The Tester&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcad7afa"&gt;
 &lt;p&gt;
 We have kind of a chicken and the egg problem here. We know that the recursive version is correct, but it is too slow. But in order to validate our newer versions, we need to run it to check for correctness. To solve this problem I'm going to use a cache.
 &lt;/p&gt;
@@ -979,9 +840,9 @@ In case I accidentally re-run that last call and it uses the cache I'll note her
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org72d5a6a" class="outline-2"&gt;
-&lt;h2 id="org72d5a6a"&gt;An Iterative Version&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org72d5a6a"&gt;
+&lt;div id="outline-container-org709e579" class="outline-2"&gt;
+&lt;h2 id="org709e579"&gt;An Iterative Version&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org709e579"&gt;
 &lt;p&gt;
 To try and speed things up I'm going to use an iterative version instead of a recursive one.
 &lt;/p&gt;

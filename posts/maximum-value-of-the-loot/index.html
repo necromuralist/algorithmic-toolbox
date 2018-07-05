@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Maximize the value of what you can stuff into a backpack.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maximum Value of the Loot | Algorithmic Toolbox</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-value-of-the-loot/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
+<link rel="prev" href="../money-change/" title="Money Change" type="text/html">
+<link rel="next" href="../maximum-advertisement-revenue/" title="Maximum Advertisement Revenue" type="text/html">
+<meta property="og:site_name" content="Algorithmic Toolbox">
+<meta property="og:title" content="Maximum Value of the Loot">
+<meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-value-of-the-loot/">
+<meta property="og:description" content="Maximize the value of what you can stuff into a backpack.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-07-02T19:09:29-07:00">
+<meta property="article:tag" content="algorithms problems greedy">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-default navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://github.com/necromuralist/algorithmic_toolbox/">
+
+                <span id="blog-title">Algorithmic Toolbox</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+            </li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+<li>
+<a href="../../machine-learning-projects/">Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/p5_explorations/">P5 Explorations</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/tddmachinelearning/">TDD Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/student_intervention/">Student Intervention Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/boston_housing/">Boston Housing Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/data_science/">Data Science With Python</a>
+            </li>
+</ul>
+</li>
+</ul>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+	<span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://github.com/necromuralist/algorithmic_toolbox/">
+</form>
+<!-- End of custom search -->
+
+
+            <ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Maximum Value of the Loot</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-07-02T19:09:29-07:00" itemprop="datePublished" title="2018-07-02 19:09">2018-07-02 19:09</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org90876cc" class="outline-2">
+<h2 id="org90876cc">Introduction</h2>
+<div class="outline-text-2" id="text-org90876cc">
+<p>
+A thief breaks into a spice shop and finds spices with varying values per pound. She needs to be able to maximize the amount she steals by stuffing spices into her backpack.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"> </td>
+<td class="org-left">Description</td>
+</tr>
+<tr>
+<td class="org-left"><b>First Input</b></td>
+<td class="org-left">\(n\), the number of compounds and \(W\), the capacity of the backpack.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Remaining Inputs</b></td>
+<td class="org-left">\(n\) lines of price-per-pound and weight of each compound</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">Maximum price of spices stuffed into the backpack.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 10^3\), \(0 \le W \le 2 \cdot 10^6\), \(0 \le p_i \le 2 \cdot 10^6\), \(0 \le w_i \le 2 \cdot 10^6\) for \(1 \le i \le n\)</td>
+</tr>
+</tbody>
+</table>
+<p>
+Although the inputs will always be integers, the outputs might be real numbers. To match the grader output at least four digits to the right of the decimal point.
+</p>
+</div>
+</div>
+<div id="outline-container-org6f70973" class="outline-2">
+<h2 id="org6f70973">Samples</h2>
+<div class="outline-text-2" id="text-org6f70973">
+</div>
+<div id="outline-container-org29fc405" class="outline-3">
+<h3 id="org29fc405">Sample One</h3>
+<div class="outline-text-3" id="text-org29fc405">
+<p>
+Input:
+</p>
+
+<pre class="example">
+3 50
+60 20
+100 50
+120 30
+</pre>
+
+<p>
+Output:
+</p>
+<pre class="example">
+180.0000
+</pre>
+
+<p>
+The output tells us that the thief's maximum haul is worth $180, which if you look at the inputs means taking 20 pounds of the first spice (worth $60) and 30 pounds of the last spice.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4011368" class="outline-3">
+<h3 id="org4011368">Sample Two</h3>
+<div class="outline-text-3" id="text-org4011368">
+<pre class="example">
+1 10
+500 30
+</pre>
+
+<p>
+Output.
+</p>
+
+<pre class="example">
+166.6667
+</pre>
+
+<p>
+The input tells us that the thief can only carry 10 pounds of the only available spice, so her haul is \(\frac{500}{3}\approx 166.6667\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge92ea0a" class="outline-2">
+<h2 id="orge92ea0a">Implementation</h2>
+<div class="outline-text-2" id="text-orge92ea0a">
+<p>
+Because this takes a greedy approach, it will have a \(O(n)\) run-time. Since I'm sorting the values first there's actually a \(O(\log n) + O(n)\), but especially since I'm using the built-in python generators, the sort is negligible compared to the main loop.
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1"># this package</span>
+<span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">assert_close</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">maximize_loot</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+    <span class="sd">"""Figure out the maximum value the thief can haul off</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     capacity (int): number of pounds backpack can hold</span>
+<span class="sd">     weights (list): how many pounds of each item there is</span>
+<span class="sd">     values (list): how much each item is worth per pound</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">     AssertionError: weights and values are different lengths</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     float: max-value the backpack can hold</span>
+<span class="sd">    """</span>
+    <span class="n">weight_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">weight_count</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> \
+	<span class="s2">"Weights and Values not same shape: weights={} values={}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">weight_count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">values_per_pound</span> <span class="o">=</span> <span class="p">((</span><span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">/</span><span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">weight_count</span><span class="p">))</span>
+
+    <span class="c1"># we have to reverse-sort it (otherwise sorting puts the smallest</span>
+    <span class="c1"># number first)</span>
+    <span class="n">per_poundage</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">values_per_pound</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c1"># loot is the value of what we've taken so far</span>
+    <span class="n">loot</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># precondition: per_poundage is the value-per-pound in descending</span>
+    <span class="c1"># order for each item along with the index of the original weight/value</span>
+    <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">per_poundage</span><span class="p">:</span>
+	<span class="c1"># invariant: value is the largest price-per-pound available</span>
+	<span class="k">if</span> <span class="n">capacity</span> <span class="o">&lt;</span> <span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">]:</span>
+	    <span class="c1"># we don't have enough strength to take all of this item</span>
+	    <span class="c1"># so just take as much as we can and quit</span>
+	    <span class="n">loot</span> <span class="o">+=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">capacity</span>
+	    <span class="k">break</span>
+	<span class="c1"># otherwise take all of this item</span>
+	<span class="n">loot</span> <span class="o">+=</span> <span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+	<span class="c1"># reducing our capacity by its total weight</span>
+	<span class="n">capacity</span> <span class="o">-=</span> <span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+	<span class="k">if</span> <span class="n">capacity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+	    <span class="c1"># we're out of capacity, quit</span>
+	    <span class="k">break</span>
+    <span class="k">return</span> <span class="n">loot</span>
+</pre></div>
+</div>
+
+<div id="outline-container-org18b2f36" class="outline-3">
+<h3 id="org18b2f36">Test One</h3>
+<div class="outline-text-3" id="text-org18b2f36">
+<div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">3</span> 
+<span class="n">capacity</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">]</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mf">180.0000</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">maximize_loot</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+<span class="n">assert_close</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="s2">"Test One"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7c7290d" class="outline-3">
+<h3 id="org7c7290d">Test Two</h3>
+<div class="outline-text-3" id="text-org7c7290d">
+<div class="highlight"><pre><span></span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">500</span><span class="p">]</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">]</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mf">166.6667</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">maximize_loot</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">prices</span><span class="p">)</span>
+<span class="n">assert_close</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="s2">"Test Two"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org121c08a" class="outline-3">
+<h3 id="org121c08a">Grader Output</h3>
+<div class="outline-text-3" id="text-org121c08a">
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9752576/671088640.)
+</pre>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/algorithms-problems-greedy/" rel="tag">algorithms problems greedy</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../money-change/" rel="prev" title="Money Change">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../maximum-advertisement-revenue/" rel="next" title="Maximum Advertisement Revenue">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:necromuralist@protonmail.com">Cloistered Monkey</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

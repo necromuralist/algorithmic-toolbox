@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about problem)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problem.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 25 Jun 2018 19:38:18 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Maximum Pairwise Product</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-pairwise-product/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org0a140e8" class="outline-2"&gt;
-&lt;h2 id="org0a140e8"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0a140e8"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about problem)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/cat_problem.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 25 Jun 2018 03:59:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Maximum Pairwise Product</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/maximum-pairwise-product/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-org577b7fa" class="outline-2"&gt;
+&lt;h2 id="org577b7fa"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org577b7fa"&gt;
 &lt;p&gt;
 Since the test only uses python standard library I'll try and stick to that, but since the stress-test isn't part of the assignment I'll cheat and use numpy to generate the random input.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# python standad library&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -21,9 +20,9 @@ Since the test only uses python standard library I'll try and stick to that, but
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd927186" class="outline-2"&gt;
-&lt;h2 id="orgd927186"&gt;Problem Statement&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd927186"&gt;
+&lt;div id="outline-container-orgb73d5bb" class="outline-2"&gt;
+&lt;h2 id="orgb73d5bb"&gt;Problem Statement&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb73d5bb"&gt;
 &lt;p&gt;
 &lt;i&gt;Find the maximum product of two distinct numbers in a sequence of non-negative integers.&lt;/i&gt;
 &lt;/p&gt;
@@ -96,9 +95,9 @@ Given a sequence of non-negative numbers \(a_1,\ldots,a_n\), compute
 &lt;/table&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7d4ba88" class="outline-3"&gt;
-&lt;h3 id="org7d4ba88"&gt;Example Values&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7d4ba88"&gt;
+&lt;div id="outline-container-org50a1cf7" class="outline-3"&gt;
+&lt;h3 id="org50a1cf7"&gt;Example Values&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org50a1cf7"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -167,14 +166,13 @@ Given a sequence of non-negative numbers \(a_1,\ldots,a_n\), compute
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgaf4886b" class="outline-2"&gt;
-&lt;h2 id="orgaf4886b"&gt;Some Constants&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgaf4886b"&gt;
+&lt;div id="outline-container-orge327ccc" class="outline-2"&gt;
+&lt;h2 id="orge327ccc"&gt;Some Constants&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge327ccc"&gt;
 &lt;p&gt;
 This is just a translation of some of the problem statement values to python so we can use them.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;MAX_TIME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;timedelta&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seconds&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;MAX_INPUTS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;
 &lt;span class="n"&gt;MAX_VALUE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MAX_INPUTS&lt;/span&gt;
@@ -193,14 +191,13 @@ This is just a translation of some of the problem statement values to python so 
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgaa8b1d4" class="outline-2"&gt;
-&lt;h2 id="orgaa8b1d4"&gt;Helpers&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgaa8b1d4"&gt;
+&lt;div id="outline-container-org77ccbb7" class="outline-2"&gt;
+&lt;h2 id="org77ccbb7"&gt;Helpers&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org77ccbb7"&gt;
 &lt;p&gt;
 These are some functions to help validate the algorithms.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;check_inputs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;implementation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;INPUTS&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;use_max&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Checks the inputs with the implementation&lt;/span&gt;
 
@@ -236,14 +233,13 @@ These are some functions to help validate the algorithms.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1e2e520" class="outline-2"&gt;
-&lt;h2 id="org1e2e520"&gt;Brute Force Implementation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1e2e520"&gt;
+&lt;div id="outline-container-org1876a8c" class="outline-2"&gt;
+&lt;h2 id="org1876a8c"&gt;Brute Force Implementation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1876a8c"&gt;
 &lt;p&gt;
 This is given as part of the problem. It traverses all the values and finds the largest product.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;max_pairwise_product_brute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numbers&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Calculates the largest pairwise-product for a list&lt;/span&gt;
 
@@ -262,7 +258,6 @@ This is given as part of the problem. It traverses all the values and finds the 
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;max_product&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;check_inputs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_pairwise_product_brute&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;use_max&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -280,14 +275,13 @@ Failed case #4/17: time limit exceeded (Time used: 9.98/5.00, memory used: 20905
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge6680c0" class="outline-2"&gt;
-&lt;h2 id="orge6680c0"&gt;Search&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge6680c0"&gt;
+&lt;div id="outline-container-org7156c5e" class="outline-2"&gt;
+&lt;h2 id="org7156c5e"&gt;Search&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7156c5e"&gt;
 &lt;p&gt;
 Instead of using nested for-loops, we can search the numbers twice to find the two biggest numbers, this changes the run time to \(2n\) or \(O(n)\).
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;max_pairwise_product_take_two&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numbers&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Finds the maximum pairwise product in te numbers&lt;/span&gt;
 
@@ -314,7 +308,6 @@ Instead of using nested for-loops, we can search the numbers twice to find the t
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;first_value&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;second_value&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;check_inputs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_pairwise_product_take_two&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -328,14 +321,13 @@ Good job! (Max time used: 0.15/5.00, max memory used: 26734592/536870912.)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1a6d25f" class="outline-2"&gt;
-&lt;h2 id="org1a6d25f"&gt;Another Improvement&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1a6d25f"&gt;
+&lt;div id="outline-container-orgd6e7fd0" class="outline-2"&gt;
+&lt;h2 id="orgd6e7fd0"&gt;Another Improvement&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd6e7fd0"&gt;
 &lt;p&gt;
 Rather than go through the second loop, I thought that since the previous maximum value is always the next highest value so far, we can just save it directly.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;max_pairwise_product_take_three&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numbers&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Finds the maximum pairwise product in te numbers&lt;/span&gt;
 
@@ -357,20 +349,18 @@ Rather than go through the second loop, I thought that since the previous maximu
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;max_value&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;previous_value&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;check_inputs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_pairwise_product_take_three&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcf662b6" class="outline-2"&gt;
-&lt;h2 id="orgcf662b6"&gt;Stress Test&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcf662b6"&gt;
+&lt;div id="outline-container-orged31026" class="outline-2"&gt;
+&lt;h2 id="orged31026"&gt;Stress Test&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orged31026"&gt;
 &lt;p&gt;
 Even thought we're already passing, part of the assignment was to create a stress test to really exercise the algorithm once you have it passing.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;stress_test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;implementation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maximum_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MAX_INPUTS&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;
 		&lt;span class="n"&gt;maximum_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MAX_VALUE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;iterations&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Repeatedly creates random inputs to test the implementation&lt;/span&gt;
@@ -423,15 +413,14 @@ Even thought we're already passing, part of the assignment was to create a stres
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcfe66d6" class="outline-2"&gt;
-&lt;h2 id="orgcfe66d6"&gt;Boosted Brute Force&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcfe66d6"&gt;
+&lt;div id="outline-container-org677b9cf" class="outline-2"&gt;
+&lt;h2 id="org677b9cf"&gt;Boosted Brute Force&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org677b9cf"&gt;
 &lt;p&gt;
 To try and get this working I'm going to use numba to (hopefully) speed it enough to make the stress test runnable.
 &lt;/p&gt;
 
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nd"&gt;@jit&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;max_pairwise_product_brute_jit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numbers&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Calculates the largest pairwise-product for a list&lt;/span&gt;
@@ -451,21 +440,19 @@ To try and get this working I'm going to use numba to (hopefully) speed it enoug
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;max_product&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"One Pass Method"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;stress_test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_pairwise_product_take_three&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"One-Pass"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;iterations&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org15990a0" class="outline-2"&gt;
-&lt;h2 id="org15990a0"&gt;Using Sort&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org15990a0"&gt;
+&lt;div id="outline-container-orgc991b68" class="outline-2"&gt;
+&lt;h2 id="orgc991b68"&gt;Using Sort&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc991b68"&gt;
 &lt;p&gt;
 Since we need the top two values we can get a more efficient algorithm by sorting the values.
 &lt;/p&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;max_pairwise_product_sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numbers&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Calculates the largest pairwise-product for a list&lt;/span&gt;
 
@@ -480,7 +467,6 @@ Since we need the top two values we can get a more efficient algorithm by sortin
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;numbers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;numbers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
-/home/brunhilde/.virtualenvs/algorithmic-toolbox/bin/python: No module named virtualfish
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\n\n&lt;/span&gt;&lt;span class="s2"&gt;Sort method"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;stress_test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_pairwise_product_sort&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Sort"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;iterations&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;

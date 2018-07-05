@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems week2)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems-week2.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Jun 2018 22:51:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Greatest Common Divisor</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgcfecd43" class="outline-2"&gt;
-&lt;h2 id="orgcfecd43"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcfecd43"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithmic Toolbox (Posts about algorithms problems week2)</title><link>https://github.com/necromuralist/algorithmic_toolbox/</link><description></description><atom:link href="https://github.com/necromuralist/algorithmic_toolbox/categories/algorithms-problems-week2.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 03 Jul 2018 02:22:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Greatest Common Divisor</title><link>https://github.com/necromuralist/algorithmic_toolbox/posts/greatest-common-divisor/</link><dc:creator>Cloistered Monkey</dc:creator><description>&lt;div id="outline-container-orgbccde5d" class="outline-2"&gt;
+&lt;h2 id="orgbccde5d"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbccde5d"&gt;
 &lt;p&gt;
 The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;) which are not both equal to 0 is the greatest integer &lt;i&gt;d&lt;/i&gt; that divides both &lt;i&gt;a&lt;/i&gt; and &lt;i&gt;b&lt;/i&gt;. The goal here is to implement the &lt;a href="https://en.wikipedia.org/wiki/Euclidean_algorithm"&gt;Euclidean Algorithm&lt;/a&gt; for computing the GCD.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga8bd1f5" class="outline-2"&gt;
-&lt;h2 id="orga8bd1f5"&gt;Problem Description&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga8bd1f5"&gt;
+&lt;div id="outline-container-org8b93291" class="outline-2"&gt;
+&lt;h2 id="org8b93291"&gt;Problem Description&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8b93291"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -50,9 +50,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge9b776c" class="outline-2"&gt;
-&lt;h2 id="orge9b776c"&gt;Imports&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge9b776c"&gt;
+&lt;div id="outline-container-org72fbe55" class="outline-2"&gt;
+&lt;h2 id="org72fbe55"&gt;Imports&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org72fbe55"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# python standard library&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -61,9 +61,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga86f891" class="outline-2"&gt;
-&lt;h2 id="orga86f891"&gt;Samples&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga86f891"&gt;
+&lt;div id="outline-container-org03229fc" class="outline-2"&gt;
+&lt;h2 id="org03229fc"&gt;Samples&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org03229fc"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -123,9 +123,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (&lt;i&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgeb989e1" class="outline-2"&gt;
-&lt;h2 id="orgeb989e1"&gt;Naive GCD&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeb989e1"&gt;
+&lt;div id="outline-container-org7037d39" class="outline-2"&gt;
+&lt;h2 id="org7037d39"&gt;Naive GCD&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7037d39"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;gcd_naive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;"""Naive implementation of GCD&lt;/span&gt;
 
@@ -154,9 +154,9 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org03029f3" class="outline-2"&gt;
-&lt;h2 id="org03029f3"&gt;Modulus Version&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org03029f3"&gt;
+&lt;div id="outline-container-orgd3644f2" class="outline-2"&gt;
+&lt;h2 id="orgd3644f2"&gt;Modulus Version&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd3644f2"&gt;
 &lt;p&gt;
 This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
 &lt;/p&gt;

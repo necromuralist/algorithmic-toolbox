@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Implementing a Binary Search">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary Search | Algorithmic Toolbox</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/binary-search/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
+<link rel="prev" href="../collecting-signatures/" title="Collecting Signatures" type="text/html">
+<meta property="og:site_name" content="Algorithmic Toolbox">
+<meta property="og:title" content="Binary Search">
+<meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/binary-search/">
+<meta property="og:description" content="Implementing a Binary Search">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-07-04T17:28:44-07:00">
+<meta property="article:tag" content="algorithms problems divideandconquer">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-default navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://github.com/necromuralist/algorithmic_toolbox/">
+
+                <span id="blog-title">Algorithmic Toolbox</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+            </li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+<li>
+<a href="../../machine-learning-projects/">Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/p5_explorations/">P5 Explorations</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/tddmachinelearning/">TDD Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/student_intervention/">Student Intervention Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/boston_housing/">Boston Housing Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/data_science/">Data Science With Python</a>
+            </li>
+</ul>
+</li>
+</ul>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+	<span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://github.com/necromuralist/algorithmic_toolbox/">
+</form>
+<!-- End of custom search -->
+
+
+            <ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Binary Search</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-07-04T17:28:44-07:00" itemprop="datePublished" title="2018-07-04 17:28">2018-07-04 17:28</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgcb292da" class="outline-2">
+<h2 id="orgcb292da">Binary Search</h2>
+<div class="outline-text-2" id="text-orgcb292da">
+<p>
+Binary search takes a sorted array and repeatedly divides it in half, checking whether an item searched for is at the mid-point. If you were to just traverse the array, you would have a runtime of \(O(n)\). But because you are using divide and conquer (repeatedly halving to reduce the search space), you have a runtime of \(O(\log n)\). 
+</p>
+</div>
+</div>
+<div id="outline-container-org09a92f3" class="outline-2">
+<h2 id="org09a92f3">Imports</h2>
+<div class="outline-text-2" id="text-org09a92f3">
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log</span>
+
+<span class="c1"># pypi</span>
+<span class="kn">from</span> <span class="nn">expects</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">equal</span><span class="p">,</span>
+    <span class="n">expect</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org1334fdf" class="outline-2">
+<h2 id="org1334fdf">Constants</h2>
+<div class="outline-text-2" id="text-org1334fdf">
+<div class="highlight"><pre><span></span><span class="n">NOT_FOUND</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgeba8dbe" class="outline-2">
+<h2 id="orgeba8dbe">Linear Search</h2>
+<div class="outline-text-2" id="text-orgeba8dbe">
+<p>
+The naive way is to just traverse the list.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">linear_search</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">"""Brute-force search</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     a (list): source to search</span>
+<span class="sd">     x : Item to search for</span>
+<span class="sd">     verbose (bool): Emit number of loops</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: index of x in a or -1 if not found</span>
+<span class="sd">    """</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+	<span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+	    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+	    <span class="k">print</span><span class="p">(</span><span class="s2">"Loop {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">counter</span><span class="p">))</span>
+	<span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">NOT_FOUND</span>
+</pre></div>
+
+<p>
+Interestingly, if you submit this it will time out.
+</p>
+
+<pre class="example">
+Failed case #32/36: time limit exceeded (Time used: 9.98/5.00, memory used: 40480768/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8b5a42a" class="outline-2">
+<h2 id="org8b5a42a">The Algorithm</h2>
+<div class="outline-text-2" id="text-org8b5a42a">
+<p>
+This is given as part of the problem statement.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">"""Finds the index of an item in the list</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     K (list): A sorted list of integers</span>
+<span class="sd">     q (int): the item to search for</span>
+<span class="sd">     verbose (bool): if true, emit the number of loops done</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: index of q in K or -1 if not found</span>
+<span class="sd">    """</span>
+    <span class="n">min_index</span><span class="p">,</span> <span class="n">max_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">max_index</span> <span class="o">&gt;=</span> <span class="n">min_index</span><span class="p">:</span>
+	<span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+	    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+	    <span class="k">print</span><span class="p">(</span><span class="s2">"In loop {} - {}:{}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">counter</span><span class="p">,</span> <span class="n">min_index</span><span class="p">,</span> <span class="n">max_index</span><span class="p">))</span>
+
+	<span class="n">mid_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_index</span> <span class="o">+</span> <span class="n">max_index</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+
+	<span class="k">if</span> <span class="n">K</span><span class="p">[</span><span class="n">mid_index</span><span class="p">]</span> <span class="o">==</span> <span class="n">q</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">mid_index</span>
+	<span class="k">elif</span> <span class="n">K</span><span class="p">[</span><span class="n">mid_index</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">q</span><span class="p">:</span>
+	    <span class="n">min_index</span> <span class="o">=</span> <span class="n">mid_index</span> <span class="o">+</span> <span class="mi">1</span>
+	<span class="k">else</span><span class="p">:</span>
+	    <span class="n">max_index</span> <span class="o">=</span> <span class="n">mid_index</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">NOT_FOUND</span>
+</pre></div>
+</div>
+
+<div id="outline-container-org87d2424" class="outline-3">
+<h3 id="org87d2424">Testing</h3>
+<div class="outline-text-3" id="text-org87d2424">
+<div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">K</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">binary_search</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Looking at the output you can see that after finding that the middle element didn't match <i>q</i> it searched the upper half of the list (by raising the Minimum Index to 4) and then found <i>q</i> at the point where the Minimum and Maximum Index were equal.
+</p>
+
+<p>
+We can compare this to the linear search.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">actual</span> <span class="o">=</span> <span class="n">linear_search</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+
+<p>
+It works but it takes a little longer. You can see the theoretical (Big-O) runtimes are different as well.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"O(n): {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"O(log n): {:.2f}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="p">),</span> <span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0bc658e" class="outline-2">
+<h2 id="org0bc658e">Sorted Array Multiple Search Problem</h2>
+<div class="outline-text-2" id="text-org0bc658e">
+<p>
+Because you need at least a linear runtime to read in the inputs, the grader can't tell that our search took less time than it took to read in the list. Because of this they set up a slightly harder problem to solve which can be graded.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Problem</b></td>
+<td class="org-left"><i>Search multiple keys in a sorted sequence of keys</i></td>
+</tr>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A sorted array \(K=[k_0,\ldots,k_{n-1}]\) of integers and \(Q=[q_0,\ldots,q_{n-1}\)]</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">For each \(q_i\), its index in \(K\) or \(-1\) if it isn't in \(K\)</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1\le n, m \le 10^4,1 \le k_i \le 10^9\) for all \(0\le i &lt; n;1 \le q_j \le 10^9\) for all \(0 \le j <m></m>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orge7c6bc5" class="outline-2">
+<h2 id="orge7c6bc5">Implementation</h2>
+<div class="outline-text-2" id="text-orge7c6bc5">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multiple_search</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+    <span class="sd">"""Searches the source for the keys</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     source (list): sorted list of search items</span>
+<span class="sd">     keys (list): items to search for in the source</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     list: indices of keys in source</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">binary_search</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+</pre></div>
+
+<p>
+I wrote this based on the problem statement, but if you look at the sample code they actually do the iteration themselves so you only need to implement <code>binary_search</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org99844c6" class="outline-2">
+<h2 id="org99844c6">Sample</h2>
+<div class="outline-text-2" id="text-org99844c6">
+<p>
+Inputs
+</p>
+<pre class="example">
+1 5 8 12 13
+8 1 23 1 11
+</pre>
+
+<p>
+Outputs
+</p>
+
+<pre class="example">
+2 0 -1 0 -1
+</pre>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestKeys</span><span class="p">:</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="s1">'source'</span>
+    <span class="n">search_terms</span> <span class="o">=</span> <span class="s1">'search-terms'</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s1">'outputs'</span>
+
+<span class="n">TEST_CASES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">one</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">source</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">search_terms</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">two</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">source</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">search_terms</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgc22e142" class="outline-2">
+<h2 id="orgc22e142">Testing</h2>
+<div class="outline-text-2" id="text-orgc22e142">
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">TEST_CASES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">case</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">multiple_search</span><span class="p">(</span><span class="n">case</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">source</span><span class="p">],</span>
+			     <span class="n">case</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">search_terms</span><span class="p">])</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org66796a3" class="outline-2">
+<h2 id="org66796a3">Grading</h2>
+<div class="outline-text-2" id="text-org66796a3">
+<p>
+The binary search improves quite a bit over the linear search, passing the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.69/5.00, max memory used: 40230912/536870912.)
+</pre>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/algorithms-problems-divideandconquer/" rel="tag">algorithms problems divideandconquer</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../collecting-signatures/" rel="prev" title="Collecting Signatures">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:necromuralist@protonmail.com">Cloistered Monkey</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

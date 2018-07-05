@@ -2,25 +2,26 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Calculate Fibonacci number /n/ modulo m.">
+<meta name="description" content="The giving change for money problem.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fibonacci Number Again | Algorithmic Toolbox</title>
+<title>Money Change | Algorithmic Toolbox</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/">
+<link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/money-change/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
 <link rel="prev" href="../least-common-multiple/" title="Least Common Multiple" type="text/html">
+<link rel="next" href="../maximum-value-of-the-loot/" title="Maximum Value of the Loot" type="text/html">
 <meta property="og:site_name" content="Algorithmic Toolbox">
-<meta property="og:title" content="Fibonacci Number Again">
-<meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/fibonacci-number-again/">
-<meta property="og:description" content="Calculate Fibonacci number /n/ modulo m.">
+<meta property="og:title" content="Money Change">
+<meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/money-change/">
+<meta property="og:description" content="The giving change for money problem.">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2018-06-27T15:52:25-07:00">
-<meta property="article:tag" content="problems algorithms fibonacci">
+<meta property="article:published_time" content="2018-07-02T16:40:25-07:00">
+<meta property="article:tag" content="algorithms problems greedy">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -106,13 +107,13 @@
         <div class="row">
             
             
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Fibonacci Number Again</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Money Change</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                     Cloistered Monkey
             </span></p>
-            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-06-27T15:52:25-07:00" itemprop="datePublished" title="2018-06-27 15:52">2018-06-27 15:52</time></a></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-07-02T16:40:25-07:00" itemprop="datePublished" title="2018-07-02 16:40">2018-07-02 16:40</time></a></p>
             
         <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
 
@@ -120,134 +121,127 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div class="highlight"><pre><span></span>from algorithmic_toolbox.implementations import fibonacci
-</pre></div>
-
-<div id="outline-container-org41df9b6" class="outline-2">
-<h2 id="org41df9b6">Introduction</h2>
-<div class="outline-text-2" id="text-org41df9b6">
-<p>
-In this problem we will calculate \(F_n \mod m\) where \(n\) can be very large (up to \(10^{18}\)). To see how to do this look at some output for modulus operations.
-</p>
-
-<div class="highlight"><pre><span></span>for number in range(15):
-    print(fibonacci(number) % 2, end=', ')
-</pre></div>
-
-<p>
-You can see that the output repeats in cycles of three.
-</p>
-
-<div class="highlight"><pre><span></span>cycle = [0, 1, 1]
-for number in range(15):
-    print(cycle[number % 3], end=',')
-</pre></div>
-
-<p>
-So if you know the cycle, you don't need to calculate the fibonacci number. What about mod 3?
-</p>
-
-<div class="highlight"><pre><span></span>for number in range(16):
-    print(fibonacci(number) % 3, end=',')
-</pre></div>
-
-<p>
-It looks like it repeats every eight numbers. In general, the fact that the modulus of fibonacci numbers is periodic was is a known feature of them. Each period is known as a <a href="https://en.wikipedia.org/wiki/Pisano_period">Pisano period</a> (Pisano was the real last name of the man known as Fibonacci).
-</p>
-</div>
-</div>
-
-<div id="outline-container-org76054b4" class="outline-2">
-<h2 id="org76054b4">Problem Description</h2>
-<div class="outline-text-2" id="text-org76054b4">
+    <div id="outline-container-orgfc0946f" class="outline-2">
+<h2 id="orgfc0946f">Problem Description</h2>
+<div class="outline-text-2" id="text-orgfc0946f">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
 <col class="org-left">
 </colgroup>
-<thead><tr>
-<th scope="col" class="org-left"> </th>
-<th scope="col" class="org-left">Description</th>
-</tr></thead>
 <tbody>
 <tr>
 <td class="org-left"><b>Task</b></td>
-<td class="org-left">Given two integers \(n\) and \(m\), output \(F_n \mod m\) (the remainder of \(F_n\) divided by \(m\)).</td>
+<td class="org-left">Find the minimum number of coins to change the input to coins with denominations 1, 5, 10</td>
 </tr>
 <tr>
 <td class="org-left"><b>Input</b></td>
-<td class="org-left">Two integers \(n\) and \(m\) on the same line separated by a space.</td>
+<td class="org-left">A single integer <i>m</i>.</td>
 </tr>
 <tr>
 <td class="org-left"><b>Constraints</b></td>
-<td class="org-left">\(1 \le n \le 10^{18}, 2 \le m \le 10^5\)</td>
+<td class="org-left">$1 ≤ m ≤ 10<sup>3</sup>&amp;</td>
 </tr>
 <tr>
 <td class="org-left"><b>Output</b></td>
-<td class="org-left">\(F_n \mod m\)</td>
+<td class="org-left">Minimum number of coins with denominations 1, 5, or 10 that changes <i>m</i>.</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 
-<div id="outline-container-orgc4d77a1" class="outline-2">
-<h2 id="orgc4d77a1">Samples</h2>
-<div class="outline-text-2" id="text-orgc4d77a1">
+<div id="outline-container-org338782c" class="outline-2">
+<h2 id="org338782c">Samples</h2>
+<div class="outline-text-2" id="text-org338782c">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
-<col class="org-left">
+<col class="org-right">
 <col class="org-right">
 <col class="org-left">
 </colgroup>
 <thead><tr>
-<th scope="col" class="org-left">Input</th>
+<th scope="col" class="org-right">Input</th>
 <th scope="col" class="org-right">Output</th>
-<th scope="col" class="org-left"> </th>
+<th scope="col" class="org-left">Coins</th>
 </tr></thead>
 <tbody>
 <tr>
-<td class="org-left">239 1000</td>
-<td class="org-right">161</td>
-<td class="org-left">$F<sub>239</sub> \mod 1000</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-left">1 + 1</td>
 </tr>
 <tr>
-<td class="org-left">2816213588 239</td>
-<td class="org-right">151</td>
-<td class="org-left">\(F_{2816213588} \mod 239\)</td>
-</tr>
-<tr>
-<td class="org-left">1 239</td>
-<td class="org-right">1</td>
-<td class="org-left">\(F_1 \mod 239\)</td>
-</tr>
-<tr>
-<td class="org-left">115 1000</td>
-<td class="org-right">885</td>
-<td class="org-left">\(F_{115} \mod 1000\)</td>
-</tr>
-<tr>
-<td class="org-left">2816213588 30524</td>
-<td class="org-right">10249</td>
-<td class="org-left">\(F_{2816213588} \mod 30524\)</td>
+<td class="org-right">28</td>
+<td class="org-right">6</td>
+<td class="org-left">10 + 10 + 5 + 1 + 1 + 1</td>
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span>previous, current = 0, 1
-x = 2816213588 // 30524
-for number in range(x):
-    previous, current = current, (previous + current) % 30524
-print(current)
+</div>
+</div>
+
+<div id="outline-container-orga7e1a96" class="outline-2">
+<h2 id="orga7e1a96">Solution</h2>
+<div class="outline-text-2" id="text-orga7e1a96">
+<p>
+While <i>m</i> is greater than 0, keep taking a coin with the largest denomination that isn't greater that <i>m</i>, subtracting its value from <i>m</i>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">DENOMINATIONS</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span>
 </pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">change_money</span><span class="p">(</span><span class="n">money</span><span class="p">):</span>
+    <span class="sd">"""Make change</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     money (int): amount to break</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: minimum number of coins that money breaks into</span>
+<span class="sd">    """</span>
+    <span class="n">coins</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">money</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">denomination</span> <span class="ow">in</span> <span class="n">DENOMINATIONS</span><span class="p">:</span>
+	    <span class="k">if</span> <span class="n">money</span> <span class="o">&gt;=</span> <span class="n">denomination</span><span class="p">:</span>
+		<span class="n">money</span> <span class="o">-=</span> <span class="n">denomination</span>
+		<span class="n">coins</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="k">break</span>
+    <span class="k">return</span> <span class="n">coins</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">expected</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">change_money</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">change_money</span><span class="p">(</span><span class="mi">28</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
+</pre></div>
+
+<p>
+Although this is really a brute-force approach, it is good enough.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.03/5.00, max memory used: 9596928/536870912.)
+</pre>
+
+<p>
+If you look at it, even in the worst case where you only give out pennies, the maximum run time is the value of <i>money</i>, that is, if \(money=1.50\) then the maximum theoretical run time is \(150\), regardless of the denominations,  so this solution is \(O(n)\), even though it looks brute-force-ish.
+</p>
 </div>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../../categories/problems-algorithms-fibonacci/" rel="tag">problems algorithms fibonacci</a></li>
+<li><a class="tag p-category" href="../../categories/algorithms-problems-greedy/" rel="tag">algorithms problems greedy</a></li>
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../least-common-multiple/" rel="prev" title="Least Common Multiple">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../maximum-value-of-the-loot/" rel="next" title="Maximum Value of the Loot">Next post</a>
             </li>
         </ul></nav></aside></article>
 </div>

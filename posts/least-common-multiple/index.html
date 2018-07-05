@@ -14,7 +14,7 @@
 <link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
 <link rel="prev" href="../greatest-common-divisor/" title="Greatest Common Divisor" type="text/html">
-<link rel="next" href="../fibonacci-number-again/" title="Fibonacci Number Again" type="text/html">
+<link rel="next" href="../money-change/" title="Money Change" type="text/html">
 <meta property="og:site_name" content="Algorithmic Toolbox">
 <meta property="og:title" content="Least Common Multiple">
 <meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/least-common-multiple/">
@@ -121,17 +121,17 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgf89ab6f" class="outline-2">
-<h2 id="orgf89ab6f">Introduction</h2>
-<div class="outline-text-2" id="text-orgf89ab6f">
+    <div id="outline-container-orgab95d4d" class="outline-2">
+<h2 id="orgab95d4d">Introduction</h2>
+<div class="outline-text-2" id="text-orgab95d4d">
 <p>
 The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common multiple</a> of two positive integers, <i>a</i> and <i>b</i> is the least positive integer <i>m</i> that is divisible by both <i>a</i> and <i>b</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-org98ba27b" class="outline-2">
-<h2 id="org98ba27b">Problem Description</h2>
-<div class="outline-text-2" id="text-org98ba27b">
+<div id="outline-container-org41a5f96" class="outline-2">
+<h2 id="org41a5f96">Problem Description</h2>
+<div class="outline-text-2" id="text-org41a5f96">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -162,9 +162,9 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </table>
 </div>
 </div>
-<div id="outline-container-org8407e02" class="outline-2">
-<h2 id="org8407e02">Samples</h2>
-<div class="outline-text-2" id="text-org8407e02">
+<div id="outline-container-org85b7222" class="outline-2">
+<h2 id="org85b7222">Samples</h2>
+<div class="outline-text-2" id="text-org85b7222">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -192,17 +192,17 @@ The <a href="https://en.wikipedia.org/wiki/Least_common_multiple">least common m
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgf6f4508" class="outline-2">
-<h2 id="orgf6f4508">Imports</h2>
-<div class="outline-text-2" id="text-orgf6f4508">
+<div id="outline-container-org60d52d7" class="outline-2">
+<h2 id="org60d52d7">Imports</h2>
+<div class="outline-text-2" id="text-org60d52d7">
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">algorithmic_toolbox.helpers</span> <span class="kn">import</span> <span class="n">time_two_inputs</span>
 <span class="kn">from</span> <span class="nn">algorithmic_toolbox.implementations</span> <span class="kn">import</span> <span class="n">greatest_common_divisor</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org81e7aab" class="outline-2">
-<h2 id="org81e7aab">Naive</h2>
-<div class="outline-text-2" id="text-org81e7aab">
+<div id="outline-container-orgbcdf538" class="outline-2">
+<h2 id="orgbcdf538">Naive</h2>
+<div class="outline-text-2" id="text-orgbcdf538">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lcm_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">"""Computes the Least Common multiple of a and b</span>
 
@@ -232,9 +232,9 @@ Failed case #2/42: time limit exceeded Input: 14159572 63967072 Your output: std
 </div>
 </div>
 
-<div id="outline-container-orge07da7c" class="outline-2">
-<h2 id="orge07da7c">Using The Greatest Common Divisor</h2>
-<div class="outline-text-2" id="text-orge07da7c">
+<div id="outline-container-org2c535a8" class="outline-2">
+<h2 id="org2c535a8">Using The Greatest Common Divisor</h2>
+<div class="outline-text-2" id="text-org2c535a8">
 <p>
 If you multiply both numbers together you will get their greatest common multiple. If you then divide that by their greatest common divisor, you will be left with their least common multiple.
 </p>
@@ -270,7 +270,7 @@ Good job! (Max time used: 0.27/5.00, max memory used: 9924608/536870912.)
                 <a href="../greatest-common-divisor/" rel="prev" title="Greatest Common Divisor">Previous post</a>
             </li>
             <li class="next">
-                <a href="../fibonacci-number-again/" rel="next" title="Fibonacci Number Again">Next post</a>
+                <a href="../money-change/" rel="next" title="Money Change">Next post</a>
             </li>
         </ul></nav></aside></article>
 </div>

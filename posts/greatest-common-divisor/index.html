@@ -121,18 +121,18 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgcfecd43" class="outline-2">
-<h2 id="orgcfecd43">Introduction</h2>
-<div class="outline-text-2" id="text-orgcfecd43">
+    <div id="outline-container-orgbccde5d" class="outline-2">
+<h2 id="orgbccde5d">Introduction</h2>
+<div class="outline-text-2" id="text-orgbccde5d">
 <p>
 The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> and <i>b</i>) which are not both equal to 0 is the greatest integer <i>d</i> that divides both <i>a</i> and <i>b</i>. The goal here is to implement the <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclidean Algorithm</a> for computing the GCD.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga8bd1f5" class="outline-2">
-<h2 id="orga8bd1f5">Problem Description</h2>
-<div class="outline-text-2" id="text-orga8bd1f5">
+<div id="outline-container-org8b93291" class="outline-2">
+<h2 id="org8b93291">Problem Description</h2>
+<div class="outline-text-2" id="text-org8b93291">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -164,9 +164,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </div>
 </div>
 
-<div id="outline-container-orge9b776c" class="outline-2">
-<h2 id="orge9b776c">Imports</h2>
-<div class="outline-text-2" id="text-orge9b776c">
+<div id="outline-container-org72fbe55" class="outline-2">
+<h2 id="org72fbe55">Imports</h2>
+<div class="outline-text-2" id="text-org72fbe55">
 <div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime</span><span class="p">,</span>
@@ -175,9 +175,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orga86f891" class="outline-2">
-<h2 id="orga86f891">Samples</h2>
-<div class="outline-text-2" id="text-orga86f891">
+<div id="outline-container-org03229fc" class="outline-2">
+<h2 id="org03229fc">Samples</h2>
+<div class="outline-text-2" id="text-org03229fc">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -230,9 +230,9 @@ The greatest common divisor \(GCD(a,b)\) of two non-negative integers (<i>a</i> 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgeb989e1" class="outline-2">
-<h2 id="orgeb989e1">Naive GCD</h2>
-<div class="outline-text-2" id="text-orgeb989e1">
+<div id="outline-container-org7037d39" class="outline-2">
+<h2 id="org7037d39">Naive GCD</h2>
+<div class="outline-text-2" id="text-org7037d39">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gcd_naive</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">"""Naive implementation of GCD</span>
 
@@ -261,9 +261,9 @@ Failed case #10/22: time limit exceeded Input: 100000000 100000000 Your output: 
 </div>
 </div>
 
-<div id="outline-container-org03029f3" class="outline-2">
-<h2 id="org03029f3">Modulus Version</h2>
-<div class="outline-text-2" id="text-org03029f3">
+<div id="outline-container-orgd3644f2" class="outline-2">
+<h2 id="orgd3644f2">Modulus Version</h2>
+<div class="outline-text-2" id="text-orgd3644f2">
 <p>
 This is a variation on Euclid's Algorithim where you repeatedly use the remainder of \(\frac{a, b}\) to replace \(b\) until there is no remainder (\(b=0\)).
 </p>

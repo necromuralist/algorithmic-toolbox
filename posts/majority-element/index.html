@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="See if a sequence has an element that appears more than half of the time.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Majority Element | Algorithmic Toolbox</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/posts/majority-element/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><meta name="author" content="Cloistered Monkey">
+<link rel="prev" href="../binary-search/" title="Binary Search" type="text/html">
+<meta property="og:site_name" content="Algorithmic Toolbox">
+<meta property="og:title" content="Majority Element">
+<meta property="og:url" content="https://github.com/necromuralist/algorithmic_toolbox/posts/majority-element/">
+<meta property="og:description" content="See if a sequence has an element that appears more than half of the time.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-07-05T16:01:00-07:00">
+<meta property="article:tag" content="algorithms problems divideandconquer">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-default navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://github.com/necromuralist/algorithmic_toolbox/">
+
+                <span id="blog-title">Algorithmic Toolbox</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+            </li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+<li>
+<a href="../../machine-learning-projects/">Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/p5_explorations/">P5 Explorations</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/tddmachinelearning/">TDD Machine Learning</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/student_intervention/">Student Intervention Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/boston_housing/">Boston Housing Project</a>
+                    </li>
+<li>
+<a href="https://necromuralist.github.io/data_science/">Data Science With Python</a>
+            </li>
+</ul>
+</li>
+</ul>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+	<span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://github.com/necromuralist/algorithmic_toolbox/">
+</form>
+<!-- End of custom search -->
+
+
+            <ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Majority Element</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-07-05T16:01:00-07:00" itemprop="datePublished" title="2018-07-05 16:01">2018-07-05 16:01</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org3943e84" class="outline-2">
+<h2 id="org3943e84">Imports</h2>
+<div class="outline-text-2" id="text-org3943e84">
+<p>
+With the exception of the <a href="https://docs.python.org/3.6/library/collections.html#collections.defaultdict">defaultdict</a>, everything imported is for testing.
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># pypi</span>
+<span class="kn">from</span> <span class="nn">expects</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">equal</span><span class="p">,</span>
+    <span class="n">expect</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org467931c" class="outline-2">
+<h2 id="org467931c">The Majority Element Problem</h2>
+<div class="outline-text-2" id="text-org467931c">
+<p>
+<i>Check whether a sequence contains an element that appears more than half of the time.</i> Note that the problem doesn't ask if one of the elements appears more than all the other elements, but rather whether it appears more than half the time (it isn't a simple majority).
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A sequence of <i>n</i> integers</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">1 if there is a majority element, 0 otherwise.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 10^5; 0 \le a_i \le 10^9\) for all \(1 \le i \le n\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgbf4f5b1" class="outline-2">
+<h2 id="orgbf4f5b1">Constants</h2>
+<div class="outline-text-2" id="text-orgbf4f5b1">
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Constraints</span><span class="p">:</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
+    <span class="n">min_value</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
+    <span class="n">max_time</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Outcome</span><span class="p">:</span>
+    <span class="n">has_majority</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">no_majority</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org7319acd" class="outline-2">
+<h2 id="org7319acd">Samples</h2>
+<div class="outline-text-2" id="text-org7319acd">
+<p>
+These are values to test against. The initial cases are for the naive-implementation and the last two are for an implementation that is more efficient.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestKeys</span><span class="p">:</span>
+    <span class="n">votes</span> <span class="o">=</span> <span class="s1">'input'</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s1">'output'</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">one</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">two</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">three</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span><span class="p">),],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+	       <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">vote</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span><span class="p">)</span>
+<span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"four"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="n">vote</span><span class="p">,</span> <span class="n">vote</span><span class="p">],</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"five"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="n">vote</span><span class="p">,</span> <span class="n">vote</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>
+Now we're going to add two cases that have the maximum allowed number of values to make sure our solution can finish in a reasonable time.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">half</span> <span class="o">=</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_length</span><span class="o">//</span><span class="mi">2</span>
+
+<span class="n">left_size</span> <span class="o">=</span> <span class="n">half</span> <span class="o">+</span> <span class="mi">10</span>
+<span class="n">right_size</span> <span class="o">=</span> <span class="n">half</span> <span class="o">-</span> <span class="mi">10</span>
+
+<span class="n">left</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">left_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">Constraints</span><span class="o">.</span><span class="n">min_value</span><span class="p">,</span>
+		      <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+		      <span class="n">right_size</span><span class="p">)</span>
+<span class="n">three</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">))</span>
+<span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"six"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="n">three</span><span class="p">,</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>
+This next case isn't necessarily guaranteed to be true (numpy might generate an array with one element that is in the majority), but I think that the chance of it failing is pretty close to zero.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"seven"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">Constraints</span><span class="o">.</span><span class="n">min_value</span><span class="p">,</span>
+				  <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+				  <span class="n">Constraints</span><span class="o">.</span><span class="n">max_length</span><span class="p">),</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org894d867" class="outline-2">
+<h2 id="org894d867">The Naive Solution</h2>
+<div class="outline-text-2" id="text-org894d867">
+<p>
+This is a translation of the pseudocode given with the problem. It has a runtime of \(O(n^2)\)
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">naive_majority</span><span class="p">(</span><span class="n">voters</span><span class="p">):</span>
+    <span class="sd">"""Decides if there is a majority element</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     voters: list of elements to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: 1 if there is a majority element, 0 otherwise</span>
+<span class="sd">    """</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">voter</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">voters</span><span class="p">):</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="n">other_voter</span> <span class="ow">in</span> <span class="n">voters</span><span class="p">:</span>
+	    <span class="k">if</span> <span class="n">voter</span> <span class="o">==</span> <span class="n">other_voter</span><span class="p">:</span>
+		<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+	<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">has_majority</span>
+    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">no_majority</span>
+</pre></div>
+
+<p>
+Now we can test if it is correct.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="s2">"one two three four five"</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">SAMPLES</span><span class="p">[</span><span class="n">sample</span><span class="p">]</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">naive_majority</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">])</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"{} actual: {} expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span>
+					      <span class="n">actual</span><span class="p">,</span>
+					      <span class="n">expected</span><span class="p">))</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Although it looks correct the grader says it times out.
+</p>
+
+<pre class="example">
+Failed case #11/21: time limit exceeded (Time used: 9.98/5.00, memory used: 21266432/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org063e0d9" class="outline-2">
+<h2 id="org063e0d9">Iterative Version</h2>
+<div class="outline-text-2" id="text-org063e0d9">
+<p>
+Although this is the divide-and conquer section, the more intuitive way for me is to just count and sort the items to see if the item with the most votes is the majority. The counting of the votes is \(O(n)\) and the sort adds \(O(n \log n)\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterative_majority</span><span class="p">(</span><span class="n">votes</span><span class="p">):</span>
+    <span class="sd">"""Decides if there is a majority among the votes</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     votes (list): collection to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: 1 if there is a majority, 0 otherwise</span>
+<span class="sd">    """</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">votes</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">vote</span> <span class="ow">in</span> <span class="n">votes</span><span class="p">:</span>
+	<span class="n">counts</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">sorted_counts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">((</span><span class="n">count</span> <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Outcome</span><span class="o">.</span><span class="n">has_majority</span> <span class="k">if</span> <span class="n">sorted_counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">half</span>
+	    <span class="k">else</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">no_majority</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_implementation</span><span class="p">(</span><span class="n">implementation</span><span class="p">):</span>
+    <span class="sd">"""runs the implementation against the samples</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     implementation: callable to test</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">     AssertionError: answer wasn't the expected</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">sample</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+	<span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">])</span>
+	<span class="n">expected</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+	<span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"({}) elapsed: {} actual: {} expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">sample</span><span class="p">,</span>
+	    <span class="n">elapsed</span><span class="p">,</span>
+	    <span class="n">actual</span><span class="p">,</span>
+	    <span class="n">expected</span><span class="p">))</span>
+	<span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+	<span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_time</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">test_implementation</span><span class="p">(</span><span class="n">iterative_majority</span><span class="p">)</span>
+</pre></div>
+
+<p>
+This version passes the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.14/5.00, max memory used: 22638592/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org831a1c1" class="outline-2">
+<h2 id="org831a1c1">Iterative Two</h2>
+<div class="outline-text-2" id="text-org831a1c1">
+<p>
+We can get rid of the sort since only have to check the count. This reduces the runtime to \(O(n)\), although since the for-loop is now pure python it might not actually speed things up much.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterative_majority_two</span><span class="p">(</span><span class="n">votes</span><span class="p">):</span>
+    <span class="sd">"""Decides if there is a majority among the votes</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     votes (list): collection to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: 1 if there is a majority, 0 otherwise</span>
+<span class="sd">    """</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">votes</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">vote</span> <span class="ow">in</span> <span class="n">votes</span><span class="p">:</span>
+	<span class="n">counts</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+	<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">has_majority</span>
+    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">no_majority</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">test_implementation</span><span class="p">(</span><span class="n">iterative_majority_two</span><span class="p">)</span>
+</pre></div>
+
+<p>
+This one also passes the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.14/5.00, max memory used: 22626304/536870912.)
+</pre>
+
+<p>
+It took exactly the same amount of time in the grader (although that might be because the time difference is less than their rounding), but used up a little less memory.
+</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/algorithms-problems-divideandconquer/" rel="tag">algorithms problems divideandconquer</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../binary-search/" rel="prev" title="Binary Search">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:necromuralist@protonmail.com">Cloistered Monkey</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

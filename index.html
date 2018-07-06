@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://github.com/necromuralist/algorithmic_toolbox/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/binary-search/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script><link rel="prefetch" href="posts/majority-element/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -99,7 +99,317 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/binary-search/" class="u-url">Binary Search</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/majority-element/" class="u-url">Majority Element</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cloistered Monkey
+            </span></p>
+            <p class="dateline"><a href="posts/majority-element/" rel="bookmark"><time class="published dt-published" datetime="2018-07-05T16:01:00-07:00" title="2018-07-05 16:01">2018-07-05 16:01</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org3943e84" class="outline-2">
+<h2 id="org3943e84">Imports</h2>
+<div class="outline-text-2" id="text-org3943e84">
+<p>
+With the exception of the <a href="https://docs.python.org/3.6/library/collections.html#collections.defaultdict">defaultdict</a>, everything imported is for testing.
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1"># python standard library</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># pypi</span>
+<span class="kn">from</span> <span class="nn">expects</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">equal</span><span class="p">,</span>
+    <span class="n">expect</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org467931c" class="outline-2">
+<h2 id="org467931c">The Majority Element Problem</h2>
+<div class="outline-text-2" id="text-org467931c">
+<p>
+<i>Check whether a sequence contains an element that appears more than half of the time.</i> Note that the problem doesn't ask if one of the elements appears more than all the other elements, but rather whether it appears more than half the time (it isn't a simple majority).
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Input</b></td>
+<td class="org-left">A sequence of <i>n</i> integers</td>
+</tr>
+<tr>
+<td class="org-left"><b>Output</b></td>
+<td class="org-left">1 if there is a majority element, 0 otherwise.</td>
+</tr>
+<tr>
+<td class="org-left"><b>Constraints</b></td>
+<td class="org-left">\(1 \le n \le 10^5; 0 \le a_i \le 10^9\) for all \(1 \le i \le n\)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgbf4f5b1" class="outline-2">
+<h2 id="orgbf4f5b1">Constants</h2>
+<div class="outline-text-2" id="text-orgbf4f5b1">
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Constraints</span><span class="p">:</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
+    <span class="n">min_value</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
+    <span class="n">max_time</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Outcome</span><span class="p">:</span>
+    <span class="n">has_majority</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">no_majority</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org7319acd" class="outline-2">
+<h2 id="org7319acd">Samples</h2>
+<div class="outline-text-2" id="text-org7319acd">
+<p>
+These are values to test against. The initial cases are for the naive-implementation and the last two are for an implementation that is more efficient.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestKeys</span><span class="p">:</span>
+    <span class="n">votes</span> <span class="o">=</span> <span class="s1">'input'</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s1">'output'</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">one</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">two</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">three</span><span class="o">=</span><span class="p">{</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span><span class="p">),],</span>
+	<span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+	       <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">vote</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span><span class="p">)</span>
+<span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"four"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="n">vote</span><span class="p">,</span> <span class="n">vote</span><span class="p">],</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"five"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="p">[</span><span class="n">vote</span><span class="p">,</span> <span class="n">vote</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>
+Now we're going to add two cases that have the maximum allowed number of values to make sure our solution can finish in a reasonable time.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">half</span> <span class="o">=</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_length</span><span class="o">//</span><span class="mi">2</span>
+
+<span class="n">left_size</span> <span class="o">=</span> <span class="n">half</span> <span class="o">+</span> <span class="mi">10</span>
+<span class="n">right_size</span> <span class="o">=</span> <span class="n">half</span> <span class="o">-</span> <span class="mi">10</span>
+
+<span class="n">left</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">left_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">Constraints</span><span class="o">.</span><span class="n">min_value</span><span class="p">,</span>
+		      <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+		      <span class="n">right_size</span><span class="p">)</span>
+<span class="n">three</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">))</span>
+<span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"six"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="n">three</span><span class="p">,</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>
+This next case isn't necessarily guaranteed to be true (numpy might generate an array with one element that is in the majority), but I think that the chance of it failing is pretty close to zero.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">SAMPLES</span><span class="p">[</span><span class="s2">"seven"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">Constraints</span><span class="o">.</span><span class="n">min_value</span><span class="p">,</span>
+				  <span class="n">Constraints</span><span class="o">.</span><span class="n">max_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+				  <span class="n">Constraints</span><span class="o">.</span><span class="n">max_length</span><span class="p">),</span>
+    <span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org894d867" class="outline-2">
+<h2 id="org894d867">The Naive Solution</h2>
+<div class="outline-text-2" id="text-org894d867">
+<p>
+This is a translation of the pseudocode given with the problem. It has a runtime of \(O(n^2)\)
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">naive_majority</span><span class="p">(</span><span class="n">voters</span><span class="p">):</span>
+    <span class="sd">"""Decides if there is a majority element</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     voters: list of elements to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: 1 if there is a majority element, 0 otherwise</span>
+<span class="sd">    """</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">voter</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">voters</span><span class="p">):</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="n">other_voter</span> <span class="ow">in</span> <span class="n">voters</span><span class="p">:</span>
+	    <span class="k">if</span> <span class="n">voter</span> <span class="o">==</span> <span class="n">other_voter</span><span class="p">:</span>
+		<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+	<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">has_majority</span>
+    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">no_majority</span>
+</pre></div>
+
+<p>
+Now we can test if it is correct.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="s2">"one two three four five"</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">SAMPLES</span><span class="p">[</span><span class="n">sample</span><span class="p">]</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">naive_majority</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">])</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"{} actual: {} expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span>
+					      <span class="n">actual</span><span class="p">,</span>
+					      <span class="n">expected</span><span class="p">))</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Although it looks correct the grader says it times out.
+</p>
+
+<pre class="example">
+Failed case #11/21: time limit exceeded (Time used: 9.98/5.00, memory used: 21266432/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org063e0d9" class="outline-2">
+<h2 id="org063e0d9">Iterative Version</h2>
+<div class="outline-text-2" id="text-org063e0d9">
+<p>
+Although this is the divide-and conquer section, the more intuitive way for me is to just count and sort the items to see if the item with the most votes is the majority. The counting of the votes is \(O(n)\) and the sort adds \(O(n \log n)\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterative_majority</span><span class="p">(</span><span class="n">votes</span><span class="p">):</span>
+    <span class="sd">"""Decides if there is a majority among the votes</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     votes (list): collection to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: 1 if there is a majority, 0 otherwise</span>
+<span class="sd">    """</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">votes</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">vote</span> <span class="ow">in</span> <span class="n">votes</span><span class="p">:</span>
+	<span class="n">counts</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">sorted_counts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">((</span><span class="n">count</span> <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Outcome</span><span class="o">.</span><span class="n">has_majority</span> <span class="k">if</span> <span class="n">sorted_counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">half</span>
+	    <span class="k">else</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">no_majority</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_implementation</span><span class="p">(</span><span class="n">implementation</span><span class="p">):</span>
+    <span class="sd">"""runs the implementation against the samples</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     implementation: callable to test</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">     AssertionError: answer wasn't the expected</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">sample</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">SAMPLES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+	<span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">votes</span><span class="p">])</span>
+	<span class="n">expected</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">TestKeys</span><span class="o">.</span><span class="n">expected</span><span class="p">]</span>
+	<span class="n">elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+	<span class="k">print</span><span class="p">(</span><span class="s2">"({}) elapsed: {} actual: {} expected: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+	    <span class="n">sample</span><span class="p">,</span>
+	    <span class="n">elapsed</span><span class="p">,</span>
+	    <span class="n">actual</span><span class="p">,</span>
+	    <span class="n">expected</span><span class="p">))</span>
+	<span class="n">expect</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+	<span class="k">assert</span> <span class="n">elapsed</span> <span class="o">&lt;</span> <span class="n">Constraints</span><span class="o">.</span><span class="n">max_time</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">test_implementation</span><span class="p">(</span><span class="n">iterative_majority</span><span class="p">)</span>
+</pre></div>
+
+<p>
+This version passes the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.14/5.00, max memory used: 22638592/536870912.)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org831a1c1" class="outline-2">
+<h2 id="org831a1c1">Iterative Two</h2>
+<div class="outline-text-2" id="text-org831a1c1">
+<p>
+We can get rid of the sort since only have to check the count. This reduces the runtime to \(O(n)\), although since the for-loop is now pure python it might not actually speed things up much.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterative_majority_two</span><span class="p">(</span><span class="n">votes</span><span class="p">):</span>
+    <span class="sd">"""Decides if there is a majority among the votes</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">     votes (list): collection to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     int: 1 if there is a majority, 0 otherwise</span>
+<span class="sd">    """</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">votes</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">vote</span> <span class="ow">in</span> <span class="n">votes</span><span class="p">:</span>
+	<span class="n">counts</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+	<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">has_majority</span>
+    <span class="k">return</span> <span class="n">Outcome</span><span class="o">.</span><span class="n">no_majority</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">test_implementation</span><span class="p">(</span><span class="n">iterative_majority_two</span><span class="p">)</span>
+</pre></div>
+
+<p>
+This one also passes the grader.
+</p>
+
+<pre class="example">
+Good job! (Max time used: 0.14/5.00, max memory used: 22626304/536870912.)
+</pre>
+
+<p>
+It took exactly the same amount of time in the grader (although that might be because the time difference is less than their rounding), but used up a little less memory.
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/binary-search/" class="u-url">Binary Search</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Cloistered Monkey
@@ -1940,463 +2250,6 @@ This passes the grader.
 <pre class="example">
 Good job! (Max time used: 0.03/5.00, max memory used: 9637888/536870912.)
 </pre>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/maximum-pairwise-product/" class="u-url">Maximum Pairwise Product</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Cloistered Monkey
-            </span></p>
-            <p class="dateline"><a href="posts/maximum-pairwise-product/" rel="bookmark"><time class="published dt-published" datetime="2018-06-24T16:42:47-07:00" title="2018-06-24 16:42">2018-06-24 16:42</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-org577b7fa" class="outline-2">
-<h2 id="org577b7fa">Imports</h2>
-<div class="outline-text-2" id="text-org577b7fa">
-<p>
-Since the test only uses python standard library I'll try and stick to that, but since the stress-test isn't part of the assignment I'll cheat and use numpy to generate the random input.
-</p>
-
-<div class="highlight"><pre><span></span><span class="c1"># python standad library</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">datetime</span><span class="p">,</span>
-    <span class="n">timedelta</span><span class="p">,</span>
-    <span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">random</span>
-
-<span class="c1"># from pypi</span>
-<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-</pre></div>
-</div>
-</div>
-<div id="outline-container-orgb73d5bb" class="outline-2">
-<h2 id="orgb73d5bb">Problem Statement</h2>
-<div class="outline-text-2" id="text-orgb73d5bb">
-<p>
-<i>Find the maximum product of two distinct numbers in a sequence of non-negative integers.</i>
-</p>
-<ul class="org-ul">
-<li>
-<b>Input:</b> A sequence of non-negative integers.</li>
-<li>
-<b>Output:</b> The maximum value that can be obtained by multiplying two different elements from the sequence.</li>
-</ul>
-<p>
-Given a sequence of non-negative numbers \(a_1,\ldots,a_n\), compute
-</p>
-
-<p>
-\[
-\max_{1 \le i \neq j \le n} a_i a_j
-\]
-</p>
-
-<p>
-\(i\) and \(j\) should be different, although \(a_i\) and \(a_j\) might be equal.
-</p>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-left"><b>Input</b></th>
-<th scope="col" class="org-left"> </th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-left">First Line</td>
-<td class="org-left">
-<i>n</i> - the number of input values</td>
-</tr>
-<tr>
-<td class="org-left">Second Line</td>
-<td class="org-left">\(a_1 \ldots a_n\) - space-separated list of values</td>
-</tr>
-</tbody>
-</table>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left"><b>Output</b></td>
-<td class="org-left">the maximum pairwise product from the input.</td>
-</tr>
-<tr>
-<td class="org-left"><b>Constraints</b></td>
-<td class="org-left">\(2 \le n \le 2 \times 10^5; 0 \le a_1,\ldots,a_n\le 2 \times 10^5\)</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div id="outline-container-org50a1cf7" class="outline-3">
-<h3 id="org50a1cf7">Example Values</h3>
-<div class="outline-text-3" id="text-org50a1cf7">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-right">
-<col class="org-left">
-<col class="org-right">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-right">First Input</th>
-<th scope="col" class="org-left">Second Input</th>
-<th scope="col" class="org-right">Output</th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-right">5</td>
-<td class="org-left">5 6 2 7 4</td>
-<td class="org-right">42</td>
-</tr>
-<tr>
-<td class="org-right">3</td>
-<td class="org-left">1 2 3</td>
-<td class="org-right">6</td>
-</tr>
-<tr>
-<td class="org-right">10</td>
-<td class="org-left">7 5 14 2 8 8 10 1 2 3</td>
-<td class="org-right">140</td>
-</tr>
-</tbody>
-</table>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-left">Limit</th>
-<th scope="col" class="org-left">Value</th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-left">Time</td>
-<td class="org-left">5 seconds</td>
-</tr>
-<tr>
-<td class="org-left">Memory</td>
-<td class="org-left">512 Mb</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orge327ccc" class="outline-2">
-<h2 id="orge327ccc">Some Constants</h2>
-<div class="outline-text-2" id="text-orge327ccc">
-<p>
-This is just a translation of some of the problem statement values to python so we can use them.
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">MAX_TIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">MAX_INPUTS</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
-<span class="n">MAX_VALUE</span> <span class="o">=</span> <span class="n">MAX_INPUTS</span>
-<span class="n">MAX_CASE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="mi">39999800000</span><span class="p">,</span>
-		<span class="n">inputs</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_VALUE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">MAX_CASE</span><span class="p">[</span><span class="s2">"inputs"</span><span class="p">])</span> <span class="o">==</span> <span class="n">MAX_INPUTS</span>
-<span class="k">assert</span> <span class="nb">max</span><span class="p">(</span><span class="n">MAX_CASE</span><span class="p">[</span><span class="s2">"inputs"</span><span class="p">])</span> <span class="o">==</span> <span class="n">MAX_VALUE</span><span class="p">,</span> <span class="s2">"Actual: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">MAX_CASE</span><span class="p">[</span><span class="s2">"inputs"</span><span class="p">]))</span>
-<span class="n">INPUTS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">42</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,],</span>
-    <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-    <span class="mi">140</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-    <span class="mi">10</span><span class="o">**</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">9</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="o">**</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">],</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div id="outline-container-org77ccbb7" class="outline-2">
-<h2 id="org77ccbb7">Helpers</h2>
-<div class="outline-text-2" id="text-org77ccbb7">
-<p>
-These are some functions to help validate the algorithms.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_inputs</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">INPUTS</span><span class="p">,</span> <span class="n">use_max</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="sd">"""Checks the inputs with the implementation</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">     implementation: callable to check</span>
-<span class="sd">     inputs (dict): expected, input pairs</span>
-<span class="sd">     use_max (bool): if True use the max-range value (too slow for brute force)</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">     AssertionError: one of the outputs wasn't expected</span>
-<span class="sd">    """</span>
-    <span class="k">for</span> <span class="n">expected</span><span class="p">,</span> <span class="n">input_values</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-	<span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">input_values</span><span class="p">)</span>
-	<span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"Inputs: {} Expected: {} Actual: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-	    <span class="n">input_values</span><span class="p">,</span>
-	    <span class="n">expected</span><span class="p">,</span>
-	    <span class="n">actual</span><span class="p">)</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed Time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">use_max</span><span class="p">:</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Max Case"</span><span class="p">)</span>
-	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-	<span class="n">actual</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">MAX_CASE</span><span class="p">[</span><span class="s2">"inputs"</span><span class="p">])</span>
-	<span class="n">expected</span> <span class="o">=</span> <span class="n">MAX_CASE</span><span class="p">[</span><span class="s2">"output"</span><span class="p">]</span>
-	<span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> <span class="s2">"Inputs: {} Expected: {} Actual: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-	    <span class="n">MAX_CASE</span><span class="p">[</span><span class="s2">"inputs"</span><span class="p">],</span>
-	    <span class="n">expected</span><span class="p">,</span>
-	    <span class="n">actual</span><span class="p">)</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed Time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">"All passed"</span><span class="p">)</span>
-    <span class="k">return</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org1876a8c" class="outline-2">
-<h2 id="org1876a8c">Brute Force Implementation</h2>
-<div class="outline-text-2" id="text-org1876a8c">
-<p>
-This is given as part of the problem. It traverses all the values and finds the largest product.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_brute</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-    <span class="sd">"""Calculates the largest pairwise-product for a list</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">     numbers (list): integers to check</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">     int: largest product created from numbers</span>
-<span class="sd">    """</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-    <span class="n">max_product</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">first</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-	<span class="k">for</span> <span class="n">second</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-	    <span class="n">max_product</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_product</span><span class="p">,</span>
-			      <span class="n">numbers</span><span class="p">[</span><span class="n">first</span><span class="p">]</span> <span class="o">*</span> <span class="n">numbers</span><span class="p">[</span><span class="n">second</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">max_product</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_brute</span><span class="p">,</span> <span class="n">use_max</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-</pre></div>
-
-<p>
-Because we are traversing all the numbers twice, the brute-force version has a run time of \(O(n^2)\). Since the \(n\) can be from \(2\) to \(2 \times 10^5\) that means our maximum run time will be \(4 \times 10^10\), which is too large.
-</p>
-
-<p>
-Running this through the grader gives this output.
-</p>
-
-<pre class="example">
-Failed case #4/17: time limit exceeded (Time used: 9.98/5.00, memory used: 20905984/536870912.)
-</pre>
-</div>
-</div>
-
-<div id="outline-container-org7156c5e" class="outline-2">
-<h2 id="org7156c5e">Search</h2>
-<div class="outline-text-2" id="text-org7156c5e">
-<p>
-Instead of using nested for-loops, we can search the numbers twice to find the two biggest numbers, this changes the run time to \(2n\) or \(O(n)\).
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_take_two</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-    <span class="sd">"""Finds the maximum pairwise product in te numbers</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">     numbers (list): non-negative integers</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">     int: largest possible product from the numbers</span>
-<span class="sd">    """</span>    
-    <span class="n">first_index</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">first_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span>
-    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-	<span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">first_value</span><span class="p">:</span>
-	    <span class="n">first_value</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-	    <span class="n">first_index</span> <span class="o">=</span> <span class="n">index</span>
-
-    <span class="n">second_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">first_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-	<span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="n">first_index</span> <span class="ow">and</span> <span class="n">numbers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">second_value</span><span class="p">:</span>
-	    <span class="n">second_value</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">first_value</span> <span class="o">*</span> <span class="n">second_value</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_take_two</span><span class="p">)</span>
-</pre></div>
-
-<p>
-This one passes the grader, doing surprisingly well, even though I was thinking it would need more optimizing.
-</p>
-
-<pre class="example">
-Good job! (Max time used: 0.15/5.00, max memory used: 26734592/536870912.)
-</pre>
-</div>
-</div>
-
-<div id="outline-container-orgd6e7fd0" class="outline-2">
-<h2 id="orgd6e7fd0">Another Improvement</h2>
-<div class="outline-text-2" id="text-orgd6e7fd0">
-<p>
-Rather than go through the second loop, I thought that since the previous maximum value is always the next highest value so far, we can just save it directly.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_take_three</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-    <span class="sd">"""Finds the maximum pairwise product in te numbers</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">     numbers (list): non-negative integers</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">     int: largest possible product from the numbers</span>
-<span class="sd">    """</span>    
-    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">previous_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span>
-    <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-	<span class="k">if</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="n">max_value</span><span class="p">:</span>
-	    <span class="n">previous_value</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="n">max_value</span><span class="p">,</span> <span class="n">number</span>
-	<span class="k">elif</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="n">previous_value</span><span class="p">:</span>
-	    <span class="n">previous_value</span> <span class="o">=</span> <span class="n">number</span>
-    <span class="k">return</span> <span class="n">max_value</span> <span class="o">*</span> <span class="n">previous_value</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="n">check_inputs</span><span class="p">(</span><span class="n">max_pairwise_product_take_three</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orged31026" class="outline-2">
-<h2 id="orged31026">Stress Test</h2>
-<div class="outline-text-2" id="text-orged31026">
-<p>
-Even thought we're already passing, part of the assignment was to create a stress test to really exercise the algorithm once you have it passing.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">stress_test</span><span class="p">(</span><span class="n">implementation</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">maximum_size</span><span class="o">=</span><span class="n">MAX_INPUTS</span> <span class="p">,</span>
-		<span class="n">maximum_value</span><span class="o">=</span><span class="n">MAX_VALUE</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="sd">"""Repeatedly creates random inputs to test the implementation</span>
-
-<span class="sd">    This compares the output of the implementation against our brute-force version</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">     implementation: callable to test</span>
-<span class="sd">     tag (str): something to identify the implementation</span>
-<span class="sd">     maximum_size (int): the maximum number of numbers for an input</span>
-<span class="sd">     maximum_value (int): the maximum value for any input</span>
-<span class="sd">     iterations (int): the number of times to test (if None runs infinitely)</span>
-<span class="sd">    """</span>
-    <span class="n">true_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">increment</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">iterations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="mi">0</span>
-    <span class="n">iterations</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">iterations</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">iterations</span>
-    <span class="n">max_time</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">while</span> <span class="n">iteration</span> <span class="o">&lt;</span> <span class="n">iterations</span><span class="p">:</span>
-	<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-	<span class="n">true_count</span> <span class="o">+=</span> <span class="mi">1</span>
-	<span class="n">iteration</span> <span class="o">+=</span> <span class="n">increment</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"***** ({}) Trial: {} *****"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">true_count</span><span class="p">))</span>
-	<span class="n">n</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">maximum_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Input Size: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-	<span class="n">inputs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">maximum_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Running Brute Force"</span><span class="p">)</span>
-	<span class="n">brute_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-	<span class="n">output_brute</span> <span class="o">=</span> <span class="n">max_pairwise_product_brute_jit</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Brute Force Time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">brute_start</span><span class="p">))</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Running {} implementation"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
-	<span class="n">implementation_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-	<span class="n">output_implementation</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-	<span class="n">implementation_end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-	<span class="n">implementation_elapsed</span> <span class="o">=</span> <span class="n">implementation_end</span> <span class="o">-</span> <span class="n">implementation_start</span>
-	<span class="k">if</span> <span class="n">implementation_elapsed</span> <span class="o">&gt;</span> <span class="n">MAX_TIME</span><span class="p">:</span>
-	    <span class="k">print</span><span class="p">(</span><span class="s2">"Error Time Exceeded: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">implementation_elapsed</span><span class="p">))</span>
-	    <span class="k">break</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Implementation Time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">implementation_elapsed</span><span class="p">))</span>
-	<span class="k">if</span> <span class="n">implementation_elapsed</span> <span class="o">&gt;</span> <span class="n">max_time</span><span class="p">:</span>
-	    <span class="n">max_time</span> <span class="o">=</span> <span class="n">implementation_elapsed</span>
-	<span class="k">if</span> <span class="n">output_brute</span> <span class="o">!=</span> <span class="n">output_implementation</span><span class="p">:</span>
-	    <span class="k">print</span><span class="p">(</span><span class="s2">"error: Expected {}, Actual {}"</span><span class="p">,</span> <span class="n">output_brute</span> <span class="p">,</span> <span class="n">output_implementation</span><span class="p">)</span>
-	    <span class="k">print</span><span class="p">(</span><span class="s2">"Inputs: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
-	    <span class="k">break</span>
-	<span class="k">print</span><span class="p">(</span><span class="s2">"Elapsed time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">"Max {} time: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">max_time</span><span class="p">))</span>
-    <span class="k">return</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org677b9cf" class="outline-2">
-<h2 id="org677b9cf">Boosted Brute Force</h2>
-<div class="outline-text-2" id="text-org677b9cf">
-<p>
-To try and get this working I'm going to use numba to (hopefully) speed it enough to make the stress test runnable.
-</p>
-
-
-<div class="highlight"><pre><span></span><span class="nd">@jit</span>
-<span class="k">def</span> <span class="nf">max_pairwise_product_brute_jit</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-    <span class="sd">"""Calculates the largest pairwise-product for a list</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">     numbers (list): integers to check</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">     int: largest product created from numbers</span>
-<span class="sd">    """</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-    <span class="n">max_product</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">first</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-	<span class="k">for</span> <span class="n">second</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-	    <span class="n">max_product</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_product</span><span class="p">,</span>
-			      <span class="n">numbers</span><span class="p">[</span><span class="n">first</span><span class="p">]</span> <span class="o">*</span> <span class="n">numbers</span><span class="p">[</span><span class="n">second</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">max_product</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"One Pass Method"</span><span class="p">)</span>
-<span class="n">stress_test</span><span class="p">(</span><span class="n">max_pairwise_product_take_three</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"One-Pass"</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgc991b68" class="outline-2">
-<h2 id="orgc991b68">Using Sort</h2>
-<div class="outline-text-2" id="text-orgc991b68">
-<p>
-Since we need the top two values we can get a more efficient algorithm by sorting the values.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">max_pairwise_product_sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-    <span class="sd">"""Calculates the largest pairwise-product for a list</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">     numbers (list): integers to check</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">     int: largest product created from numbers</span>
-<span class="sd">    """</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
-    <span class="n">numbers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Sort method"</span><span class="p">)</span>
-<span class="n">stress_test</span><span class="p">(</span><span class="n">max_pairwise_product_sort</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"Sort"</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
 </div>
 </div>
     </div>

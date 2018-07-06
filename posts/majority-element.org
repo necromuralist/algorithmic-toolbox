@@ -1,0 +1,282 @@
+#+BEGIN_COMMENT
+.. title: Majority Element
+.. slug: majority-element
+.. date: 2018-07-05 16:01:00 UTC-07:00
+.. tags: algorithms problems divideandconquer
+.. category: divideandconquer
+.. link: 
+.. description: See if a sequence has an element that appears more than half of the time.
+.. type: text
+#+END_COMMENT
+
+* Imports
+  With the exception of the [[https://docs.python.org/3.6/library/collections.html#collections.defaultdict][defaultdict]], everything imported is for testing.
+
+#+BEGIN_SRC python :session majority :results none
+# python standard library
+from collections import defaultdict
+from datetime import (
+    datetime,
+    timedelta,
+    )
+import random
+
+# pypi
+from expects import (
+    equal,
+    expect,
+)
+import numpy
+#+END_SRC
+
+* The Majority Element Problem
+  /Check whether a sequence contains an element that appears more than half of the time./ Note that the problem doesn't ask if one of the elements appears more than all the other elements, but rather whether it appears more than half the time (it isn't a simple majority).
+
+| *Input*       | A sequence of /n/ integers                                     |
+| *Output*      | 1 if there is a majority element, 0 otherwise.                 |
+| *Constraints* | $1 \le n \le 10^5; 0 \le a_i \le 10^9$ for all $1 \le i \le n$ |
+
+* Constants
+#+BEGIN_SRC python :session majority :results none
+class Constraints:
+    min_length = 1
+    max_length = 10**5
+    min_value = 1
+    max_value = 10**9
+    max_time = timedelta(seconds=5)
+#+END_SRC
+
+#+BEGIN_SRC python :session majority :results none
+class Outcome:
+    has_majority = 1
+    no_majority = 0
+#+END_SRC
+* Samples
+  These are values to test against. The initial cases are for the naive-implementation and the last two are for an implementation that is more efficient.
+
+#+BEGIN_SRC python :session majority :results none
+class TestKeys:
+    votes = 'input'
+    expected = 'output'
+#+END_SRC
+
+#+BEGIN_SRC python :session majority :results none
+SAMPLES = dict(
+    one={
+        TestKeys.votes: [2, 3, 9, 2, 2],
+        TestKeys.expected: 1,
+    },
+    two={
+        TestKeys.votes: [1, 2, 3, 1],
+        TestKeys.expected: 0,
+    },
+    three={
+        TestKeys.votes: [random.randint(1, Constraints.max_value),],
+        TestKeys.expected: 1,
+               }
+)
+
+vote = random.randint(1, Constraints.max_value)
+SAMPLES["four"] = {
+    TestKeys.votes: [vote, vote],
+    TestKeys.expected: 1,
+}
+SAMPLES["five"] = {
+    TestKeys.votes: [vote, vote + 1],
+    TestKeys.expected: 0,
+}
+#+END_SRC
+
+Now we're going to add two cases that have the maximum allowed number of values to make sure our solution can finish in a reasonable time.
+
+#+BEGIN_SRC python :session majority :results none
+half = Constraints.max_length//2
+
+left_size = half + 10
+right_size = half - 10
+
+left = numpy.ones(left_size) * random.randrange(Constraints.max_value)
+right = numpy.random.randint(Constraints.min_value,
+                      Constraints.max_value + 1,
+                      right_size)
+three = numpy.concatenate((left, right))
+SAMPLES["six"] = {
+    TestKeys.votes: three,
+    TestKeys.expected: 1,
+}
+#+END_SRC
+
+This next case isn't necessarily guaranteed to be true (numpy might generate an array with one element that is in the majority), but I think that the chance of it failing is pretty close to zero.
+
+#+BEGIN_SRC python :session majority :results none
+SAMPLES["seven"] = {
+    TestKeys.votes: numpy.random.randint(Constraints.min_value,
+                                  Constraints.max_value + 1,
+                                  Constraints.max_length),
+    TestKeys.expected: 0,
+    
+}
+#+END_SRC
+* The Naive Solution
+  This is a translation of the pseudocode given with the problem. It has a runtime of $O(n^2)$
+
+#+BEGIN_SRC python :session majority :results none
+def naive_majority(voters):
+    """Decides if there is a majority element
+
+    Args:
+     voters: list of elements to check
+
+    Returns:
+     int: 1 if there is a majority element, 0 otherwise
+    """
+    half = len(voters)//2
+    for index, voter in enumerate(voters):
+        count = 0
+        for other_voter in voters:
+            if voter == other_voter:
+                count += 1
+        if count > half:
+            return Outcome.has_majority
+    return Outcome.no_majority
+#+END_SRC
+
+Now we can test if it is correct.
+
+#+BEGIN_SRC python :session majority :results output
+for sample in "one two three four five".split():
+    values = SAMPLES[sample]
+    actual = naive_majority(values[TestKeys.votes])
+    expected = values[TestKeys.expected]
+    print("{} actual: {} expected: {}".format(sample,
+                                              actual,
+                                              expected))
+    
+    expect(actual).to(equal(expected))
+#+END_SRC
+
+#+RESULTS:
+: one actual: 1 expected: 1
+: two actual: 0 expected: 0
+: three actual: 1 expected: 1
+: four actual: 1 expected: 1
+: five actual: 0 expected: 0
+
+Although it looks correct the grader says it times out.
+
+#+BEGIN_EXAMPLE
+Failed case #11/21: time limit exceeded (Time used: 9.98/5.00, memory used: 21266432/536870912.)
+#+END_EXAMPLE
+
+* Iterative Version
+  Although this is the divide-and conquer section, the more intuitive way for me is to just count and sort the items to see if the item with the most votes is the majority. The counting of the votes is $O(n)$ and the sort adds $O(n \log n)$.
+
+#+BEGIN_SRC python :session majority :results none
+def iterative_majority(votes):
+    """Decides if there is a majority among the votes
+
+    Args:
+     votes (list): collection to check
+
+    Returns:
+     int: 1 if there is a majority, 0 otherwise
+    """
+    half = len(votes)//2
+    counts = defaultdict(lambda: 0)
+    for vote in votes:
+        counts[vote] += 1
+
+    sorted_counts = sorted((count for count in counts.values()), reverse=True)
+    return (Outcome.has_majority if sorted_counts[0] > half
+            else Outcome.no_majority)
+#+END_SRC
+
+#+BEGIN_SRC python :session majority :results output
+def test_implementation(implementation):
+    """runs the implementation against the samples
+    
+    Args:
+     implementation: callable to test
+
+    Raises:
+     AssertionError: answer wasn't the expected
+    """
+    for sample, values in SAMPLES.items():
+        start = datetime.now()
+        actual = implementation(values[TestKeys.votes])
+        expected = values[TestKeys.expected]
+        elapsed = datetime.now() - start
+        print("({}) elapsed: {} actual: {} expected: {}".format(
+            sample,
+            elapsed,
+            actual,
+            expected))
+        expect(actual).to(equal(expected))
+        assert elapsed < Constraints.max_time
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC python :session majority :results output
+test_implementation(iterative_majority)
+#+END_SRC
+
+#+RESULTS:
+: (one) elapsed: 0:00:00.000015 actual: 1 expected: 1
+: (two) elapsed: 0:00:00.000009 actual: 0 expected: 0
+: (three) elapsed: 0:00:00.000011 actual: 1 expected: 1
+: (four) elapsed: 0:00:00.000008 actual: 1 expected: 1
+: (five) elapsed: 0:00:00.000007 actual: 0 expected: 0
+: (six) elapsed: 0:00:00.029334 actual: 1 expected: 1
+: (seven) elapsed: 0:00:00.042819 actual: 0 expected: 0
+
+This version passes the grader.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.14/5.00, max memory used: 22638592/536870912.)
+#+END_EXAMPLE
+
+* Iterative Two
+  We can get rid of the sort since only have to check the count. This reduces the runtime to $O(n)$, although since the for-loop is now pure python it might not actually speed things up much.
+
+#+BEGIN_SRC python :session majority :results none
+def iterative_majority_two(votes):
+    """Decides if there is a majority among the votes
+
+    Args:
+     votes (list): collection to check
+
+    Returns:
+     int: 1 if there is a majority, 0 otherwise
+    """
+    half = len(votes)//2
+    counts = defaultdict(lambda: 0)
+    for vote in votes:
+        counts[vote] += 1
+
+    for count in counts.values():
+        if count > half:
+            return Outcome.has_majority
+    return Outcome.no_majority
+#+END_SRC
+
+#+BEGIN_SRC python :session majority :results output
+test_implementation(iterative_majority_two)
+#+END_SRC
+
+#+RESULTS:
+: (one) elapsed: 0:00:00.000013 actual: 1 expected: 1
+: (two) elapsed: 0:00:00.000007 actual: 0 expected: 0
+: (three) elapsed: 0:00:00.000005 actual: 1 expected: 1
+: (four) elapsed: 0:00:00.000004 actual: 1 expected: 1
+: (five) elapsed: 0:00:00.000005 actual: 0 expected: 0
+: (six) elapsed: 0:00:00.034765 actual: 1 expected: 1
+: (seven) elapsed: 0:00:00.049349 actual: 0 expected: 0
+
+This one also passes the grader.
+
+#+BEGIN_EXAMPLE
+Good job! (Max time used: 0.14/5.00, max memory used: 22626304/536870912.)
+#+END_EXAMPLE
+
+It took exactly the same amount of time in the grader (although that might be because the time difference is less than their rounding), but used up a little less memory.

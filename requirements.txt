@@ -93,7 +93,7 @@ jupyter==1.0.0
     # via -r requirements.in
 logbook==1.4.0
     # via nikola
-lxml==4.2.2
+lxml==4.6.2
     # via nikola
 mako==1.0.7
     # via nikola

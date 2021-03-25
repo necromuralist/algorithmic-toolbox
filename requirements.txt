@@ -169,7 +169,7 @@ python-dateutil==2.7.3
     # via
     #   jupyter-client
     #   nikola
-pyyaml==3.12
+pyyaml==5.4
     # via watchdog
 pyzmq==17.0.0
     # via

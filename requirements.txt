@@ -6,10 +6,8 @@
 #
 argh==0.26.2
     # via watchdog
-backports-abc==0.5
-    # via tornado
-backports.shutil-get-terminal-size==1.0.0
-    # via ipython
+beautifulsoup4==4.11.1
+    # via nbconvert
 bleach==3.3.0
     # via nbconvert
 blinker==1.4
@@ -22,28 +20,22 @@ click==6.7
     # via pip-tools
 cloudpickle==0.5.3
     # via doit
-configparser==4.0.2
-    # via
-    #   doit
-    #   entrypoints
 decorator==4.3.0
-    # via
-    #   ipython
-    #   traitlets
+    # via ipython
+defusedxml==0.7.1
+    # via nbconvert
 docutils==0.14
     # via nikola
 doit==0.29.0
     # via nikola
 entrypoints==0.2.3
-    # via nbconvert
-enum34==1.1.10
-    # via traitlets
+    # via
+    #   jupyter-client
+    #   nbconvert
+fastjsonschema==2.16.1
+    # via nbformat
 first==2.0.1
     # via pip-tools
-functools32==3.2.3.post2
-    # via jsonschema
-futures==3.3.0
-    # via tornado
 idna==2.7
     # via requests
 ipykernel==4.8.2
@@ -53,20 +45,18 @@ ipykernel==4.8.2
     #   jupyter-console
     #   notebook
     #   qtconsole
-ipython-genutils==0.2.0
-    # via
-    #   nbformat
-    #   notebook
-    #   qtconsole
-    #   traitlets
 ipython==5.10.0
     # via
     #   ipykernel
     #   ipywidgets
     #   jupyter-console
+ipython-genutils==0.2.0
+    # via
+    #   notebook
+    #   qtconsole
 ipywidgets==7.2.1
     # via jupyter
-jinja2==2.10
+jinja2==3.1.2
     # via
     #   nbconvert
     #   notebook
@@ -74,48 +64,61 @@ joblib==0.12.0
     # via -r requirements.in
 jsonschema==2.6.0
     # via nbformat
-jupyter-client==5.2.3
+jupyter==1.0.0
+    # via -r requirements.in
+jupyter-client==7.3.4
     # via
     #   ipykernel
     #   jupyter-console
+    #   nbclient
     #   notebook
     #   qtconsole
 jupyter-console==5.2.0
     # via jupyter
-jupyter-core==4.4.0
+jupyter-core==4.11.1
     # via
     #   jupyter-client
     #   nbconvert
     #   nbformat
     #   notebook
     #   qtconsole
-jupyter==1.0.0
-    # via -r requirements.in
+jupyterlab-pygments==0.2.2
+    # via nbconvert
 logbook==1.4.0
     # via nikola
 lxml==4.6.2
-    # via nikola
+    # via
+    #   nbconvert
+    #   nikola
 mako==1.0.7
     # via nikola
 markdown==2.6.11
     # via nikola
-markupsafe==1.0
+markupsafe==2.1.1
     # via
     #   jinja2
     #   mako
+    #   nbconvert
 mistune==0.8.3
     # via nbconvert
 natsort==5.3.2
     # via nikola
-nbconvert==5.3.1
+nbclient==0.6.7
+    # via nbconvert
+nbconvert==6.5.1
     # via
     #   jupyter
     #   notebook
-nbformat==4.4.0
+nbformat==5.4.0
     # via
     #   ipywidgets
+    #   nbclient
     #   nbconvert
     #   notebook
+nest-asyncio==1.5.5
+    # via
+    #   jupyter-client
+    #   nbclient
 nikola==7.8.15
     # via -r requirements.in
 notebook==5.5.0
@@ -123,13 +126,11 @@ notebook==5.5.0
     #   jupyter
     #   widgetsnbextension
 packaging==20.9
-    # via bleach
+    # via
+    #   bleach
+    #   nbconvert
 pandocfilters==1.4.2
     # via nbconvert
-pathlib2==2.3.5
-    # via
-    #   ipython
-    #   pickleshare
 pathtools==0.1.2
     # via watchdog
 pexpect==4.6.0
@@ -152,7 +153,7 @@ ptyprocess==0.6.0
     # via
     #   pexpect
     #   terminado
-pygments==2.2.0
+pygments==2.5.2
     # via
     #   ipython
     #   jupyter-console
@@ -165,13 +166,13 @@ pyparsing==2.4.7
     # via packaging
 pyrss2gen==1.1
     # via nikola
-python-dateutil==2.7.3
+python-dateutil==2.8.2
     # via
     #   jupyter-client
     #   nikola
 pyyaml==3.12
     # via watchdog
-pyzmq==17.0.0
+pyzmq==23.2.1
     # via
     #   jupyter-client
     #   notebook
@@ -179,41 +180,37 @@ qtconsole==4.3.1
     # via jupyter
 requests==2.19.1
     # via nikola
-scandir==1.10.0
-    # via pathlib2
 send2trash==1.5.0
     # via notebook
 simplegeneric==0.8.1
     # via ipython
-singledispatch==3.4.0.3
-    # via tornado
 six==1.11.0
     # via
     #   bleach
     #   doit
-    #   pathlib2
     #   pip-tools
     #   prompt-toolkit
     #   python-dateutil
-    #   singledispatch
-    #   traitlets
+soupsieve==2.3.2.post1
+    # via beautifulsoup4
 terminado==0.8.1
     # via notebook
-testpath==0.3.1
+tinycss2==1.1.1
     # via nbconvert
-tornado==5.0.2
+tornado==6.2
     # via
     #   ipykernel
     #   jupyter-client
     #   notebook
     #   terminado
-traitlets==4.3.2
+traitlets==5.3.0
     # via
     #   ipykernel
     #   ipython
     #   ipywidgets
     #   jupyter-client
     #   jupyter-core
+    #   nbclient
     #   nbconvert
     #   nbformat
     #   notebook
@@ -233,7 +230,9 @@ wcwidth==0.1.7
 webassets==0.12.1
     # via -r requirements.in
 webencodings==0.5.1
-    # via bleach
+    # via
+    #   bleach
+    #   tinycss2
 wheel==0.31.1
     # via -r requirements.in
 widgetsnbextension==3.2.1
